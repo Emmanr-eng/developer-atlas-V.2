@@ -19,14 +19,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (!auth) {
+    const currentAuth = auth;
+
+    if (!currentAuth) {
       setUser(null);
       setIsAdmin(false);
       setLoading(false);
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(currentAuth, async (user) => {
       if (user) {
         await syncUser(user);
         setUser(user);
@@ -50,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async () => {
-    if (!auth) {
+    if (!auth || !googleProvider) {
       console.warn('Login skipped because Firebase authentication is not configured.');
       return;
     }
