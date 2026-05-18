@@ -1,0 +1,22 @@
+{
+  "firestore": {
+    "database": "ai-studio-devflowportfolio-587dfff1-4386-492b-8f8c-f33ea61aafa7",
+    "location": "us-west2",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
