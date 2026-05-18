@@ -70,6 +70,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   console.error('Firestore Error: ', JSON.stringify(errInfo));
 
   if (!db || !auth) {
+    console.warn('Skipping exception throw because Firebase services are unavailable.');
     return;
   }
 

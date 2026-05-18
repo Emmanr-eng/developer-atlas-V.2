@@ -30,6 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (user) {
         await syncUser(user);
         setUser(user);
+        setIsAdmin(false);
         
         // Check admin role
         if (db) {
@@ -37,8 +38,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (userDoc.exists()) {
             setIsAdmin(userDoc.data().role === 'admin');
           }
-        } else {
-          setIsAdmin(false);
         }
       } else {
         setUser(null);
