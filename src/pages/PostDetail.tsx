@@ -45,8 +45,8 @@ export default function PostDetail() {
   title: post?.title || 'Loading...',
   description: post?.summary || '',
   ogType: 'article',
-  canonicalPath: `#/blog/${id}`,
-  jsonLd: post   
+  canonicalPath: id ? `/blog/${id}` : '/blog',
+    jsonLd,   
 });
 
   useEffect(() => {
