@@ -26,8 +26,113 @@ export default function Portfolio() {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
+  const fallbackProjects: Project[] = [
+    {
+      id: 'spotlight-masking',
+      title: 'SpotlightMasking-v1.0',
+      description: 'Technical module for dynamic SVG clip-path reveals. High-performance masking primitive for interactive stages.',
+      codeSnippet: 'clip-path: circle(80px at ${pos.x}px ${pos.y}px)',
+      demoUrl: '/lab?exp=fluid-spotlight',
+      imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
+      category: 'Technical Modules',
+      status: 'Experimental',
+      actionLabel: 'View in Lab',
+      actionUrl: '/lab?exp=fluid-spotlight'
+    },
+    {
+      id: 'haptic-glow',
+      title: 'HapticGlow-Lib',
+      description: 'Universal glow trace library for cursor proximity tracking. Optimized for high-frequency DOM updates.',
+      codeSnippet: 'background: radial-gradient(400px circle at ${pos.x}px ${pos.y}px, ...)',
+      demoUrl: '/lab?exp=haptic-glow',
+      imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
+      category: 'Technical Modules',
+      status: 'Experimental',
+      actionLabel: 'View in Lab',
+      actionUrl: '/lab?exp=haptic-glow'
+    },
+    {
+      id: 'magnetic-impulse',
+      title: 'MagneticImpulse-Primitive',
+      description: 'Zero-gravity navigation component with integrated spring physics and proximity warping.',
+      codeSnippet: 'animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}',
+      demoUrl: '/lab?exp=magnetic-button',
+      imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
+      category: 'Technical Modules',
+      status: 'Experimental',
+      actionLabel: 'View in Lab',
+      actionUrl: '/lab?exp=magnetic-button'
+    },
+    {
+      id: 'standardized-rendering',
+      title: 'Standardized-Rendering-Pattern',
+      description: 'Refined architectural blueprint to prevent infinite re-render loops in complex dashboard states.',
+      codeSnippet: 'useEffect(() => { ... }, [primitiveDependency])',
+      demoUrl: '/timeline?bug=infinite-loop',
+      imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=800',
+      category: 'Foundational Blueprints',
+      status: 'Approved Architecture',
+      actionLabel: 'Check Timeline',
+      actionUrl: '/timeline?bug=infinite-loop'
+    },
+    {
+      id: 'atomic-state',
+      title: 'Atomic-State-Management',
+      description: 'Validated pattern for handling stale closures in multi-threaded React environments. Derived from Bug ID #1024.',
+      codeSnippet: 'setState(prev => ({ ...prev, updated: true }))',
+      demoUrl: '/blog/outbox-pattern',
+      imageUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800',
+      category: 'Foundational Blueprints',
+      status: 'Approved Architecture',
+      actionLabel: 'Read Insight',
+      actionUrl: '/blog/outbox-pattern'
+    },
+    {
+      id: 'atlas-core',
+      title: 'Atlas-Core-API',
+      description: 'Centralized telemetry and data orchestration layer. Manages real-time sync across all portal nodes.',
+      codeSnippet: 'const atlas = initializeAtlas({ environment: "production" })',
+      demoUrl: '/',
+      imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800',
+      category: 'Production Services',
+      status: 'Online',
+      actionLabel: 'See in Terminal',
+      actionUrl: '/'
+    },
+    {
+      id: 'terminal-v3-service',
+      title: 'Terminal-V3-Service',
+      description: 'Advanced CLI interface for system-wide command execution and sub-node synchronization.',
+      codeSnippet: 'terminal.execute("--query-insights react")',
+      demoUrl: '/',
+      imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=800',
+      category: 'Production Services',
+      status: 'Online',
+      actionLabel: 'Open Console',
+      actionUrl: '/'
+    },
+    {
+      id: 'insights-engine',
+      title: 'Insights-Engine',
+      description: 'Vector-indexed search and content bridge for technical architectural nodes and engineering logic.',
+      codeSnippet: 'insights.query("react-server-components")',
+      demoUrl: '/blog',
+      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800',
+      category: 'Production Services',
+      status: 'Online',
+      actionLabel: 'Browse Insights',
+      actionUrl: '/blog'
+    }
+  ];
+
   useEffect(() => {
     const fetchProjects = async () => {
+      if (!db) {
+        setProjects(fallbackProjects);
+        setLoading(false);
+        return;
+      }
+
       try {
         const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
@@ -37,104 +142,7 @@ export default function Portfolio() {
           setProjects(fetched);
         } else {
           // Fallback Technical Service Directory for the Atlas Portal
-          setProjects([
-            {
-              id: 'spotlight-masking',
-              title: 'SpotlightMasking-v1.0',
-              description: 'Technical module for dynamic SVG clip-path reveals. High-performance masking primitive for interactive stages.',
-              codeSnippet: 'clip-path: circle(80px at ${pos.x}px ${pos.y}px)',
-              demoUrl: '/lab?exp=fluid-spotlight',
-              imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
-              category: 'Technical Modules',
-              status: 'Experimental',
-              actionLabel: 'View in Lab',
-              actionUrl: '/lab?exp=fluid-spotlight'
-            },
-            {
-              id: 'haptic-glow',
-              title: 'HapticGlow-Lib',
-              description: 'Universal glow trace library for cursor proximity tracking. Optimized for high-frequency DOM updates.',
-              codeSnippet: 'background: radial-gradient(400px circle at ${pos.x}px ${pos.y}px, ...)',
-              demoUrl: '/lab?exp=haptic-glow',
-              imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
-              category: 'Technical Modules',
-              status: 'Experimental',
-              actionLabel: 'View in Lab',
-              actionUrl: '/lab?exp=haptic-glow'
-            },
-            {
-              id: 'magnetic-impulse',
-              title: 'MagneticImpulse-Primitive',
-              description: 'Zero-gravity navigation component with integrated spring physics and proximity warping.',
-              codeSnippet: 'animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}',
-              demoUrl: '/lab?exp=magnetic-button',
-              imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
-              category: 'Technical Modules',
-              status: 'Experimental',
-              actionLabel: 'View in Lab',
-              actionUrl: '/lab?exp=magnetic-button'
-            },
-            {
-              id: 'standardized-rendering',
-              title: 'Standardized-Rendering-Pattern',
-              description: 'Refined architectural blueprint to prevent infinite re-render loops in complex dashboard states.',
-              codeSnippet: 'useEffect(() => { ... }, [primitiveDependency])',
-              demoUrl: '/timeline?bug=infinite-loop',
-              imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=800',
-              category: 'Foundational Blueprints',
-              status: 'Approved Architecture',
-              actionLabel: 'Check Timeline',
-              actionUrl: '/timeline?bug=infinite-loop'
-            },
-            {
-              id: 'atomic-state',
-              title: 'Atomic-State-Management',
-              description: 'Validated pattern for handling stale closures in multi-threaded React environments. Derived from Bug ID #1024.',
-              codeSnippet: 'setState(prev => ({ ...prev, updated: true }))',
-              demoUrl: '/blog/outbox-pattern',
-              imageUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800',
-              category: 'Foundational Blueprints',
-              status: 'Approved Architecture',
-              actionLabel: 'Read Insight',
-              actionUrl: '/blog/outbox-pattern'
-            },
-            {
-              id: 'atlas-core',
-              title: 'Atlas-Core-API',
-              description: 'Centralized telemetry and data orchestration layer. Manages real-time sync across all portal nodes.',
-              codeSnippet: 'const atlas = initializeAtlas({ environment: "production" })',
-              demoUrl: '/',
-              imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800',
-              category: 'Production Services',
-              status: 'Online',
-              actionLabel: 'See in Terminal',
-              actionUrl: '/'
-            },
-            {
-              id: 'terminal-v3-service',
-              title: 'Terminal-V3-Service',
-              description: 'Advanced CLI interface for system-wide command execution and sub-node synchronization.',
-              codeSnippet: 'terminal.execute("--query-insights react")',
-              demoUrl: '/',
-              imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=800',
-              category: 'Production Services',
-              status: 'Online',
-              actionLabel: 'Open Console',
-              actionUrl: '/'
-            },
-            {
-              id: 'insights-engine',
-              title: 'Insights-Engine',
-              description: 'Vector-indexed search and content bridge for technical architectural nodes and engineering logic.',
-              codeSnippet: 'insights.query("react-server-components")',
-              demoUrl: '/blog',
-              imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800',
-              category: 'Production Services',
-              status: 'Online',
-              actionLabel: 'Browse Insights',
-              actionUrl: '/blog'
-            }
-          ]);
+          setProjects(fallbackProjects);
         }
       } catch (error) {
         handleFirestoreError(error, OperationType.LIST, 'projects');
