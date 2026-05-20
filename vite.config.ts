@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      tailwindcss(),
+      tailwindcss() as any,
       // Upgrade 3: PWA service worker
       VitePWA({
         registerType: 'autoUpdate',
@@ -60,7 +60,7 @@ export default defineConfig(({ mode }) => {
           navigateFallback: '/developer-atlas-V.2/index.html',
           navigateFallbackDenylist: [/^\/api/],
         },
-      }),
+      } as any),
     ],
     base: '/developer-atlas-V.2/',
     define: {
