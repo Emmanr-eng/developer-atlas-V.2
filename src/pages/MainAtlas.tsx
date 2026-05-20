@@ -1,19 +1,47 @@
-import React, { useEffect } from 'react';
-import Home from './Home';
-import Portfolio from './Portfolio';
-import Lab from './Lab';
-import Timeline from './Timeline';
-import Blog from './Blog';
-import Contact from './Contact';
-import { motion } from 'motion/react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDocumentHead } from '../hooks/useDocumentHead';
+import { useLazySection } from '../hooks/useLazySection';
+import { SectionSkeleton } from '../components/SectionSkeleton';
+
+// Upgrade 6: Lazy imports — components only load when scrolled near
+const Home = lazy(() => import('./Home'));
+const Portfolio = lazy(() => import('./Portfolio'));
+const Lab = lazy(() => import('./Lab'));
+const Timeline = lazy(() => import('./Timeline'));
+const Blog = lazy(() => import('./Blog'));
+const Contact = lazy(() => import('./Contact'));
+
+interface LazySectionProps {
+  id: string;
+  skeletonVariant?: 'grid' | 'list' | 'hero' | 'form';
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+function LazySection({ id, skeletonVariant = 'grid', label, children, className = '' }: LazySectionProps) {
+  const { ref, hasEntered } = useLazySection({ rootMargin: '300px 0px' });
+
+  return (
+    <section id={id} className={className} ref={ref}>
+      {hasEntered ? (
+        <Suspense fallback={<SectionSkeleton variant={skeletonVariant} label={label} />}>
+          {children}
+        </Suspense>
+      ) : (
+        <SectionSkeleton variant={skeletonVariant} label={label} />
+      )}
+    </section>
+  );
+}
 
 export default function MainAtlas() {
   const location = useLocation();
 
+  // Upgrade 1: SEO metadata
   useDocumentHead({
-    title: '',  // Uses base title "Developer Atlas"
+    title: '',
     description: 'Explore projects, experiments, blog posts, and connect. A full-stack developer portal.',
   });
 
@@ -31,24 +59,32 @@ export default function MainAtlas() {
 
   return (
     <div className="space-y-32 pb-32">
+      {/* Home loads eagerly — it's above the fold */}
       <section id="home">
-        <Home />
+        <Suspense fallback={<SectionSkeleton variant="hero" label="Home" />}>
+          <Home />
+        </Suspense>
       </section>
-      <section id="portfolio" className="scroll-mt-24">
+
+      <LazySection id="portfolio" label="Portfolio" skeletonVariant="grid" className="scroll-mt-24">
         <Portfolio />
-      </section>
-      <section id="lab" className="scroll-mt-24">
+      </LazySection>
+
+      <LazySection id="lab" label="Lab" skeletonVariant="grid" className="scroll-mt-24">
         <Lab />
-      </section>
-      <section id="timeline" className="scroll-mt-24">
+      </LazySection>
+
+      <LazySection id="timeline" label="Timeline" skeletonVariant="list" className="scroll-mt-24">
         <Timeline />
-      </section>
-      <section id="blog" className="scroll-mt-24">
+      </LazySection>
+
+      <LazySection id="blog" label="Blog" skeletonVariant="list" className="scroll-mt-24">
         <Blog />
-      </section>
-      <section id="contact" className="scroll-mt-24">
+      </LazySection>
+
+      <LazySection id="contact" label="Contact" skeletonVariant="form" className="scroll-mt-24">
         <Contact />
-      </section>
+      </LazySection>
     </div>
   );
 }
