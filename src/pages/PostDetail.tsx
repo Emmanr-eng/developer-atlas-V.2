@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { db, OperationType, handleFirestoreError } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -23,24 +23,30 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const jsonLd = useMemo(
+    () =>
+      post
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.summary,
+            author: { '@type': 'Person', name: post.authorName },
+            datePublished:
+              post.createdAt?.seconds != null
+                ? new Date(post.createdAt.seconds * 1000).toISOString()
+                : undefined,
+          }
+        : undefined,
+    [post],
+  );
 
   useDocumentHead({
     title: post?.title || 'Loading...',
     description: post?.summary || '',
     ogType: 'article',
-    canonicalPath: `#/blog/${id}`,
-    jsonLd: post
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: post.title,
-          description: post.summary,
-          author: { '@type': 'Person', name: post.authorName },
-          datePublished: post.createdAt?.seconds
-            ? new Date(post.createdAt.seconds * 1000).toISOString()
-            : undefined,
-        }
-      : undefined,
+    canonicalPath: id ? `/blog/${id}` : '/blog',
+    jsonLd,
   });
 
   useEffect(() => {

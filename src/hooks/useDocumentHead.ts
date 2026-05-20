@@ -37,6 +37,8 @@ export function useDocumentHead({
   jsonLd,
 }: UseDocumentHeadOptions) {
   useEffect(() => {
+    const jsonLdContent = jsonLd ? JSON.stringify(jsonLd) : undefined;
+
     document.title = title;
 
     setMetaTag(
@@ -60,28 +62,37 @@ export function useDocumentHead({
     );
 
     if (canonicalPath) {
-      const canonicalHref = `${window.location.origin}/${canonicalPath.replace(/^\/+/, '')}`;
-      let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-      if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.rel = 'canonical';
-        document.head.appendChild(canonical);
+      let canonicalHref = '';
+      try {
+        canonicalHref = new URL(canonicalPath, window.location.origin).toString();
+      } catch {
+        canonicalHref = '';
+        console.warn('Invalid canonicalPath provided to useDocumentHead:', canonicalPath);
       }
-      canonical.href = canonicalHref;
+
+      if (canonicalHref) {
+        let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+        if (!canonical) {
+          canonical = document.createElement('link');
+          canonical.rel = 'canonical';
+          document.head.appendChild(canonical);
+        }
+        canonical.href = canonicalHref;
+      }
     }
 
     let jsonLdScript = document.querySelector('script[data-document-head-json-ld="true"]') as
       | HTMLScriptElement
       | null;
 
-    if (jsonLd) {
+    if (jsonLdContent) {
       if (!jsonLdScript) {
         jsonLdScript = document.createElement('script');
         jsonLdScript.type = 'application/ld+json';
         jsonLdScript.dataset.documentHeadJsonLd = 'true';
         document.head.appendChild(jsonLdScript);
       }
-      jsonLdScript.textContent = JSON.stringify(jsonLd);
+      jsonLdScript.textContent = jsonLdContent;
     } else if (jsonLdScript) {
       jsonLdScript.remove();
     }
