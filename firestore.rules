@@ -53,7 +53,7 @@ service cloud.firestore {
     }
 
     match /projects/{projectId} {
-      allow read: if true; // Public access
+      allow read: if true;
       allow create: if isEmailVerified() && isValidProject(incoming()) && incoming().authorId == request.auth.uid;
       allow update: if (isAdmin() || isOwner(existing().authorId)) && 
                      incoming().authorId == existing().authorId &&
@@ -82,12 +82,15 @@ service cloud.firestore {
       allow delete: if isAdmin() || isOwner(existing().authorId);
     }
 
-    // --- Contact Inquiries ---
+    // --- Contact Inquiries (Upgrade 5: tighter validation) ---
     function isValidInquiry(data) {
-      return data.name is string && data.name.size() <= 100 &&
-             data.email is string && data.email.size() <= 100 &&
-             data.message is string && data.message.size() <= 5000 &&
-             data.createdAt is timestamp;
+      return data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() >= 5 && data.email.size() <= 100 &&
+             data.email.matches('^[^@]+@[^@]+\\.[^@]+$') &&
+             data.message is string && data.message.size() >= 10 && data.message.size() <= 5000 &&
+             data.status == 'new' &&
+             data.createdAt is timestamp &&
+             data.keys().hasOnly(['name', 'email', 'message', 'status', 'createdAt']);
     }
 
     match /inquiries/{inquiryId} {
