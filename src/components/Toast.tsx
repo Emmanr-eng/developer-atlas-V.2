@@ -33,7 +33,7 @@ export const Toast: React.FC<ToastProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="fixed bottom-6 right-6 z-[70] max-w-sm"
+          className="fixed bottom-6 right-6 z-70 max-w-sm"
           role="alert"
           aria-live="polite"
         >
