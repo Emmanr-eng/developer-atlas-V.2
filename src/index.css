@@ -48,7 +48,7 @@
 
 /* Upgrade 2: Skip to content link */
 .skip-to-content {
-  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 rounded-b-lg z-[100] uppercase tracking-widest;
+  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 rounded-b-lg z-100 uppercase tracking-widest;
   top: -100%;
   transition: top 0.2s ease;
 }
