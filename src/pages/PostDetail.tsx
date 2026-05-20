@@ -53,6 +53,7 @@ export default function PostDetail() {
     const fetchPost = async () => {
       if (!id) return;
       try {
+        if (!db) return;
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
         
