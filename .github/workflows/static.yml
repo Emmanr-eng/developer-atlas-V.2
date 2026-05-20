@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "feature/day7-upgrade-1--SEO-&-Dynamic-Mgt-"
+      - "feature/day7-upgrade-6-SmartLoad"
       - main
   workflow_dispatch:
 
