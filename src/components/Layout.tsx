@@ -6,12 +6,14 @@ import { Sun, Moon, Menu, X, Terminal, Code, BookOpen, Mail, User, Shield, Flask
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isAdmin, login, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const location = useLocation();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const isOnline = useOnlineStatus();
 
   // Upgrade 2: Focus trap for mobile menu
   useFocusTrap(mobileMenuRef, isMenuOpen);
@@ -171,6 +173,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           )}
         </AnimatePresence>
       </nav>
+      
+      {!isOnline && (
+  <div className="bg-amber-500/10 border-b border-amber-500/30 px-6 py-2 text-center text-amber-400 text-xs font-bold uppercase tracking-widest" role="alert">
+    <span>📡 You're offline — showing cached data</span>
+  </div>
+)}
 
       {/* Upgrade 2: id="main-content" landmark */}
       <main id="main-content" className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden" role="main" tabIndex={-1}>
