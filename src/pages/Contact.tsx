@@ -1,33 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { db, OperationType, handleFirestoreError } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useRateLimit } from '../hooks/useRateLimit';
+import { Toast, type ToastType } from '../components/Toast';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
+    website: '', // Upgrade 5: honeypot field
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const { isRateLimited, remainingSeconds, recordSubmission } = useRateLimit();
+
+  // Upgrade 5: Toast state
+  const [toast, setToast] = useState<{ message: string; type: ToastType; visible: boolean }>({
+    message: '',
+    type: 'success',
+    visible: false,
+  });
+
+  const showToast = useCallback((message: string, type: ToastType) => {
+    setToast({ message, type, visible: true });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Upgrade 5: Honeypot — bots fill the hidden field
+    if (formData.website) {
+      // Silently pretend success to not tip off the bot
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '', website: '' });
+      return;
+    }
+
+    // Upgrade 5: Rate limiting
+    if (isRateLimited) {
+      showToast(`Please wait ${remainingSeconds}s before submitting again.`, 'error');
+      return;
+    }
+
     setStatus('submitting');
-    
+
     try {
       await addDoc(collection(db, 'inquiries'), {
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
         status: 'new',
         createdAt: serverTimestamp(),
       });
       setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', message: '', website: '' });
+      recordSubmission();
+      showToast('Message transmitted successfully!', 'success');
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'inquiries');
       setStatus('error');
+      showToast('Transmission failed. Please try again.', 'error');
     }
   };
 
@@ -86,45 +121,61 @@ export default function Contact() {
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Identity</label>
+                <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Identity</label>
                 <input
+                  id="contact-name"
                   required
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-700"
+                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-600"
                   placeholder="Full Name"
                 />
               </div>
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Protocol</label>
+                <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Protocol</label>
                 <input
+                  id="contact-email"
                   required
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-700"
+                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-600"
                   placeholder="name@provider.com"
                 />
               </div>
             </div>
 
+            {/* Upgrade 5: Honeypot — invisible to humans, filled by bots */}
+            <div className="absolute opacity-0 h-0 w-0 overflow-hidden" aria-hidden="true">
+              <label htmlFor="contact-website">Website</label>
+              <input
+                id="contact-website"
+                type="text"
+                value={formData.website}
+                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Transmission</label>
+              <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-1">Transmission</label>
               <textarea
+                id="contact-message"
                 required
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none resize-none placeholder:text-neutral-700"
+                className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none resize-none placeholder:text-neutral-600"
                 placeholder="Describe your vision or inquiry..."
               />
             </div>
 
             <button
-              disabled={status === 'submitting' || status === 'success'}
+              disabled={status === 'submitting' || status === 'success' || isRateLimited}
               className={cn(
-                "w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] active:scale-95 shadow-2xl",
+                "w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg",
                 status === 'success' ? "bg-emerald-500 text-black" : "bg-neutral-100 text-black hover:bg-white shadow-white/5",
                 "disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               )}
@@ -134,6 +185,8 @@ export default function Contact() {
                   <CheckCircle2 className="w-5 h-5" />
                   <span>Verified Transmission</span>
                 </>
+              ) : isRateLimited ? (
+                <span>Wait {remainingSeconds}s</span>
               ) : (
                 <>
                   <Send className="w-5 h-5" />
@@ -141,16 +194,17 @@ export default function Contact() {
                 </>
               )}
             </button>
-
-            {status === 'error' && (
-              <div className="flex items-center space-x-2 p-4 rounded-xl bg-red-900/10 border border-red-900/30 text-red-500 text-[10px] font-black uppercase tracking-widest">
-                <AlertCircle className="w-4 h-4" />
-                <span>Link failure. Please re-initiate.</span>
-              </div>
-            )}
           </form>
         </div>
       </div>
+
+      {/* Upgrade 5: Toast notifications */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.visible}
+        onClose={() => setToast((prev) => ({ ...prev, visible: false }))}
+      />
     </div>
   );
 }
