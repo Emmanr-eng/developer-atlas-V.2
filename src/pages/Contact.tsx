@@ -45,6 +45,12 @@ export default function Contact() {
       return;
     }
 
+    if (!db) {
+      setStatus('error');
+      showToast('Contact service is unavailable. Please try again later.', 'error');
+      return;
+    }
+
     setStatus('submitting');
 
     try {
