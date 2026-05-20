@@ -7,7 +7,7 @@ import Blog from './Blog';
 import Contact from './Contact';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
-import { useDocumentHead } from '../hooks/useDocumentedHead';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function MainAtlas() {
   const location = useLocation();
