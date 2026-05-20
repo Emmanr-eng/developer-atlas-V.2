@@ -49,25 +49,6 @@ export default function PostDetail() {
     jsonLd,
   });
 
-  useDocumentHead({
-  title: post?.title || 'Loading...',
-  description: post?.summary || '',
-  ogType: 'article',
-  canonicalPath: `#/blog/${id}`,
-  jsonLd: post
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: post.title,
-        description: post.summary,
-        author: { '@type': 'Person', name: post.authorName },
-        datePublished: post.createdAt?.seconds
-          ? new Date(post.createdAt.seconds * 1000).toISOString()
-          : undefined,
-      }
-    : undefined,
-});
-
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) return;
