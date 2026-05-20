@@ -41,13 +41,24 @@ export default function PostDetail() {
     [post],
   );
 
-  useDocumentHead({
-    title: post?.title || 'Loading...',
-    description: post?.summary || '',
-    ogType: 'article',
-    canonicalPath: id ? `/blog/${id}` : '/blog',
-    jsonLd,
-  });
+ useDocumentHead({
+  title: post?.title || 'Loading...',
+  description: post?.summary || '',
+  ogType: 'article',
+  canonicalPath: `#/blog/${id}`,
+  jsonLd: post
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.summary,
+        author: { '@type': 'Person', name: post.authorName },
+        datePublished: post.createdAt?.seconds
+          ? new Date(post.createdAt.seconds * 1000).toISOString()
+          : undefined,
+      }
+    : undefined,
+});
 
   useEffect(() => {
     const fetchPost = async () => {
