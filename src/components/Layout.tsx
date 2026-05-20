@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import { Sun, Moon, Menu, X, Terminal, Code, BookOpen, Mail, User, Shield, FlaskConical, Bug } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isAdmin, login, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const location = useLocation();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Upgrade 2: Focus trap for mobile menu
+  useFocusTrap(mobileMenuRef, isMenuOpen);
 
   const navItems = [
     { name: 'Home', id: 'home', icon: Terminal },
@@ -27,14 +32,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     }
   };
 
-  if (isAdmin) {
-    // Admin stays as a separate route usually, but for internal portal it might be a section.
-    // I'll keep it as a link for now or handle it specially.
-  }
+  const isActiveNav = (id: string) =>
+    location.hash === `#${id}` || (location.hash === '' && id === 'home' && location.pathname === '/');
 
   return (
     <div className="min-h-screen bg-#0A0A0A text-neutral-100 flex flex-col font-sans transition-colors duration-300">
-      <nav className="sticky top-0 z-50 bg-#0A0A0A/80 backdrop-blur-md px-6 py-4">
+      {/* Upgrade 2: Skip to content */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
+      <nav className="sticky top-0 z-50 bg-#0A0A0A/80 backdrop-blur-md px-6 py-4" role="navigation" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto flex justify-between items-center h-12">
           <button 
             onClick={() => {
@@ -52,10 +60,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-2">
-            <div className="flex bg-neutral-800/50 p-1 rounded-full border border-neutral-700/50 mr-4">
+            <div className="flex bg-neutral-800/50 p-1 rounded-full border border-neutral-700/50 mr-4" role="tablist">
               {navItems.map((item) => (
                 <button
                   key={item.id}
+                  role="tab"
+                  aria-selected={isActiveNav(item.id)}
+                  aria-current={isActiveNav(item.id) ? 'page' : undefined}
                   onClick={() => {
                     if (location.pathname !== '/') {
                       window.location.href = `/#${item.id}`;
@@ -65,7 +76,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   }}
                   className={cn(
                     "px-4 py-1.5 rounded-full text-xs font-semibold transition-all",
-                    location.hash === `#${item.id}` || (location.hash === '' && item.id === 'home' && location.pathname === '/')
+                    isActiveNav(item.id)
                       ? "bg-neutral-700 text-white shadow-sm"
                       : "text-neutral-400 hover:text-neutral-200"
                   )}
@@ -85,7 +96,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             
             <div className="flex gap-2">
               <div className="hidden lg:flex bg-neutral-800 px-4 py-2 rounded-full text-[10px] items-center gap-2 border border-neutral-700 uppercase tracking-widest font-bold">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> Available
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></div> Available
               </div>
               
               {user ? (
@@ -113,8 +124,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-xl bg-neutral-800 border border-neutral-700"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-nav-menu"
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -123,6 +137,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
+              ref={mobileMenuRef}
+              id="mobile-nav-menu"
+              role="menu"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -132,6 +149,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 {navItems.map((item) => (
                   <button
                     key={item.id}
+                    role="menuitem"
                     onClick={() => {
                       setIsMenuOpen(false);
                       if (location.pathname !== '/') {
@@ -144,7 +162,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                       "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors hover:bg-neutral-800 text-neutral-400"
                     )}
                   >
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="w-5 h-5" aria-hidden="true" />
                     <span className="font-semibold text-sm">{item.name}</span>
                   </button>
                 ))}
@@ -154,7 +172,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </AnimatePresence>
       </nav>
 
-      <main className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden">
+      {/* Upgrade 2: id="main-content" landmark */}
+      <main id="main-content" className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden" role="main" tabIndex={-1}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -169,7 +188,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </AnimatePresence>
       </main>
 
-      <footer className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-bold">
+      <footer className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-bold" role="contentinfo">
         <div>&copy; {new Date().getFullYear()} Developer Atlas. Navigating the tech landscape.</div>
         <div className="flex gap-8 mt-4 sm:mt-0">
           <a href="#" className="hover:text-emerald-400 transition-colors">GitHub</a>
