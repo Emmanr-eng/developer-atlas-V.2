@@ -46,18 +46,7 @@ export default function PostDetail() {
   description: post?.summary || '',
   ogType: 'article',
   canonicalPath: `#/blog/${id}`,
-  jsonLd: post
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: post.title,
-        description: post.summary,
-        author: { '@type': 'Person', name: post.authorName },
-        datePublished: post.createdAt?.seconds
-          ? new Date(post.createdAt.seconds * 1000).toISOString()
-          : undefined,
-      }
-    : undefined,
+  jsonLd: post   
 });
 
   useEffect(() => {
