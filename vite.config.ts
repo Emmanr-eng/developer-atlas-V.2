@@ -6,6 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+  const isFirebase = process.env.DEPLOY_TARGET === 'firebase';
 
   return {
     plugins: [
@@ -62,7 +63,7 @@ export default defineConfig(({ mode }) => {
         },
       } as any),
     ],
-    base: '/developer-atlas-V.2/',
+    base: isFirebase ? '/' : '/developer-atlas-V.2/',
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
