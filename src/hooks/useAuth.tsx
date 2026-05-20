@@ -19,15 +19,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const currentAuth = auth;
+
+    if (!currentAuth) {
+      setUser(null);
+      setIsAdmin(false);
+      setLoading(false);
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(currentAuth, async (user) => {
       if (user) {
         await syncUser(user);
         setUser(user);
+        setIsAdmin(false);
         
         // Check admin role
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setIsAdmin(userDoc.data().role === 'admin');
+        if (db) {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setIsAdmin(userDoc.data().role === 'admin');
+          }
         }
       } else {
         setUser(null);
@@ -40,6 +52,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async () => {
+    if (!auth || !googleProvider) {
+      console.warn('Login skipped because Firebase authentication is not configured.');
+      return;
+    }
+
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
@@ -52,6 +69,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
+    if (!auth) {
+      console.warn('Logout skipped because Firebase authentication is not configured.');
+      return;
+    }
+
     await signOut(auth);
   };
 
