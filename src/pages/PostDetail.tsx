@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import { motion } from 'motion/react';
 import { Calendar, User, ArrowLeft, Clock, Share2, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
 import { formatDate } from '../lib/utils';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 
 interface BlogPost {
   title: string;
@@ -22,6 +23,25 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useDocumentHead({
+    title: post?.title || 'Loading...',
+    description: post?.summary || '',
+    ogType: 'article',
+    canonicalPath: `#/blog/${id}`,
+    jsonLd: post
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: post.title,
+          description: post.summary,
+          author: { '@type': 'Person', name: post.authorName },
+          datePublished: post.createdAt?.seconds
+            ? new Date(post.createdAt.seconds * 1000).toISOString()
+            : undefined,
+        }
+      : undefined,
+  });
 
   useEffect(() => {
     const fetchPost = async () => {
