@@ -53,6 +53,11 @@ export default function PostDetail() {
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) return;
+      if (!db) {
+        navigate('/blog');
+        setLoading(false);
+        return;
+      }
       try {
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
