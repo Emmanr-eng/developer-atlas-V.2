@@ -7,12 +7,17 @@ import Blog from './Blog';
 import Contact from './Contact';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
+import { useDocumentHead } from '../hooks/useDocumentHead';
 
 export default function MainAtlas() {
   const location = useLocation();
 
+  useDocumentHead({
+    title: '',  // Uses base title "Developer Atlas"
+    description: 'Explore projects, experiments, blog posts, and connect. A full-stack developer portal.',
+  });
+
   useEffect(() => {
-    // Check if there's a hash in the URL and scroll to it
     if (location.hash) {
       const id = location.hash.replace('#', '');
       setTimeout(() => {
@@ -20,7 +25,7 @@ export default function MainAtlas() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 500); // Wait a bit for components to mount/data to load
+      }, 500);
     }
   }, [location.hash]);
 
@@ -29,23 +34,18 @@ export default function MainAtlas() {
       <section id="home">
         <Home />
       </section>
-      
       <section id="portfolio" className="scroll-mt-24">
         <Portfolio />
       </section>
-      
       <section id="lab" className="scroll-mt-24">
         <Lab />
       </section>
-      
       <section id="timeline" className="scroll-mt-24">
         <Timeline />
       </section>
-      
       <section id="blog" className="scroll-mt-24">
         <Blog />
       </section>
-      
       <section id="contact" className="scroll-mt-24">
         <Contact />
       </section>
