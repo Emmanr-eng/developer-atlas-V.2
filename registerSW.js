@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/developer-atlas-V.2/sw.js', { scope: '/developer-atlas-V.2/' })})}
