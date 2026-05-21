@@ -18,6 +18,7 @@ export default function Contact() {
     setStatus('submitting');
     
     try {
+      if (!db) throw new Error('Database not initialized');
       await addDoc(collection(db, 'inquiries'), {
         ...formData,
         status: 'new',
