@@ -24,6 +24,9 @@ export default function Blog() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        if (!db) {
+          throw new Error('Database not initialized');
+        }
         const q = query(
           collection(db, 'posts'),
           where('status', '==', 'published'),
