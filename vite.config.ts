@@ -6,7 +6,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
-  const isFirebase = process.env.DEPLOY_TARGET === 'firebase';
+  const isGitHubPages = process.env.DEPLOY_TARGET === 'github';
+  const base = isGitHubPages ? '/developer-atlas-V.2/' : '/';
 
   return {
     plugins: [
@@ -58,12 +59,12 @@ export default defineConfig(({ mode }) => {
               },
             },
           ],
-          navigateFallback: '/developer-atlas-V.2/index.html',
+          navigateFallback: `${base}index.html`,
           navigateFallbackDenylist: [/^\/api/],
         },
       } as any),
     ],
-    base: isFirebase ? '/' : '/developer-atlas-V.2/',
+    base,
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
