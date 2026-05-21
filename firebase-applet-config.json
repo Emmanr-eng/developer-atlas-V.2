@@ -4,5 +4,6 @@
   "projectId": "gen-lang-client-0809812074",
   "storageBucket": "gen-lang-client-0809812074.firebasestorage.app",
   "messagingSenderId": "696983376765",
-  "appId": "1:696983376765:web:28fa7e9f30a2dfcb14b214"
+  "appId": "1:696983376765:web:28fa7e9f30a2dfcb14b214",
+  "firestoreDatabaseId": ""
 }
