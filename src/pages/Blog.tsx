@@ -25,8 +25,23 @@ export default function Blog() {
     const fetchPosts = async () => {
       try {
         if (!db) {
-          throw new Error('Database not initialized');
-        }
+  console.warn('Firebase not configured. Using fallback posts.');
+  // Set seed data directly
+  setPosts([
+    {
+      id: 'modern-web-architecture',
+      title: 'Modern Web Architecture: Server Components vs. Client-side Hydration',
+      summary: 'A deep dive into the trade-offs of using React Server Components to reduce client-side overhead while maintaining interactivity in high-scale dashboards.',
+      authorName: 'Senior Staff Engineer',
+      tags: ['NextJS', 'SystemDesign', 'Frameworks'],
+      createdAt: { seconds: Date.now() / 1000 },
+      status: 'published'
+    },
+    // ... keep the rest of the seed articles
+  ]);
+  setLoading(false);
+  return;
+}
         const q = query(
           collection(db, 'posts'),
           where('status', '==', 'published'),
