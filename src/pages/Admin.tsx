@@ -22,6 +22,7 @@ export default function Admin() {
   const fetchData = async () => {
     setLoading(true);
     try {
+      if (!db) return;
       const postsQ = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
       const projectsQ = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
       const inquiriesQ = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
@@ -48,7 +49,7 @@ export default function Admin() {
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !db) return;
     try {
       const postData = {
         ...postForm,
@@ -74,7 +75,7 @@ export default function Admin() {
 
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !db) return;
     try {
       const projectData = {
         ...projectForm,
@@ -98,6 +99,7 @@ export default function Admin() {
 
   const handleDelete = async (coll: string, id: string) => {
     if (!confirm('Are you sure you want to delete this?')) return;
+    if (!db) return;
     try {
       await deleteDoc(doc(db, coll, id));
       fetchData();
@@ -205,6 +207,7 @@ export default function Admin() {
                     {inq.status === 'new' && (
                       <button 
                         onClick={async () => {
+                          if (!db) return;
                           const ref = doc(db, 'inquiries', inq.id);
                           await updateDoc(ref, { status: 'read' });
                           fetchData();
