@@ -20,7 +20,9 @@ if (isFirebaseConfigured) {
   try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+    db = firebaseConfig.firestoreDatabaseId
+      ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
+      : getFirestore(app);
   } catch (error) {
     console.error('Firebase initialization failed. Running without Firebase services.', error);
   }
