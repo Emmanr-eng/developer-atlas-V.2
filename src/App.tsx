@@ -41,7 +41,7 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
               The app hit an unexpected runtime error and could not finish rendering.
             </p>
             {this.state.errorMessage && (
-              <p className="text-xs text-neutral-500 break-words rounded-2xl border border-neutral-800 bg-black/30 p-4">
+              <p className="text-xs text-neutral-500 wrap-break-word rounded-2xl border border-neutral-800 bg-black/30 p-4">
                 {this.state.errorMessage}
               </p>
             )}
