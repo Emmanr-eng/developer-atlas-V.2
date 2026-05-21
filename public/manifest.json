@@ -2,19 +2,19 @@
   "name": "Developer Atlas V.2",
   "short_name": "DevAtlas",
   "description": "A full-stack developer portfolio powered by React, Firebase, and Google Gemini AI.",
-  "start_url": "/developer-atlas-V.2/",
-  "scope": "/developer-atlas-V.2/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0A0A0A",
   "theme_color": "#10b981",
   "icons": [
     {
-      "src": "/developer-atlas-V.2/icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/developer-atlas-V.2/icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
