@@ -54,7 +54,8 @@ export default function PostDetail() {
       if (!id) return;
       try {
         if (!db) return;
-        const docRef = doc(db, 'posts', id);
+        const firestore = db;
+        const docRef = doc(firestore, 'posts', id);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
