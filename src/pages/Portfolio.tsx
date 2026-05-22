@@ -29,7 +29,13 @@ export default function Portfolio() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
+        if (!db) {
+          setLoading(false);
+          return;
+        }
+
+        const firestore = db;
+        const q = query(collection(firestore, 'projects'), orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
         const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
         
