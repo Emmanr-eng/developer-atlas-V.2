@@ -13,16 +13,22 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss() as any,
-      // Upgrade 3: PWA service worker
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['offline.html'],
-        manifest: false, // We use public/manifest.json directly
+        manifest: false,
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+          // ✅ FIX 1: navigateFallback should be relative to base, not include it
+          navigateFallback: 'index.html',
+          navigateFallbackDenylist: [/^\/api/],
+          // ✅ FIX 2: Force the new SW to activate immediately, replacing the stale one
+          skipWaiting: true,
+          clientsClaim: true,
+          // ✅ FIX 3: Clean old precaches from previous builds
+          cleanupOutdatedCaches: true,
           runtimeCaching: [
             {
-              // Firestore REST API calls — network first with cache fallback
               urlPattern: /^https:\/\/firestore\.googleapis\.com\/.*/i,
               handler: 'NetworkFirst',
               options: {
@@ -30,44 +36,37 @@ export default defineConfig(({ mode }) => {
                 networkTimeoutSeconds: 3,
                 expiration: {
                   maxEntries: 50,
-                  maxAgeSeconds: 60 * 60 * 24, // 24 hours
+                  maxAgeSeconds: 60 * 60 * 24,
                 },
               },
             },
             {
-              // Static images — cache first
               urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
               handler: 'CacheFirst',
               options: {
                 cacheName: 'image-cache',
                 expiration: {
                   maxEntries: 60,
-                  maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
                 },
               },
             },
             {
-              // Google Fonts
               urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
               handler: 'CacheFirst',
               options: {
                 cacheName: 'google-fonts-cache',
                 expiration: {
                   maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                  maxAgeSeconds: 60 * 60 * 24 * 365,
                 },
               },
             },
           ],
-          navigateFallback: `${base}index.html`,
-          navigateFallbackDenylist: [/^\/api/],
         },
       } as any),
     ],
     base,
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
