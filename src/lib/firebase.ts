@@ -5,12 +5,62 @@ import firebaseConfig from '../../firebase-applet-config.json';
 
 const REQUIRED_CONFIG_KEYS = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'] as const;
 
-const hasPlaceholderConfig = REQUIRED_CONFIG_KEYS.some((key) => {
-  const value = firebaseConfig[key];
-  return typeof value !== 'string' || value.trim() === '' || value.includes('YOUR_');
+interface FirebaseRuntimeConfig {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+  appId: string;
+  firestoreDatabaseId?: string;
+}
+
+const envConfig: Partial<FirebaseRuntimeConfig> = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  firestoreDatabaseId: import.meta.env.VITE_FIREBASE_DATABASE_ID,
+};
+
+const getConfigValue = (key: keyof FirebaseRuntimeConfig): string | undefined => {
+  const envValue = envConfig[key];
+  if (typeof envValue === 'string' && envValue.trim() !== '') {
+    return envValue.trim();
+  }
+
+  const fileValue = firebaseConfig[key as keyof typeof firebaseConfig];
+  if (typeof fileValue === 'string' && fileValue.trim() !== '') {
+    return fileValue.trim();
+  }
+
+  return undefined;
+};
+
+const isPlaceholderValue = (value: string | undefined): boolean => {
+  if (!value) return true;
+
+  return value.includes('YOUR_') || /^MY_[A-Z0-9_]+$/.test(value);
+};
+
+const runtimeConfig: Partial<FirebaseRuntimeConfig> = {
+  apiKey: getConfigValue('apiKey'),
+  authDomain: getConfigValue('authDomain'),
+  projectId: getConfigValue('projectId'),
+  storageBucket: getConfigValue('storageBucket'),
+  messagingSenderId: getConfigValue('messagingSenderId'),
+  appId: getConfigValue('appId'),
+  firestoreDatabaseId: getConfigValue('firestoreDatabaseId') || '(default)',
+};
+
+const missingFirebaseKeys = REQUIRED_CONFIG_KEYS.filter((key) => {
+  const value = runtimeConfig[key];
+  return typeof value !== 'string' || isPlaceholderValue(value);
 });
 
-export const isFirebaseConfigured = !hasPlaceholderConfig;
+export const isFirebaseConfigured = missingFirebaseKeys.length === 0;
 
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
@@ -18,14 +68,17 @@ let db: Firestore | null = null;
 
 if (isFirebaseConfigured) {
   try {
-    app = initializeApp(firebaseConfig);
+    app = initializeApp(runtimeConfig as FirebaseRuntimeConfig);
     auth = getAuth(app);
-    db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+    db = getFirestore(app, runtimeConfig.firestoreDatabaseId || '(default)');
   } catch (error) {
     console.error('Firebase initialization failed. Running without Firebase services.', error);
   }
 } else {
-  console.warn('Firebase configuration is incomplete. Running without Firebase services.');
+  console.warn(
+    `Firebase configuration is incomplete. Missing keys: ${missingFirebaseKeys.join(', ')}. ` +
+      'Provide VITE_FIREBASE_* variables or update firebase-applet-config.json. Running without Firebase services.'
+  );
 }
 
 export { app, auth, db };
