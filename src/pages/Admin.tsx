@@ -22,9 +22,15 @@ export default function Admin() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const postsQ = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
-      const projectsQ = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
-      const inquiriesQ = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
+      if (!db) {
+        console.warn('Firestore not initialized');
+        setLoading(false);
+        return;
+      }
+      const firestore = db;
+      const postsQ = query(collection(firestore, 'posts'), orderBy('createdAt', 'desc'));
+      const projectsQ = query(collection(firestore, 'projects'), orderBy('createdAt', 'desc'));
+      const inquiriesQ = query(collection(firestore, 'inquiries'), orderBy('createdAt', 'desc'));
 
       const [postsSnap, projectsSnap, inquiriesSnap] = await Promise.all([
         getDocs(postsQ),
@@ -48,7 +54,9 @@ export default function Admin() {
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !db) return;
+    const firestore = db;
+
     try {
       const postData = {
         ...postForm,
@@ -59,9 +67,9 @@ export default function Admin() {
       };
 
       if (editingId) {
-        await updateDoc(doc(db, 'posts', editingId), postData);
+        await updateDoc(doc(firestore, 'posts', editingId), postData);
       } else {
-        await addDoc(collection(db, 'posts'), { ...postData, createdAt: serverTimestamp() });
+        await addDoc(collection(firestore, 'posts'), { ...postData, createdAt: serverTimestamp() });
       }
       
       setPostForm({ title: '', summary: '', content: '', tags: '', status: 'draft' });
@@ -74,7 +82,9 @@ export default function Admin() {
 
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !db) return;
+    const firestore = db;
+
     try {
       const projectData = {
         ...projectForm,
@@ -83,9 +93,9 @@ export default function Admin() {
       };
 
       if (editingId) {
-        await updateDoc(doc(db, 'projects', editingId), projectData);
+        await updateDoc(doc(firestore, 'projects', editingId), projectData);
       } else {
-        await addDoc(collection(db, 'projects'), { ...projectData, createdAt: serverTimestamp() });
+        await addDoc(collection(firestore, 'projects'), { ...projectData, createdAt: serverTimestamp() });
       }
       
       setProjectForm({ title: '', description: '', codeSnippet: '', demoUrl: '', imageUrl: '', category: '' });
@@ -98,8 +108,12 @@ export default function Admin() {
 
   const handleDelete = async (coll: string, id: string) => {
     if (!confirm('Are you sure you want to delete this?')) return;
+    if (!db) return;
+
+    const firestore = db;
+
     try {
-      await deleteDoc(doc(db, coll, id));
+      await deleteDoc(doc(firestore, coll, id));
       fetchData();
     } catch (error) {
       handleFirestoreError(error, OperationType.DELETE, `${coll}/${id}`);
@@ -205,6 +219,7 @@ export default function Admin() {
                     {inq.status === 'new' && (
                       <button 
                         onClick={async () => {
+                          if (!db) return;
                           const ref = doc(db, 'inquiries', inq.id);
                           await updateDoc(ref, { status: 'read' });
                           fetchData();
