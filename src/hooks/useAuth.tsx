@@ -36,7 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         // Check admin role
         if (db) {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          const firestore = db;
+          const userDoc = await getDoc(doc(firestore, 'users', user.uid));
           if (userDoc.exists()) {
             setIsAdmin(userDoc.data().role === 'admin');
           }
