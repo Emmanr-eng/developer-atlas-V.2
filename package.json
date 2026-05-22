@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
+    "build:github": "cross-env DEPLOY_TARGET=github vite build",
     "build:firebase": "cross-env DEPLOY_TARGET=firebase vite build",
     "deploy:firebase": "cross-env DEPLOY_TARGET=firebase vite build && firebase deploy",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:github",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
