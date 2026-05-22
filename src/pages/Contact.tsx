@@ -16,9 +16,17 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
+
+    if (!db) {
+      console.warn('Contact submit skipped because Firestore is not configured.');
+      setStatus('error');
+      return;
+    }
+
+    const firestore = db;
     
     try {
-      await addDoc(collection(db, 'inquiries'), {
+      await addDoc(collection(firestore, 'inquiries'), {
         ...formData,
         status: 'new',
         createdAt: serverTimestamp(),
