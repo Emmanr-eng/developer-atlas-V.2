@@ -24,8 +24,14 @@ export default function Blog() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        if (!db) {
+          setLoading(false);
+          return;
+        }
+
+        const firestore = db;
         const q = query(
-          collection(db, 'posts'),
+          collection(firestore, 'posts'),
           where('status', '==', 'published'),
           orderBy('createdAt', 'desc')
         );
