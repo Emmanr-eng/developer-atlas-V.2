@@ -73,8 +73,15 @@ cp .env.example .env.local
 |---|---|
 | `GEMINI_API_KEY` | Your Google Gemini API key |
 | `APP_URL` | The URL where the app is hosted |
+| `VITE_FIREBASE_API_KEY` | Firebase API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Firebase storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase sender ID |
+| `VITE_FIREBASE_APP_ID` | Firebase app ID |
+| `VITE_FIREBASE_DATABASE_ID` | Firestore database ID (usually `(default)`) |
 
-> Firebase config is loaded from `firebase-applet-config.json`. Update it with your own project credentials.
+> Firebase config is loaded from `VITE_FIREBASE_*` variables first, then falls back to `firebase-applet-config.json`.
 
 ### Run Locally
 
