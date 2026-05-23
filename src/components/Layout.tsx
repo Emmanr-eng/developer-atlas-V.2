@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
-import { Sun, Moon, Menu, X, Terminal, Code, BookOpen, Mail, User, Shield, FlaskConical, Bug } from 'lucide-react';
+import { Menu, X, Terminal, Code, BookOpen, Mail, FlaskConical, Bug } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
@@ -32,18 +32,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans transition-colors duration-300 relative" style={{ color: 'var(--text-primary)' }}>
-      {/* Floating Orbs Background - Futuristic neon */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-15%] left-[-5%] w-[500px] h-[500px] rounded-full bg-cyan-500/10 blur-[120px] animate-float" />
-        <div className="absolute bottom-[-15%] right-[-5%] w-[450px] h-[450px] rounded-full bg-violet-500/10 blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-[50%] left-[50%] w-[350px] h-[350px] rounded-full bg-blue-500/8 blur-[100px] animate-float" style={{ animationDelay: '6s' }} />
-        <div className="absolute top-[10%] right-[20%] w-[250px] h-[250px] rounded-full bg-pink-500/6 blur-[80px] animate-float" style={{ animationDelay: '9s' }} />
-      </div>
+    <div className="min-h-screen flex flex-col font-sans transition-colors duration-200 relative bg-white text-neutral-900">
 
-      {/* Glass Navigation */}
-      <nav className="sticky top-0 z-50 glass-nav px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center h-12">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 glass-nav px-6 py-3">
+        <div className="max-w-6xl mx-auto flex justify-between items-center h-12">
           <button 
             onClick={() => {
               if (location.pathname === '/') {
@@ -54,15 +47,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             className="flex items-center space-x-3 group text-left outline-none"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center font-bold text-white text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-cyan-500/30 animate-glow">
+            <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center font-semibold text-white text-sm group-hover:rounded-xl transition-all duration-200">
               A
             </div>
-            <span className="text-lg font-medium tracking-tight text-slate-200">Atlas <span className="text-slate-500 hidden sm:inline">/ Developer Portal</span></span>
+            <span className="text-sm font-medium tracking-tight text-neutral-900">Atlas <span className="text-neutral-400 hidden sm:inline">/ Developer</span></span>
           </button>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-2">
-            <div className="flex glass-btn p-1 mr-4">
+          <div className="hidden md:flex items-center space-x-1">
+            <div className="flex border border-neutral-200 rounded-full p-0.5 mr-4 bg-neutral-50">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -74,10 +67,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     }
                   }}
                   className={cn(
-                    "px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300",
+                    "px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
                     location.hash === `#${item.id}` || (location.hash === '' && item.id === 'home' && location.pathname === '/')
-                      ? "bg-cyan-500/20 text-cyan-300 shadow-sm border border-cyan-500/30 shadow-cyan-500/10"
-                      : "text-slate-400 hover:text-cyan-300 hover:bg-white/5"
+                      ? "bg-neutral-900 text-white"
+                      : "text-neutral-500 hover:text-neutral-900"
                   )}
                 >
                   {item.name}
@@ -86,22 +79,22 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {isAdmin && (
                 <Link 
                   to="/admin"
-                  className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-cyan-300 hover:bg-white/5 transition-all"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-all"
                 >
                   Admin
                 </Link>
               )}
             </div>
             
-            <div className="flex gap-2">
-              <div className="hidden lg:flex glass-btn px-4 py-2 text-[10px] items-center gap-2 uppercase tracking-widest font-bold text-slate-400">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-lg shadow-cyan-400/50"></div> Available
+            <div className="flex gap-2 items-center">
+              <div className="hidden lg:flex items-center gap-2 text-[11px] text-neutral-400 font-medium px-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Available
               </div>
               
               {user ? (
                 <button
                   onClick={logout}
-                  className="bg-slate-800 text-slate-200 px-4 py-2 rounded-full text-xs font-bold hover:bg-slate-700 transition-all border border-slate-700 hover:border-slate-600"
+                  className="text-neutral-500 px-4 py-1.5 rounded-full text-xs font-medium hover:text-neutral-900 transition-colors border border-neutral-200 hover:border-neutral-300"
                   id="logout-btn"
                 >
                   Sign Out
@@ -109,7 +102,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               ) : (
                 <button
                   onClick={login}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50"
+                  className="bg-neutral-900 text-white px-4 py-1.5 rounded-full text-xs font-medium hover:bg-neutral-800 transition-colors"
                   id="login-btn"
                 >
                   Admin Access
@@ -122,9 +115,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-xl glass-btn text-slate-300"
+              className="p-2 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -133,13 +126,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-              className="md:hidden mt-4 glass-card overflow-hidden"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+              className="md:hidden mt-3 border border-neutral-200 rounded-xl bg-white overflow-hidden"
             >
-              <div className="p-4 space-y-1">
+              <div className="p-2 space-y-0.5">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
@@ -151,10 +144,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         scrollTo(item.id);
                       }
                     }}
-                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all text-slate-400 hover:text-cyan-300 hover:bg-cyan-500/5"
+                    className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
                   >
-                    <item.icon className="w-5 h-5" />
-                    <span className="font-semibold text-sm">{item.name}</span>
+                    <item.icon className="w-4 h-4" />
+                    <span className="font-medium text-sm">{item.name}</span>
                   </button>
                 ))}
               </div>
@@ -163,14 +156,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </AnimatePresence>
       </nav>
 
-      <main className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden relative z-10">
+      <main className="grow max-w-6xl mx-auto w-full px-6 py-8 overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -10 }}
-            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
             className="h-full"
           >
             {children}
@@ -178,12 +171,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </AnimatePresence>
       </main>
 
-      <footer className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold relative z-10 border-t border-cyan-500/10">
-        <div>&copy; {new Date().getFullYear()} Developer Atlas. Navigating the tech landscape.</div>
-        <div className="flex gap-8 mt-4 sm:mt-0">
-          <a href="#" className="hover:text-cyan-400 transition-colors">GitHub</a>
-          <a href="#" className="hover:text-cyan-400 transition-colors">LinkedIn</a>
-          <a href="#" className="hover:text-cyan-400 transition-colors">Twitter</a>
+      <footer className="max-w-6xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-xs text-neutral-400 font-medium relative z-10 border-t border-neutral-100">
+        <div>&copy; {new Date().getFullYear()} Developer Atlas</div>
+        <div className="flex gap-6 mt-3 sm:mt-0">
+          <a href="#" className="hover:text-neutral-900 transition-colors">GitHub</a>
+          <a href="#" className="hover:text-neutral-900 transition-colors">LinkedIn</a>
+          <a href="#" className="hover:text-neutral-900 transition-colors">Twitter</a>
         </div>
       </footer>
     </div>
