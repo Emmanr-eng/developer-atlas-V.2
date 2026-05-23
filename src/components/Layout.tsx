@@ -15,7 +15,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const isOnline = useOnlineStatus();
 
-  // Upgrade 2: Focus trap for mobile menu
   useFocusTrap(mobileMenuRef, isMenuOpen);
 
   const navItems = [
@@ -38,13 +37,22 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     location.hash === `#${id}` || (location.hash === '' && id === 'home' && location.pathname === '/');
 
   return (
-    <div className="min-h-screen bg-#0A0A0A text-neutral-100 flex flex-col font-sans transition-colors duration-300">
-      {/* Upgrade 2: Skip to content */}
+    <div className="min-h-screen bg-transparent text-neutral-100 flex flex-col font-sans transition-colors duration-300">
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
 
-      <nav className="sticky top-0 z-50 bg-#0A0A0A/80 backdrop-blur-md px-6 py-4" role="navigation" aria-label="Main navigation">
+      <nav
+        className="sticky top-0 z-50 px-6 py-4 border-b border-white/8"
+        style={{
+          background: 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+        }}
+        role="navigation"
+        aria-label="Main navigation"
+      >
         <div className="max-w-7xl mx-auto flex justify-between items-center h-12">
           <button 
             onClick={() => {
@@ -56,13 +64,22 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             className="flex items-center space-x-3 group text-left outline-none"
           >
-            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center font-bold text-black text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-500/20">A</div>
+            <div className="w-10 h-10 bg-emerald-500 rounded-[14px] flex items-center justify-center font-bold text-black text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-500/20" aria-hidden="true">A</div>
             <span className="text-lg font-medium tracking-tight">Atlas <span className="text-neutral-500 hidden sm:inline">/ Developer Portal</span></span>
           </button>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-2">
-            <div className="flex bg-neutral-800/50 p-1 rounded-full border border-neutral-700/50 mr-4" role="tablist">
+            <div
+              className="flex p-1 mr-4"
+              style={{
+                background: 'rgba(255, 255, 255, 0.06)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '24px',
+              }}
+              role="tablist"
+            >
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -79,8 +96,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   className={cn(
                     "px-4 py-1.5 rounded-full text-xs font-semibold transition-all",
                     isActiveNav(item.id)
-                      ? "bg-neutral-700 text-white shadow-sm"
-                      : "text-neutral-400 hover:text-neutral-200"
+                      ? "bg-emerald-500/15 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+                      : "text-neutral-400 hover:text-neutral-200 hover:bg-white/6"
                   )}
                 >
                   {item.name}
@@ -89,7 +106,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {isAdmin && (
                 <Link 
                   to="/admin"
-                  className="px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-400 hover:text-neutral-200"
+                  className="px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-400 hover:text-neutral-200 hover:bg-white/6"
                 >
                   Admin
                 </Link>
@@ -97,14 +114,21 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
             
             <div className="flex gap-2">
-              <div className="hidden lg:flex bg-neutral-800 px-4 py-2 rounded-full text-[10px] items-center gap-2 border border-neutral-700 uppercase tracking-widest font-bold">
+              <div
+                className="hidden lg:flex px-4 py-2 rounded-full text-[10px] items-center gap-2 uppercase tracking-widest font-bold"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                }}
+              >
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></div> Available
               </div>
               
               {user ? (
                 <button
                   onClick={logout}
-                  className="bg-neutral-100 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-white transition-colors"
+                  className="bg-neutral-100 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-white transition-colors hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                   id="logout-btn"
                 >
                   Sign Out
@@ -112,7 +136,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               ) : (
                 <button
                   onClick={login}
-                  className="bg-emerald-500 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/10"
+                  className="bg-emerald-500 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20 hover:shadow-[0_0_24px_rgba(16,185,129,0.3)]"
                   id="login-btn"
                 >
                   Admin Access
@@ -125,7 +149,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-xl bg-neutral-800 border border-neutral-700"
+              className="p-2 rounded-[14px]"
+              style={{
+                background: 'rgba(255, 255, 255, 0.06)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav-menu"
               aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -145,7 +174,15 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="md:hidden mt-4 bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl"
+              className="md:hidden mt-4 overflow-hidden shadow-2xl"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '28px',
+                boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+              }}
             >
               <div className="p-4 space-y-1">
                 {navItems.map((item) => (
@@ -160,9 +197,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         scrollTo(item.id);
                       }
                     }}
-                    className={cn(
-                      "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors hover:bg-neutral-800 text-neutral-400"
-                    )}
+                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl transition-colors hover:bg-white/6 text-neutral-400"
                   >
                     <item.icon className="w-5 h-5" aria-hidden="true" />
                     <span className="font-semibold text-sm">{item.name}</span>
@@ -175,12 +210,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </nav>
       
       {!isOnline && (
-  <div className="bg-amber-500/10 border-b border-amber-500/30 px-6 py-2 text-center text-amber-400 text-xs font-bold uppercase tracking-widest" role="alert">
-    <span>📡 You're offline — showing cached data</span>
-  </div>
-)}
+        <div
+          className="px-6 py-2 text-center text-amber-400 text-xs font-bold uppercase tracking-widest"
+          style={{
+            background: 'rgba(245, 158, 11, 0.08)',
+            backdropFilter: 'blur(8px)',
+            borderBottom: '1px solid rgba(245, 158, 11, 0.2)',
+          }}
+          role="alert"
+        >
+          <span>📡 You're offline — showing cached data</span>
+        </div>
+      )}
 
-      {/* Upgrade 2: id="main-content" landmark */}
       <main id="main-content" className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden" role="main" tabIndex={-1}>
         <AnimatePresence mode="wait">
           <motion.div
@@ -196,7 +238,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </AnimatePresence>
       </main>
 
-      <footer className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-bold" role="contentinfo">
+      <footer
+        className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-bold border-t border-white/6"
+        role="contentinfo"
+      >
         <div>&copy; {new Date().getFullYear()} Developer Atlas. Navigating the tech landscape.</div>
         <div className="flex gap-8 mt-4 sm:mt-0">
           <a href="#" className="hover:text-emerald-400 transition-colors">GitHub</a>
