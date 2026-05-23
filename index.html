@@ -36,6 +36,14 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // One-time cleanup: unregister stale service workers causing 404s
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+          regs.forEach(r => r.unregister());
+        });
+      }
+    </script>
     <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
