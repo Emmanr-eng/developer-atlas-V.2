@@ -3,8 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - "feature/day7-upgrade-1--SEO-&-Dynamic-Mgt-"
-      - "feature/day7-upgrade-6-SmartLoad"
+      - "feature/day7-upgrade7-VisualRevamp"
       - main
   workflow_dispatch:
 
