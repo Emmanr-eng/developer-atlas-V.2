@@ -100,73 +100,78 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Terminal Card */}
+        {/* ══════════════════════════════════════════════════════
+            TERMINAL CARD — Light Glassmorphism Version
+            ══════════════════════════════════════════════════════ */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="md:col-span-2 md:row-span-2 flex flex-col font-mono shadow-2xl"
+          className="md:col-span-2 md:row-span-2 flex flex-col font-mono"
           style={{
-            background: 'rgba(15, 23, 42, 0.92)',
+            background: 'rgba(255, 255, 255, 0.45)',
             backdropFilter: 'blur(24px) saturate(180%)',
             WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.08)',
             borderRadius: '28px',
             padding: '2rem',
-            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.15), 0 0 30px rgba(16, 185, 129, 0.05)',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.06), 0 0 30px rgba(16, 185, 129, 0.06)',
           }}
         >
+          {/* Terminal Header */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3">
-              <Terminal className="w-5 h-5 text-emerald-400" />
-              <h2 className="text-2xl font-bold tracking-tight text-white uppercase italic">Atlas_Terminal / v3.0</h2>
+              <Terminal className="w-5 h-5 text-emerald-600" />
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900 uppercase italic">Atlas_Terminal / v3.0</h2>
             </div>
             <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
+              <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
             </div>
           </div>
           
           <div className="grow flex flex-col">
+            {/* Output Window */}
             <div
               className="min-h-40 flex flex-col text-xs leading-relaxed relative overflow-hidden p-5"
               style={{
-                background: 'rgba(0, 0, 0, 0.3)',
+                background: 'rgba(0, 0, 0, 0.03)',
                 backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '20px',
               }}
             >
-               <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                 <Terminal className="w-24 h-24 text-white" />
+               <div className="absolute top-0 right-0 p-4 opacity-[0.03] pointer-events-none">
+                 <Terminal className="w-24 h-24 text-slate-900" />
                </div>
-               <div className="mb-4 space-y-1 text-neutral-500 tracking-wider font-bold uppercase italic">
+               <div className="mb-4 space-y-1 text-slate-400 tracking-wider font-bold uppercase italic">
                  <p># INITIALIZING CONNECTION TO PORTAL_SUBNET...</p>
                  <p># SYNCHRONIZING LAB_PROTOCOLS...</p>
                  <p># INDEXING BUG_LEDGER...</p>
-                 <p className="text-emerald-500/60 mt-2 font-mono not-italic lowercase tracking-normal">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
+                 <p className="text-emerald-600/60 mt-2 font-mono not-italic lowercase tracking-normal">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
                </div>
-               <p id="ama-answer" className="text-neutral-300 transition-all font-medium whitespace-pre-wrap italic">
+               <p id="ama-answer" className="text-slate-700 transition-all font-medium whitespace-pre-wrap italic">
                   Systems Ready. Awaiting architectural commands...
                </p>
             </div>
 
             <div className="mt-6 space-y-4">
+              {/* Command Input */}
               <div
                 className="flex items-center gap-3 p-3.5 group focus-within:border-emerald-500/50 transition-all"
                 style={{
-                  background: 'rgba(0, 0, 0, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.6)',
                   backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(0, 0, 0, 0.08)',
                   borderRadius: '20px',
                 }}
               >
-                <span className="text-emerald-500 font-black animate-pulse shrink-0">&gt;</span>
+                <span className="text-emerald-600 font-black animate-pulse shrink-0">&gt;</span>
                 <input 
                   type="text" 
                   placeholder="Enter command (e.g. --lab)..."
-                  className="bg-transparent border-none outline-none text-emerald-400 text-sm w-full placeholder:text-neutral-600 tracking-tight"
+                  className="bg-transparent border-none outline-none text-emerald-700 text-sm w-full placeholder:text-slate-400 tracking-tight"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       const input = e.currentTarget.value.toLowerCase().trim();
@@ -220,6 +225,7 @@ export default function Home() {
                 />
               </div>
 
+              {/* Command Buttons */}
               <div className="flex gap-2 flex-wrap">
                 {['--atlas-info', '--lab', '--debug-ledger', '--query-insights'].map(cmd => (
                   <button 
@@ -236,10 +242,10 @@ export default function Home() {
                         el.innerText = responses[cmd];
                       }
                     }}
-                    className="text-[11px] font-black uppercase tracking-widest px-3 py-1.5 text-neutral-500 hover:text-emerald-400 transition-all"
+                    className="text-[11px] font-black uppercase tracking-widest px-3 py-1.5 text-slate-500 hover:text-emerald-600 transition-all"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      background: 'rgba(0, 0, 0, 0.03)',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
                       borderRadius: '16px',
                     }}
                   >
@@ -250,21 +256,22 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-[11px] text-neutral-500 font-bold uppercase tracking-widest pt-4 border-t border-white/6">
+          {/* Terminal Footer */}
+          <div className="mt-8 flex justify-between items-center text-[11px] text-slate-400 font-bold uppercase tracking-widest pt-4 border-t border-black/6">
              <div className="flex gap-4">
-                <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-400 transition-colors uppercase tracking-[0.2em] underline decoration-neutral-700">Physical_Lab</button>
+                <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors uppercase tracking-[0.2em] underline decoration-slate-300">Physical_Lab</button>
                 <button 
                   onClick={() => {
                     document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
                     const el = document.getElementById('ama-answer');
                     if (el) el.innerText = "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads";
                   }} 
-                  className="hover:text-emerald-400 transition-colors uppercase tracking-[0.2em] underline decoration-neutral-700"
+                  className="hover:text-emerald-600 transition-colors uppercase tracking-[0.2em] underline decoration-slate-300"
                 >
                   Bug_Timeline
                 </button>
              </div>
-             <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="text-emerald-500 hover:text-emerald-400 font-black">Open_Guides &rarr;</button>
+             <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="text-emerald-600 hover:text-emerald-500 font-black">Open_Guides &rarr;</button>
           </div>
         </motion.div>
 
