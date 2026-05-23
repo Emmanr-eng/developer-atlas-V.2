@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - "feature/day7-upgrade7-VisualRevamp"
+      - "feature/day7-upgrade8-LogicRebuild"
       
   workflow_dispatch:
 
