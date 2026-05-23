@@ -14,7 +14,6 @@ export default function Home() {
 
   return (
     <div className="h-full flex flex-col gap-4">
-      {/* Main Atlas Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-3 gap-4 grow">
         
         {/* The Map Concept */}
@@ -39,14 +38,20 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="md:col-span-1 md:row-span-2 bento-card flex flex-col bg-neutral-800"
+          className="md:col-span-1 md:row-span-2 bento-card flex flex-col"
         >
-          <div className="aspect-square bg-linear-to-br from-indigo-500 to-emerald-600 rounded-2xl mb-6 flex items-center justify-center p-4">
+          <div
+            className="aspect-square mb-6 flex items-center justify-center p-4"
+            style={{
+              background: 'linear-gradient(to bottom right, rgba(99,102,241,0.8), rgba(16,185,129,0.8))',
+              borderRadius: '20px',
+            }}
+          >
             <div className="text-white font-black text-4xl text-center leading-none tracking-tighter">CORE<br/>ECO</div>
           </div>
           <div className="flex justify-between items-start mb-3">
             <h3 className="text-xl font-bold tracking-tight">Service Directory</h3>
-            <span className="text-[10px] font-black bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 uppercase">Map</span>
+            <span className="text-[10px] font-black bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-lg border border-emerald-500/20 uppercase backdrop-blur-sm">Map</span>
           </div>
           <p className="text-neutral-400 text-xs leading-relaxed mb-6">
             A comprehensive catalog of Technical Modules, Production Services, and Foundational Blueprints.
@@ -64,7 +69,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Technical Guidance / Educational */}
+        {/* Technical Guidance */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,7 +83,16 @@ export default function Home() {
                { icon: Terminal, label: "Physical Primitives" },
                { icon: Layers, label: "Friction Ledger" }
              ].map((f, i) => (
-               <div key={i} className="flex items-center gap-3 p-2 bg-neutral-800/50 rounded-xl border border-neutral-700/50">
+               <div
+                 key={i}
+                 className="flex items-center gap-3 p-2"
+                 style={{
+                   background: 'rgba(255, 255, 255, 0.04)',
+                   backdropFilter: 'blur(8px)',
+                   border: '1px solid rgba(255, 255, 255, 0.08)',
+                   borderRadius: '16px',
+                 }}
+               >
                   <f.icon className="w-4 h-4 text-emerald-400" />
                   <span className="text-[10px] font-bold text-neutral-300 uppercase tracking-widest">{f.label}</span>
                </div>
@@ -86,11 +100,21 @@ export default function Home() {
           </div>
         </motion.div>
 
+        {/* Terminal Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="md:col-span-2 md:row-span-2 bento-card flex flex-col bg-black border-neutral-800 font-mono shadow-2xl"
+          className="md:col-span-2 md:row-span-2 flex flex-col font-mono shadow-2xl"
+          style={{
+            background: 'rgba(0, 0, 0, 0.4)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '28px',
+            padding: '2rem',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.25), 0 0 30px rgba(16, 185, 129, 0.05)',
+          }}
         >
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3">
@@ -105,7 +129,15 @@ export default function Home() {
           </div>
           
           <div className="grow flex flex-col">
-            <div className="p-5 bg-neutral-900/50 rounded-2xl border border-neutral-800/50 min-h-40 flex flex-col text-xs leading-relaxed relative overflow-hidden">
+            <div
+              className="min-h-40 flex flex-col text-xs leading-relaxed relative overflow-hidden p-5"
+              style={{
+                background: 'rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '20px',
+              }}
+            >
                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                  <Terminal className="w-24 h-24" />
                </div>
@@ -121,7 +153,15 @@ export default function Home() {
             </div>
 
             <div className="mt-6 space-y-4">
-              <div className="flex items-center gap-3 p-3.5 bg-neutral-900 rounded-2xl border border-neutral-800 group focus-within:border-emerald-500/50 transition-all">
+              <div
+                className="flex items-center gap-3 p-3.5 group focus-within:border-emerald-500/50 transition-all"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '20px',
+                }}
+              >
                 <span className="text-emerald-500 font-black animate-pulse shrink-0">&gt;</span>
                 <input 
                   type="text" 
@@ -137,8 +177,8 @@ export default function Home() {
 
                       const processCommand = (cmd: string) => {
                         const responses: Record<string, string> = {
-                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Component Lab), and Technical Friction (Bug Timeline).",
-                          '--map-usage': "NAVIGATION LOGIC: Navigate via the [ECOSYSTEM] for production-ready services. Use the [BUG TIMELINE] for Technical Friction retrospectives and debugging logs. Consult [GUIDES] for architectural standards.",
+                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Lab), Technical Friction Ledgers (Bug Timeline), and Architectural Nodes (Guides).",
+                          '--map-usage': "NAVIGATION LOGIC: Navigate via the [ECOSYSTEM] for production-ready services. Use the [BUG TIMELINE] for Technical Friction retrospectives and debugging insights.",
                           '--ops-status': "OPS CENTER: Managed by Core Systems. Monitoring parity is synced with Aether Auth. No active incidents on Flux Core Gateway. Mesh stability: OPTIMAL.",
                           '--vitals': "SYSTEM HEALTH: \n- Uptime: 99.9% \n- Latency: 14ms \n- Technical Friction rate: 94.2% \n- Active modules: 124",
                           '--lab': "PHYSICAL PLAYGROUND PRIMITIVES: \n- Haptic Glow Trace\n- Magnetic Impulse\n- Refractive Glass\n- Volumetric Tilt\n- Elastic Modal Grid\n- Spotlight Masking",
@@ -188,7 +228,7 @@ export default function Home() {
                       const el = document.getElementById('ama-answer');
                       if (el) {
                         const responses: Record<string, string> = {
-                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Component Lab), and Technical Friction (Bug Timeline).",
+                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Lab), Technical Friction Ledgers (Bug Timeline), and Architectural Nodes (Guides).",
                           '--lab': "PHYSICAL PLAYGROUND PRIMITIVES: \n- Haptic Glow Trace\n- Magnetic Impulse\n- Refractive Glass\n- Volumetric Tilt\n- Elastic Modal Grid\n- Spotlight Masking",
                           '--debug-ledger': "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads",
                           '--query-insights': "USAGE: --query-insights [topic]. Topics: React, Node.js, Junior Experience..."
@@ -196,7 +236,12 @@ export default function Home() {
                         el.innerText = responses[cmd];
                       }
                     }}
-                    className="text-[11px] font-black uppercase tracking-widest px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-emerald-500 hover:border-emerald-500/30 transition-all rounded-lg"
+                    className="text-[11px] font-black uppercase tracking-widest px-3 py-1.5 text-neutral-500 hover:text-emerald-500 transition-all"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: '16px',
+                    }}
                   >
                     {cmd}
                   </button>
@@ -205,9 +250,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-[11px] text-neutral-600 font-bold uppercase tracking-widest pt-4 border-t border-neutral-900">
+          <div className="mt-8 flex justify-between items-center text-[11px] text-neutral-600 font-bold uppercase tracking-widest pt-4 border-t border-white/6">
              <div className="flex gap-4">
-                <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-500 transition-colors uppercase tracking-[0.2em] underline decoration-neutral-800">Physical_Workbench</button>
+                <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-500 transition-colors uppercase tracking-[0.2em] underline decoration-neutral-800">Physical_Lab</button>
                 <button 
                   onClick={() => {
                     document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
@@ -228,7 +273,13 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="md:col-span-1 md:row-span-1 bg-linear-to-br from-red-500 to-emerald-500 rounded-4xl p-8 text-black flex flex-col justify-between shadow-2xl shadow-red-500/20 group cursor-pointer"
+          className="md:col-span-1 md:row-span-1 p-8 text-black flex flex-col justify-between group cursor-pointer"
+          style={{
+            background: 'linear-gradient(to bottom right, rgba(239,68,68,0.9), rgba(16,185,129,0.9))',
+            backdropFilter: 'blur(16px)',
+            borderRadius: '28px',
+            boxShadow: '0 16px 48px rgba(239,68,68,0.15), 0 0 30px rgba(16,185,129,0.1)',
+          }}
           onClick={() => {
             const el = document.getElementById('timeline');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -254,7 +305,8 @@ export default function Home() {
           <p className="text-xs text-neutral-500 leading-relaxed font-medium">Join the directory or schedule an architectural walkthrough.</p>
           <button 
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="mt-6 block w-full py-4 bg-white text-black text-center font-black rounded-2xl text-[10px] uppercase tracking-[0.2em] hover:bg-neutral-200 transition-colors"
+            className="mt-6 block w-full py-4 bg-white text-black text-center font-black text-[10px] uppercase tracking-[0.2em] hover:bg-neutral-200 transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+            style={{ borderRadius: '20px' }}
           >
             Connect
           </button>
@@ -265,7 +317,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="md:col-span-1 md:row-span-1 bento-card flex flex-col justify-between bg-neutral-900 border-neutral-800"
+          className="md:col-span-1 md:row-span-1 bento-card flex flex-col justify-between"
         >
           <div className="flex justify-between items-start">
             <h4 className="text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-black">Local_Vitals</h4>
@@ -281,7 +333,7 @@ export default function Home() {
              </div>
           </div>
 
-          <div className="pt-4 border-t border-neutral-800 flex justify-between items-center">
+          <div className="pt-4 border-t border-white/6 flex justify-between items-center">
              <div className="flex items-center gap-2">
                 <Cloud className="w-3 h-3 text-emerald-400" />
                 <span className="text-[9px] font-black uppercase tracking-widest text-neutral-300">22°C // Stable</span>
