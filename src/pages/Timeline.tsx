@@ -53,12 +53,12 @@ export default function Timeline() {
   return (
     <div className="space-y-12">
       <div className="space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-100 border border-red-200 text-red-600 text-[10px] font-black uppercase tracking-widest">
           <Bug className="w-3 h-3" />
           <span>Active Debugging Ledger</span>
         </div>
-        <h1 className="text-4xl font-bold tracking-tighter uppercase italic">Bug Timeline Explorer</h1>
-        <p className="text-neutral-400 max-w-2xl text-sm leading-relaxed font-medium">
+        <h1 className="text-4xl font-bold tracking-tighter uppercase italic text-gray-900">Bug Timeline Explorer</h1>
+        <p className="text-gray-500 max-w-2xl text-sm leading-relaxed font-medium">
           A continuous trace of technical friction: documenting common coding bugs, their internal causes, and the engineering path to resolution.
         </p>
       </div>
@@ -73,8 +73,8 @@ export default function Timeline() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               className={cn(
-                "bento-card bg-neutral-900 border-neutral-800 transition-all duration-500 overflow-hidden",
-                isExpanded ? "p-8 md:p-12 ring-2 ring-red-500/20 shadow-2xl shadow-red-500/5" : "p-6 cursor-pointer hover:bg-neutral-800/50"
+                "bento-card transition-all duration-500 overflow-hidden",
+                isExpanded ? "p-8 md:p-12 ring-2 ring-red-300/50 shadow-2xl shadow-red-500/5" : "p-6 cursor-pointer"
               )}
               id={item.id}
               onClick={() => setExpandedId(isExpanded ? null : item.id)}
@@ -83,19 +83,19 @@ export default function Timeline() {
                 <div className="flex items-center gap-4">
                   <div className={cn(
                     "w-12 h-12 rounded-2xl flex items-center justify-center border transition-all duration-500",
-                    isExpanded ? "bg-red-500/20 border-red-500/40" : "bg-neutral-800 border-neutral-700"
+                    isExpanded ? "bg-red-100 border-red-300" : "bg-white/40 border-white/50"
                   )}>
-                    <AlertCircle className={cn("w-6 h-6 transition-colors", isExpanded ? "text-red-500" : "text-neutral-500")} />
+                    <AlertCircle className={cn("w-6 h-6 transition-colors", isExpanded ? "text-red-500" : "text-gray-400")} />
                   </div>
                   <h2 className={cn(
                     "text-2xl md:text-1xl font-black tracking-tighter uppercase italic transition-colors duration-500",
-                    isExpanded ? "text-white" : "text-neutral-500"
+                    isExpanded ? "text-gray-900" : "text-gray-500"
                   )}>
                     {item.bug}
                   </h2>
                 </div>
                 <ChevronDown className={cn(
-                  "w-6 h-6 text-neutral-600 transition-transform duration-500",
+                  "w-6 h-6 text-gray-400 transition-transform duration-500",
                   isExpanded ? "rotate-180 text-red-500" : "rotate-0"
                 )} />
               </div>
@@ -108,7 +108,7 @@ export default function Timeline() {
                     exit={{ height: 0, opacity: 0, marginTop: 0 }}
                     transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 border-t border-neutral-800/50">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 border-t border-white/40">
                       {/* Problem Section */}
                       <div className="space-y-6">
                         <div className="space-y-2">
@@ -116,12 +116,12 @@ export default function Timeline() {
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                             The Problem
                           </p>
-                          <p className="text-lg md:text-xl text-neutral-200 font-medium leading-relaxed">
+                          <p className="text-lg md:text-xl text-gray-800 font-medium leading-relaxed">
                             {item.problem}
                           </p>
                         </div>
-                        <div className="p-6 bg-black border border-neutral-800 rounded-2xl font-mono text-xs text-red-400/80 leading-relaxed overflow-x-auto">
-                          <p className="text-[10px] text-neutral-600 mb-2 font-bold uppercase tracking-widest">// Trigger Code</p>
+                        <div className="p-6 bg-red-50/80 backdrop-blur-sm border border-red-200 rounded-2xl font-mono text-xs text-red-700 leading-relaxed overflow-x-auto">
+                          <p className="text-[10px] text-red-400 mb-2 font-bold uppercase tracking-widest">// Trigger Code</p>
                           <pre><code>{item.problemCode}</code></pre>
                         </div>
                       </div>
@@ -129,16 +129,16 @@ export default function Timeline() {
                       {/* Solution Section */}
                       <div className="space-y-6">
                         <div className="space-y-2">
-                          <p className="text-[11px] font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                          <p className="text-[11px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2">
                             <CheckCircle2 className="w-3 h-3" />
                             The Solution
                           </p>
-                          <p className="text-lg md:text-xl text-white font-bold leading-relaxed">
+                          <p className="text-lg md:text-xl text-gray-900 font-bold leading-relaxed">
                             {item.solution}
                           </p>
                         </div>
-                        <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl font-mono text-xs text-emerald-400 leading-relaxed overflow-x-auto shadow-lg shadow-emerald-500/5">
-                          <p className="text-[10px] text-emerald-500/60 mb-2 font-bold uppercase tracking-widest">// Resolution Logic</p>
+                        <div className="p-6 bg-emerald-50/80 backdrop-blur-sm border border-emerald-200 rounded-2xl font-mono text-xs text-emerald-700 leading-relaxed overflow-x-auto shadow-lg shadow-emerald-500/5">
+                          <p className="text-[10px] text-emerald-500 mb-2 font-bold uppercase tracking-widest">// Resolution Logic</p>
                           <pre><code>{item.solutionCode}</code></pre>
                         </div>
                       </div>
@@ -150,7 +150,6 @@ export default function Timeline() {
           );
         })}
       </div>
-
     </div>
   );
 }
