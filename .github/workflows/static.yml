@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "feature/day7-upgrade7-VisualRevamp"
-      - main
+      
   workflow_dispatch:
 
 permissions:
