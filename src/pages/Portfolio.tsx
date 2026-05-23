@@ -141,7 +141,6 @@ export default function Portfolio() {
         if (fetched.length > 0) {
           setProjects(fetched);
         } else {
-          // Fallback Technical Service Directory for the Atlas Portal
           setProjects(fallbackProjects);
         }
       } catch (error) {
@@ -158,22 +157,18 @@ export default function Portfolio() {
 
   const filteredProjects = projects.filter(p => {
     const matchesFilter = filter === 'All' || p.category === filter;
-    
-    // Empty State Logic: Cross-reference logic for certain keywords
     const isReactRelated = search.toLowerCase() === 'react' && 
                           (p.title + p.description + p.category).toLowerCase().match(/ui|module|state|rendering|service/);
-    
     const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) || 
                           p.description.toLowerCase().includes(search.toLowerCase()) ||
                           p.category.toLowerCase().includes(search.toLowerCase()) ||
                           isReactRelated;
-
     return matchesFilter && matchesSearch;
   });
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)]"></div>
     </div>
   );
 
@@ -181,7 +176,7 @@ export default function Portfolio() {
     <div className="space-y-12 h-full pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Architectural Map Active</span>
           </div>
@@ -200,11 +195,17 @@ export default function Portfolio() {
               key={cat}
               onClick={() => setFilter(cat)}
               className={cn(
-                "px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2",
+                "px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all",
                 filter === cat
-                  ? "bg-emerald-500 border-emerald-400 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-                  : "bg-black border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700"
+                  ? "bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                  : "text-neutral-500 hover:text-white"
               )}
+              style={{
+                background: filter === cat ? undefined : 'rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(8px)',
+                border: filter === cat ? '2px solid rgba(16,185,129,0.6)' : '2px solid rgba(255,255,255,0.08)',
+                borderRadius: '16px',
+              }}
             >
               {cat}
             </button>
@@ -218,7 +219,8 @@ export default function Portfolio() {
             placeholder="Search Atlas Nodes..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 rounded-2xl bg-neutral-900 border-2 border-neutral-800 focus:outline-none focus:border-emerald-500/50 transition-all text-xs font-bold placeholder:text-neutral-700 tracking-tight text-white capitalize shadow-inner"
+            className="w-full pl-12 pr-6 py-4 glass-input text-xs font-bold placeholder:text-neutral-700 uppercase tracking-widest outline-none focus:border-emerald-500/50"
+            style={{ borderRadius: '20px' }}
           />
         </div>
       </div>
@@ -234,7 +236,7 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={() => navigate(project.actionUrl || project.demoUrl || '#')}
-              className="bento-card p-0! overflow-hidden flex flex-col group bg-neutral-900 border-neutral-800 shadow-2xl relative cursor-pointer"
+              className="bento-card p-0! overflow-hidden flex flex-col group relative cursor-pointer"
             >
               <div className="relative aspect-16/10 overflow-hidden bg-black">
                 {project.imageUrl && (
@@ -246,16 +248,17 @@ export default function Portfolio() {
                    />
                 )}
                 
-                {/* Status Badge */}
                 <div className="absolute top-6 left-6 flex flex-col gap-2">
                    <div className={cn(
-                     "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border backdrop-blur-md",
+                     "px-3 py-1 text-[9px] font-black uppercase tracking-widest backdrop-blur-md",
                      project.status === 'Online' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-400",
                      project.status === 'Experimental' && "bg-amber-500/20 border-amber-500/30 text-amber-400",
                      project.status === 'Approved Architecture' && "bg-blue-500/20 border-blue-500/30 text-blue-400",
                      project.status === 'Deprecated' && "bg-red-500/20 border-red-500/30 text-red-400",
                      project.status === 'Stable' && "bg-neutral-500/20 border-neutral-500/30 text-neutral-400"
-                   )}>
+                   )}
+                   style={{ borderRadius: '10px', border: '1px solid' }}
+                   >
                      {project.status}
                    </div>
                 </div>
@@ -265,7 +268,13 @@ export default function Portfolio() {
                 </div>
               </div>
               
-              <div className="p-10 flex flex-col grow bg-linear-to-b from-transparent to-black/40">
+              <div
+                className="p-10 flex flex-col grow"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
                 <h3 className="text-2xl font-black tracking-tighter mb-4 text-white uppercase italic group-hover:text-emerald-500 transition-colors leading-none">
                   {project.title}
                 </h3>
@@ -273,7 +282,7 @@ export default function Portfolio() {
                   {project.description}
                 </p>
                 
-                <div className="pt-8 border-t border-neutral-800 flex justify-between items-center mt-auto">
+                <div className="pt-8 border-t border-white/6 flex justify-between items-center mt-auto">
                    <div className="flex items-center gap-3 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] hover:text-white transition-colors group/link">
                      {project.actionLabel || 'Deploy Node'}
                      <ExternalLink className="w-3.5 h-3.5 transform group-hover/link:translate-x-1 transition-transform" />
@@ -285,7 +294,8 @@ export default function Portfolio() {
                          e.stopPropagation();
                          navigator.clipboard.writeText(project.codeSnippet);
                        }}
-                       className="p-3 rounded-xl bg-neutral-800/50 hover:bg-emerald-500 text-neutral-500 hover:text-black transition-all border border-neutral-700/30"
+                       className="p-3 glass-btn text-neutral-500 hover:bg-emerald-500 hover:text-black transition-all"
+                       style={{ borderRadius: '16px' }}
                        title="Copy Code Primitives"
                      >
                        <Code className="w-4 h-4" />
@@ -294,7 +304,6 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              {/* Decorative Corner */}
               <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-10 group-hover:opacity-40 transition-opacity">
                  <div className="absolute top-4 right-4 w-12 h-px bg-white rotate-45" />
                  <div className="absolute top-4 right-4 w-px h-12 bg-white rotate-45" />
@@ -306,17 +315,26 @@ export default function Portfolio() {
 
       {filteredProjects.length === 0 && (
         <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center py-20 bg-neutral-900/50 border-2 border-dashed border-neutral-800 rounded-[3rem] shadow-2xl relative overflow-hidden">
+          <div
+            className="text-center py-20 relative overflow-hidden"
+            style={{
+              background: 'rgba(255, 255, 255, 0.03)',
+              backdropFilter: 'blur(24px)',
+              border: '2px dashed rgba(255, 255, 255, 0.1)',
+              borderRadius: '28px',
+              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+            }}
+          >
             <div className="absolute inset-0 bg-linear-to-b from-emerald-500/5 to-transparent pointer-events-none" />
             <Layers className="w-16 h-16 text-emerald-500/20 mx-auto mb-6 animate-pulse" />
             <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">No Architectural Nodes Found</h3>
             <p className="text-neutral-500 text-sm max-w-md mx-auto mb-8 font-medium">Your query did not return any direct matches. Try cross-referencing our technical insights or bug ledger entries.</p>
             
             <div className="flex gap-4 justify-center">
-              <Link to="/blog" className="bg-emerald-500 text-black px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform">
+              <Link to="/blog" className="bg-emerald-500 text-black px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.2)]" style={{ borderRadius: '16px' }}>
                 Check Insights
               </Link>
-              <Link to="/timeline" className="bg-black border border-neutral-800 text-white px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:border-emerald-500 transition-all">
+              <Link to="/timeline" className="text-white px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] glass-btn hover:border-emerald-500/30 transition-all" style={{ borderRadius: '16px' }}>
                 View Ledger
               </Link>
             </div>
@@ -329,7 +347,7 @@ export default function Portfolio() {
                    <button 
                     key={tag}
                     onClick={() => setSearch(tag)}
-                    className="px-6 py-2 rounded-full border border-neutral-800 bg-neutral-900/50 text-[10px] font-black text-neutral-500 hover:text-emerald-500 hover:border-emerald-500/30 transition-all"
+                    className="px-6 py-2 rounded-full text-[10px] font-black text-neutral-500 hover:text-emerald-500 glass-btn hover:border-emerald-500/30 transition-all"
                    >
                      {tag}
                    </button>
