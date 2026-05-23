@@ -1,28 +1,14 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useSpring } from 'motion/react';
 
-interface ReadingProgressBarProps {
-  progress: number; // 0–100
-}
-
-export const ReadingProgressBar: React.FC<ReadingProgressBarProps> = ({ progress }) => {
-  if (progress <= 0) return null;
+export const ReadingProgressBar: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   return (
-    <div
-      className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-neutral-800/50"
-      role="progressbar"
-      aria-valuenow={progress}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label="Reading progress"
-    >
-      <motion.div
-        className="h-full bg-gradient-to-r from-emerald-500 to-emerald-300"
-        initial={{ width: 0 }}
-        animate={{ width: `${progress}%` }}
-        transition={{ duration: 0.15, ease: 'easeOut' }}
-      />
-    </div>
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 origin-left z-[100] shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+      style={{ scaleX }}
+    />
   );
 };
