@@ -7,7 +7,7 @@ export const ReadingProgressBar: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 origin-left z-[100] shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-neutral-900 origin-left z-[100]"
       style={{ scaleX }}
     />
   );
