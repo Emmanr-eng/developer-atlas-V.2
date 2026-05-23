@@ -141,7 +141,6 @@ export default function Portfolio() {
         if (fetched.length > 0) {
           setProjects(fetched);
         } else {
-          // Fallback Technical Service Directory for the Atlas Portal
           setProjects(fallbackProjects);
         }
       } catch (error) {
@@ -159,7 +158,6 @@ export default function Portfolio() {
   const filteredProjects = projects.filter(p => {
     const matchesFilter = filter === 'All' || p.category === filter;
     
-    // Empty State Logic: Cross-reference logic for certain keywords
     const isReactRelated = search.toLowerCase() === 'react' && 
                           (p.title + p.description + p.category).toLowerCase().match(/ui|module|state|rendering|service/);
     
@@ -183,10 +181,10 @@ export default function Portfolio() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Architectural Map Active</span>
+            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Architectural Map Active</span>
           </div>
-          <h1 className="text-5xl font-black tracking-tighter uppercase italic text-white leading-none">Service Directory</h1>
-          <p className="text-neutral-500 max-w-2xl text-sm leading-relaxed font-medium">
+          <h1 className="text-5xl font-black tracking-tighter uppercase italic text-gray-900 leading-none">Service Directory</h1>
+          <p className="text-gray-500 max-w-2xl text-sm leading-relaxed font-medium">
             A centralized mapping protocol for technical modules, production services, and foundational blueprints within the Atlas grid.
           </p>
         </div>
@@ -202,8 +200,8 @@ export default function Portfolio() {
               className={cn(
                 "px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2",
                 filter === cat
-                  ? "bg-emerald-500 border-emerald-400 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-                  : "bg-black border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700"
+                  ? "bg-emerald-500 border-emerald-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                  : "glass-btn border-white/40 text-gray-600 hover:text-gray-900 hover:border-white/70"
               )}
             >
               {cat}
@@ -212,13 +210,13 @@ export default function Portfolio() {
         </div>
 
         <div className="relative w-full sm:w-80 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-600 group-focus-within:text-emerald-500 transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-emerald-500 transition-colors" />
           <input
             type="text"
             placeholder="Search Atlas Nodes..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 rounded-2xl bg-neutral-900 border-2 border-neutral-800 focus:outline-none focus:border-emerald-500/50 transition-all text-xs font-bold placeholder:text-neutral-700 tracking-tight text-white capitalize shadow-inner"
+            className="w-full pl-12 pr-6 py-4 rounded-2xl bg-white/40 backdrop-blur-md border border-white/50 focus:outline-none focus:border-emerald-500/50 transition-all text-xs font-bold placeholder:text-gray-400 text-gray-800"
           />
         </div>
       </div>
@@ -234,14 +232,14 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={() => navigate(project.actionUrl || project.demoUrl || '#')}
-              className="bento-card p-0! overflow-hidden flex flex-col group bg-neutral-900 border-neutral-800 shadow-2xl relative cursor-pointer"
+              className="bento-card p-0! overflow-hidden flex flex-col group relative cursor-pointer"
             >
-              <div className="relative aspect-16/10 overflow-hidden bg-black">
+              <div className="relative aspect-16/10 overflow-hidden">
                 {project.imageUrl && (
                    <img 
                     src={project.imageUrl} 
                     alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-40 group-hover:opacity-60 grayscale group-hover:grayscale-0"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-90 grayscale group-hover:grayscale-0"
                     referrerPolicy="no-referrer"
                    />
                 )}
@@ -250,31 +248,31 @@ export default function Portfolio() {
                 <div className="absolute top-6 left-6 flex flex-col gap-2">
                    <div className={cn(
                      "px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border backdrop-blur-md",
-                     project.status === 'Online' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-400",
-                     project.status === 'Experimental' && "bg-amber-500/20 border-amber-500/30 text-amber-400",
-                     project.status === 'Approved Architecture' && "bg-blue-500/20 border-blue-500/30 text-blue-400",
-                     project.status === 'Deprecated' && "bg-red-500/20 border-red-500/30 text-red-400",
-                     project.status === 'Stable' && "bg-neutral-500/20 border-neutral-500/30 text-neutral-400"
+                     project.status === 'Online' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-700",
+                     project.status === 'Experimental' && "bg-amber-500/20 border-amber-500/30 text-amber-700",
+                     project.status === 'Approved Architecture' && "bg-blue-500/20 border-blue-500/30 text-blue-700",
+                     project.status === 'Deprecated' && "bg-red-500/20 border-red-500/30 text-red-700",
+                     project.status === 'Stable' && "bg-gray-500/20 border-gray-500/30 text-gray-700"
                    )}>
                      {project.status}
                    </div>
                 </div>
 
-                <div className="absolute bottom-6 left-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                <div className="absolute bottom-6 left-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/70 drop-shadow-md">
                   {project.category}
                 </div>
               </div>
               
-              <div className="p-10 flex flex-col grow bg-linear-to-b from-transparent to-black/40">
-                <h3 className="text-2xl font-black tracking-tighter mb-4 text-white uppercase italic group-hover:text-emerald-500 transition-colors leading-none">
+              <div className="p-10 flex flex-col grow">
+                <h3 className="text-2xl font-black tracking-tighter mb-4 text-gray-900 uppercase italic group-hover:text-emerald-600 transition-colors leading-none">
                   {project.title}
                 </h3>
-                <p className="text-xs text-neutral-500 leading-relaxed font-medium mb-10 grow text-balance">
+                <p className="text-xs text-gray-500 leading-relaxed font-medium mb-10 grow text-balance">
                   {project.description}
                 </p>
                 
-                <div className="pt-8 border-t border-neutral-800 flex justify-between items-center mt-auto">
-                   <div className="flex items-center gap-3 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] hover:text-white transition-colors group/link">
+                <div className="pt-8 border-t border-white/40 flex justify-between items-center mt-auto">
+                   <div className="flex items-center gap-3 text-emerald-600 text-[10px] font-black uppercase tracking-[0.2em] hover:text-emerald-700 transition-colors group/link">
                      {project.actionLabel || 'Deploy Node'}
                      <ExternalLink className="w-3.5 h-3.5 transform group-hover/link:translate-x-1 transition-transform" />
                    </div>
@@ -285,19 +283,13 @@ export default function Portfolio() {
                          e.stopPropagation();
                          navigator.clipboard.writeText(project.codeSnippet);
                        }}
-                       className="p-3 rounded-xl bg-neutral-800/50 hover:bg-emerald-500 text-neutral-500 hover:text-black transition-all border border-neutral-700/30"
+                       className="p-3 rounded-xl bg-white/30 hover:bg-emerald-500 text-gray-500 hover:text-white transition-all border border-white/40"
                        title="Copy Code Primitives"
                      >
                        <Code className="w-4 h-4" />
                      </button>
                    )}
                 </div>
-              </div>
-
-              {/* Decorative Corner */}
-              <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-10 group-hover:opacity-40 transition-opacity">
-                 <div className="absolute top-4 right-4 w-12 h-px bg-white rotate-45" />
-                 <div className="absolute top-4 right-4 w-px h-12 bg-white rotate-45" />
               </div>
             </motion.div>
           ))}
@@ -306,30 +298,30 @@ export default function Portfolio() {
 
       {filteredProjects.length === 0 && (
         <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center py-20 bg-neutral-900/50 border-2 border-dashed border-neutral-800 rounded-[3rem] shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-b from-emerald-500/5 to-transparent pointer-events-none" />
-            <Layers className="w-16 h-16 text-emerald-500/20 mx-auto mb-6 animate-pulse" />
-            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">No Architectural Nodes Found</h3>
-            <p className="text-neutral-500 text-sm max-w-md mx-auto mb-8 font-medium">Your query did not return any direct matches. Try cross-referencing our technical insights or bug ledger entries.</p>
+          <div className="text-center py-20 glass-card border-2 border-dashed border-white/40 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none" />
+            <Layers className="w-16 h-16 text-emerald-500/30 mx-auto mb-6 animate-pulse" />
+            <h3 className="text-2xl font-black text-gray-900 italic uppercase tracking-tighter mb-4">No Architectural Nodes Found</h3>
+            <p className="text-gray-500 text-sm max-w-md mx-auto mb-8 font-medium">Your query did not return any direct matches. Try cross-referencing our technical insights or bug ledger entries.</p>
             
             <div className="flex gap-4 justify-center">
-              <Link to="/blog" className="bg-emerald-500 text-black px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform">
+              <Link to="/blog" className="bg-emerald-500 text-white px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform">
                 Check Insights
               </Link>
-              <Link to="/timeline" className="bg-black border border-neutral-800 text-white px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:border-emerald-500 transition-all">
+              <Link to="/timeline" className="glass-btn px-8 py-3 text-gray-700 font-black text-[10px] uppercase tracking-[0.2em] hover:border-emerald-500/50 transition-all">
                 View Ledger
               </Link>
             </div>
           </div>
           
           <div className="text-center">
-             <p className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.4em] mb-4">System Suggestions</p>
+             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] mb-4">System Suggestions</p>
              <div className="flex justify-center gap-2 flex-wrap">
                 {['React', 'TypeScript', 'Node.js', 'Infrastructure', 'Telemetry'].map(tag => (
                    <button 
                     key={tag}
                     onClick={() => setSearch(tag)}
-                    className="px-6 py-2 rounded-full border border-neutral-800 bg-neutral-900/50 text-[10px] font-black text-neutral-500 hover:text-emerald-500 hover:border-emerald-500/30 transition-all"
+                    className="px-6 py-2 rounded-full glass-btn text-[10px] font-black text-gray-500 hover:text-emerald-600 hover:border-emerald-500/30 transition-all"
                    >
                      {tag}
                    </button>
