@@ -239,7 +239,7 @@ export default function Portfolio() {
                    <img 
                     src={project.imageUrl} 
                     alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale opacity-80 group-hover:opacity-100"
                     referrerPolicy="no-referrer"
                    />
                 )}
@@ -247,12 +247,7 @@ export default function Portfolio() {
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4">
                    <div className={cn(
-                     "px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-wider border backdrop-blur-sm",
-                     project.status === 'Online' && "bg-emerald-50/90 border-emerald-200 text-emerald-700",
-                     project.status === 'Experimental' && "bg-amber-50/90 border-amber-200 text-amber-700",
-                     project.status === 'Approved Architecture' && "bg-blue-50/90 border-blue-200 text-blue-700",
-                     project.status === 'Deprecated' && "bg-red-50/90 border-red-200 text-red-700",
-                     project.status === 'Stable' && "bg-neutral-50/90 border-neutral-200 text-neutral-600"
+                     "px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-wider border bg-neutral-100 border-neutral-200 text-neutral-600"
                    )}>
                      {project.status}
                    </div>

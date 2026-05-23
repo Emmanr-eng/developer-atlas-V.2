@@ -307,7 +307,7 @@ function MagneticButton() {
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
       animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="px-8 py-4 bg-white rounded-lg font-medium text-xs text-neutral-900 shadow-lg relative group border border-neutral-200"
+      className="px-8 py-4 bg-white rounded-lg font-medium text-xs text-neutral-900 relative group border border-neutral-200"
     >
       <span className="relative z-10 flex items-center gap-2">
         <MousePointer2 className="w-3 h-3" />
@@ -322,13 +322,13 @@ function GlassRefraction() {
     <div className="relative w-full h-full flex items-center justify-center p-12 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-tr from-neutral-800 via-neutral-900 to-neutral-800" />
       <motion.div 
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="w-48 h-48 bg-neutral-700/30 rounded-full blur-3xl absolute"
+        animate={{ opacity: [0.2, 0.35, 0.2] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="w-48 h-48 bg-emerald-400/20 rounded-full absolute"
       />
-      <div className="relative w-full max-w-50 aspect-square rounded-xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center p-6 text-center">
-        <Layers className="w-6 h-6 text-white/40 mb-4" />
-        <span className="text-xs font-medium text-white/60 tracking-wider">Refraction Layer</span>
+      <div className="relative w-full max-w-50 aspect-square rounded-xl bg-white border border-neutral-200 flex flex-col items-center justify-center p-6 text-center">
+        <Layers className="w-6 h-6 text-neutral-500 mb-4" />
+        <span className="text-xs font-medium text-neutral-500 tracking-wider">Refraction Layer</span>
       </div>
     </div>
   );
@@ -352,7 +352,7 @@ function ParallaxDepth() {
       <motion.div
         animate={{ rotateX: tilt.y, rotateY: tilt.x }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-48 h-64 bg-gradient-to-br from-neutral-800 to-neutral-950 rounded-xl border border-neutral-700 shadow-2xl flex items-center justify-center relative group"
+        className="w-48 h-64 bg-gradient-to-br from-neutral-800 to-neutral-950 rounded-xl border border-neutral-700 flex items-center justify-center relative group"
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div className="absolute inset-4 border border-neutral-600 rounded-lg" style={{ transform: 'translateZ(20px)' }} />

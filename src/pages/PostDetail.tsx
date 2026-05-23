@@ -100,32 +100,32 @@ export default function PostDetail() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto px-4 py-12"
+        className="max-w-3xl mx-auto px-4 py-12 space-y-8"
       >
-        <Link to="/blog" className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-8">
+        <Link to="/blog" className="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors">
           <ArrowLeft size={16} /> Back to Blog
         </Link>
 
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        <h1 className="text-4xl font-semibold tracking-tight text-neutral-900">{post.title}</h1>
 
-        <div className="flex flex-wrap items-center gap-4 text-gray-400 mb-4">
-          <span className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-4 text-neutral-500">
+          <span className="flex items-center gap-1.5">
             <User size={14} /> {post.authorName}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <Calendar size={14} /> {formatDate(post.createdAt)}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <Clock size={14} /> {readTime} min read
           </span>
         </div>
 
         {post.tags?.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm"
+                className="px-3 py-1 rounded-full text-xs bg-neutral-100 text-neutral-500 border border-neutral-200"
               >
                 {tag}
               </span>
@@ -133,17 +133,17 @@ export default function PostDetail() {
           </div>
         )}
 
-        <div className="prose prose-invert max-w-none mb-12">
+        <div className="prose max-w-none border border-neutral-200 rounded-xl bg-white p-6 md:p-8">
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
 
-        <div className="flex items-center gap-4 border-t border-gray-700 pt-6">
-          <Share2 size={16} className="text-gray-400" />
+        <div className="flex items-center gap-3 border-t border-neutral-200 pt-6">
+          <Share2 size={16} className="text-neutral-500" />
           <a
             href={`https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(shareUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-blue-400"
+            className="inline-flex items-center justify-center h-9 w-9 border border-neutral-200 rounded-xl text-neutral-500 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
           >
             <Twitter size={18} />
           </a>
@@ -151,16 +151,22 @@ export default function PostDetail() {
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-blue-400"
+            className="inline-flex items-center justify-center h-9 w-9 border border-neutral-200 rounded-xl text-neutral-500 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
           >
             <Linkedin size={18} />
           </a>
           <button
             onClick={() => navigator.clipboard.writeText(shareUrl)}
-            className="text-gray-400 hover:text-blue-400"
+            className="inline-flex items-center justify-center h-9 w-9 border border-neutral-200 rounded-xl text-neutral-500 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
           >
             <LinkIcon size={18} />
           </button>
+          <Link
+            to="/contact"
+            className="ml-auto inline-flex items-center justify-center rounded-lg bg-neutral-900 px-4 py-2 text-xs font-medium text-white hover:bg-neutral-800 transition-colors"
+          >
+            Share Feedback
+          </Link>
         </div>
       </motion.article>
     </>
