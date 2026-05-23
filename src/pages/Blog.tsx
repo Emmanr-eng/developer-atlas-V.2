@@ -36,7 +36,6 @@ export default function Blog() {
         if (fetched.length > 0) {
           setPosts(fetched);
         } else {
-          // Static seed articles for the Atlas Portal
           setPosts([
             {
               id: 'modern-web-architecture',
@@ -112,7 +111,7 @@ export default function Blog() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)]"></div>
     </div>
   );
 
@@ -126,13 +125,14 @@ export default function Blog() {
           </p>
         </div>
         <div className="relative w-full md:w-80 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-600" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-600 group-focus-within:text-emerald-500 transition-colors" />
           <input
             type="text"
             placeholder="Search articles..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-neutral-800/50 border border-neutral-700/50 focus:outline-none focus:border-emerald-500/50 text-[10px] font-bold uppercase tracking-widest placeholder:text-neutral-600 transition-all font-mono"
+            className="w-full pl-10 pr-4 py-3 glass-input text-[10px] font-bold uppercase tracking-widest outline-none focus:border-emerald-500/50"
+            style={{ borderRadius: '20px' }}
           />
         </div>
       </div>
@@ -151,11 +151,11 @@ export default function Blog() {
               <div className="flex flex-col h-full">
                 <div className="flex items-center space-x-3 mb-6">
                   {post.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">
+                    <span key={tag} className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10 backdrop-blur-sm">
                       {tag}
                     </span>
                   ))}
-                  <div className="h-3 w-px bg-neutral-700" />
+                  <div className="h-3 w-px bg-white/10" />
                   <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest">
                     {formatDate(post.createdAt)}
                   </span>
@@ -169,9 +169,11 @@ export default function Blog() {
                   {post.summary}
                 </p>
 
-                <div className="flex items-center justify-between pt-6 border-t border-neutral-700/30 mt-auto">
+                <div className="flex items-center justify-between pt-6 border-t border-white/6 mt-auto">
                   <div className="flex items-center space-x-2">
-                    <div className="w-7 h-7 rounded-full bg-neutral-700 flex items-center justify-center font-bold text-[10px] text-neutral-300">
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-[10px] text-neutral-300 border border-white/10"
+                      style={{ background: 'rgba(255, 255, 255, 0.06)' }}
+                    >
                       {post.authorName.charAt(0)}
                     </div>
                     <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">{post.authorName}</span>
@@ -191,13 +193,16 @@ export default function Blog() {
 
       {filteredPosts.length === 0 && (
         <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center py-20 bg-neutral-900/50 border border-neutral-800 rounded-4xl shadow-2xl relative overflow-hidden">
+          <div
+            className="text-center py-20 relative overflow-hidden glass"
+            style={{ borderRadius: '28px' }}
+          >
             <div className="absolute inset-0 bg-linear-to-b from-emerald-500/5 to-transparent pointer-events-none" />
             <Rss className="w-16 h-16 text-emerald-500/20 mx-auto mb-6 animate-pulse" />
             <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">No Insights Found</h3>
             <p className="text-neutral-500 text-sm max-w-md mx-auto mb-8 font-medium">Your search query did not return any architectural nodes. Try one of our suggested topics below.</p>
             
-            <button className="bg-emerald-500 text-black px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform">
+            <button className="bg-emerald-500 text-black px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.2)]" style={{ borderRadius: '16px' }}>
               Request an Article
             </button>
           </div>
@@ -210,7 +215,8 @@ export default function Blog() {
                   <button 
                     key={topic} 
                     onClick={() => setSearch(topic)}
-                    className="p-4 rounded-2xl bg-neutral-800/30 border border-neutral-800 text-left hover:border-emerald-500/50 hover:bg-neutral-800/50 transition-all group"
+                    className="p-4 text-left glass-btn hover:border-emerald-500/50 transition-all group"
+                    style={{ borderRadius: '20px' }}
                   >
                     <span className="text-xs font-bold text-neutral-400 group-hover:text-emerald-400">{topic}</span>
                   </button>
