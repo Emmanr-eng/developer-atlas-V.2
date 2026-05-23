@@ -1,64 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { db, OperationType, handleFirestoreError } from '../lib/firebase';
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, Tag, Search, ArrowRight, Rss } from 'lucide-react';
 import { formatDate, cn } from '../lib/utils';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  summary: string;
-  authorName: string;
-  tags: string[];
-  createdAt: any;
-  status: string;
-}
+import { useFirestoreQuery } from '../hooks/useFirestoreQuery';
+import { useDebounce } from '../hooks/useDebounce';
+import { fetchPublishedPosts } from '../services/firestore';
+import { filterPosts } from '../utils/search';
+import { FALLBACK_POSTS } from '../data/fallbacks';
+import type { BlogPost } from '../types';
 
 export default function Blog() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 250);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        if (!db) throw new Error('Database not initialized');
-        const q = query(
-          collection(db, 'posts'),
-          where('status', '==', 'published'),
-          orderBy('createdAt', 'desc')
-        );
-        const snapshot = await getDocs(q);
-        const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
-        
-        if (fetched.length > 0) {
-          setPosts(fetched);
-        } else {
-          setPosts([
-            { id: 'modern-web-architecture', title: 'Modern Web Architecture: Server Components vs. Client-side Hydration', summary: 'A deep dive into the trade-offs of using React Server Components to reduce client-side overhead while maintaining interactivity in high-scale dashboards.', authorName: 'Senior Staff Engineer', tags: ['NextJS', 'SystemDesign', 'Frameworks'], createdAt: { seconds: Date.now() / 1000 }, status: 'published' },
-            { id: 'outbox-pattern', title: 'Scaling Reliability: The Outbox Pattern in Microservices', summary: 'How to ensure data consistency across distributed boundaries by using the Outbox Pattern for atomic state changes and reliable event publishing.', authorName: 'Senior Staff Engineer', tags: ['Patterns', 'Microservices', 'SystemDesign'], createdAt: { seconds: Date.now() / 1000 - 3600 }, status: 'published' },
-            { id: 'fcp-performance', title: 'Fullstack Performance: Strategies for Reducing FCP', summary: 'Advanced techniques for optimizing First Contentful Paint in Next.js environments, focusing on edge caching and asset prioritization.', authorName: 'Senior Staff Engineer', tags: ['NextJS', 'Performance', 'Vitals'], createdAt: { seconds: Date.now() / 1000 - 7200 }, status: 'published' },
-            { id: 'knowledge-scraper', title: 'The Knowledge Scraper: Automating Insight Bridges', summary: 'A technical overview of building an automated Python bridge to scrape engineering blogs.', authorName: 'Atlas Systems', tags: ['Python', 'Automation', 'Data'], createdAt: { seconds: Date.now() / 1000 - 10800 }, status: 'published' },
-            { id: 'atlas-prompt-primitives', title: 'Engineering Efficiency: The Atlas Prompt Primitives', summary: 'A collections of specialized prompts used to automate content, UI redesigns, and knowledge scraping within the Atlas portal.', authorName: 'Developer Relations', tags: ['AI', 'PromptEngineering', 'Efficiency'], createdAt: { seconds: Date.now() / 1000 - 14400 }, status: 'published' },
-            { id: 'junior-dev-growth', title: 'The Junior Experience: Accelerated Growth in the Atlas Ecosystem', summary: 'Essential strategies for early-career engineers to navigate complex architectural landscapes and maximize their learning velocity.', authorName: 'Engineering Mentor', tags: ['Career', 'JuniorDev', 'Growth'], createdAt: { seconds: Date.now() / 1000 - 18000 }, status: 'published' }
-          ]);
-        }
-      } catch (error) {
-        handleFirestoreError(error, OperationType.LIST, 'posts');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const queryFn = useCallback(() => fetchPublishedPosts<BlogPost>(), []);
 
-    fetchPosts();
-  }, []);
+  const { data: posts, loading } = useFirestoreQuery<BlogPost>({
+    queryFn,
+    fallbackData: FALLBACK_POSTS,
+    errorContext: 'posts',
+  });
 
-  const filteredPosts = posts.filter(post => 
-    post.title.toLowerCase().includes(search.toLowerCase()) ||
-    post.summary.toLowerCase().includes(search.toLowerCase()) ||
-    post.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
+  const filteredPosts = useMemo(
+    () => filterPosts(posts, debouncedSearch),
+    [posts, debouncedSearch],
   );
 
   if (loading) return (

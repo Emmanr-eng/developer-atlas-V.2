@@ -3,49 +3,15 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bug, CheckCircle2, AlertCircle, ChevronDown } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { BUG_ENTRIES } from '../data/fallbacks';
 
 export default function Timeline() {
   const [searchParams] = useSearchParams();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const bugs = [
-    {
-      id: 'infinite-loop',
-      bug: "The Infinite Re-render Loop",
-      problem: "Updating state directly inside the function body of a functional component without a useEffect wrapper.",
-      problemCode: "function Component() {\n  const [count, setCount] = useState(0);\n  setCount(count + 1); // CRITICAL: Updates state on every render\n  return <div>{count}</div>;\n}",
-      solution: "Move state updates into a useEffect hook with an appropriate dependency array or a callback event.",
-      solutionCode: "useEffect(() => {\n  const timer = setInterval(() => setCount(c => c + 1), 1000);\n  return () => clearInterval(timer);\n}, []); // Empty array ensures this only runs once",
-    },
-    {
-      id: 'stale-closure',
-      bug: "Stale Closure in UseEffect",
-      problem: "Referring to a state variable inside a hook that isn't listed in the dependency array, causing logic to use old values.",
-      problemCode: "useEffect(() => {\n  console.log(user.id); // 'user' is stale if not in deps\n}, []); // Missing [user] dependency",
-      solution: "Properly add all external dependencies to the array or use the functional update pattern for setState.",
-      solutionCode: "useEffect(() => {\n  if (user.id) syncData(user.id);\n}, [user.id]); // Correctly re-runs when ID changes",
-    },
-    {
-      id: 'float-imprecision',
-      bug: "Floating Point Imprecision",
-      problem: "Directly comparing 0.1 + 0.2 === 0.3 in JavaScript, which returns false due to binary floating-point math.",
-      problemCode: "const result = (0.1 + 0.2 === 0.3);\nconsole.log(result); // returns false (0.30000000000000004)",
-      solution: "Use Number.EPSILON for comparison: Math.abs((0.1 + 0.2) - 0.3) < Number.EPSILON.",
-      solutionCode: "const isEqual = Math.abs((0.1 + 0.2) - 0.3) < Number.EPSILON;\n// Returns true (safe comparison)",
-    },
-    {
-      id: 'untyped-payload',
-      bug: "Untyped API Response Payload",
-      problem: "Accessing deeply nested properties on a JSON response without checking for 'undefined', leading to 'Cannot read property of null'.",
-      problemCode: "const userName = response.data.user.profile.name;\n// Crashes if 'user' or 'profile' is null",
-      solution: "Implement strict TypeScript interfaces and use optional chaining (?.) or Zod for validation.",
-      solutionCode: "const userName = response?.data?.user?.profile?.name ?? 'Guest';\n// Gracefully handles null/undefined values",
-    }
-  ];
-
   useEffect(() => {
     const bugId = searchParams.get('bug');
-    if (bugId && bugs.some(b => b.id === bugId)) {
+    if (bugId && BUG_ENTRIES.some((b) => b.id === bugId)) {
       setExpandedId(bugId);
     }
   }, [searchParams]);
@@ -64,7 +30,7 @@ export default function Timeline() {
       </div>
 
       <div className="grid grid-cols-1 gap-6">
-        {bugs.map((item, idx) => {
+        {BUG_ENTRIES.map((item, idx) => {
           const isExpanded = expandedId === item.id;
           return (
             <motion.div

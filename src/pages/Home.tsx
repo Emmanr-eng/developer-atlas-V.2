@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Code, BookOpen, Layers, Laptop, Zap, Globe, Github, Terminal, Cloud } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useTerminal } from '../hooks/useTerminal';
+import { useScrollTo } from '../hooks/useScrollTo';
+import { QUICK_COMMANDS } from '../services/terminalEngine';
 
 export default function Home() {
+  const { output, executeCommand, executeQuickCommand, setOutput } = useTerminal();
+  const scrollTo = useScrollTo();
+
   const features = [
     { name: 'TypeScript', icon: Code },
     { name: 'React', icon: Laptop },
@@ -58,10 +64,7 @@ export default function Home() {
           </p>
           <div className="mt-auto">
             <button 
-              onClick={() => {
-                const el = document.getElementById('portfolio');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => scrollTo('portfolio')}
               className="text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-500 flex items-center gap-2"
             >
               Explore Ecosystem <ArrowRight className="w-3 h-3" />
@@ -100,9 +103,7 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* ══════════════════════════════════════════════════════
-            TERMINAL CARD — Light Glassmorphism Version
-            ══════════════════════════════════════════════════════ */}
+        {/* TERMINAL CARD */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -132,7 +133,7 @@ export default function Home() {
           </div>
           
           <div className="grow flex flex-col">
-            {/* Output Window */}
+            {/* Output Window — now driven by React state, not DOM */}
             <div
               className="min-h-40 flex flex-col text-xs leading-relaxed relative overflow-hidden p-5"
               style={{
@@ -151,8 +152,9 @@ export default function Home() {
                  <p># INDEXING BUG_LEDGER...</p>
                  <p className="text-emerald-600/60 mt-2 font-mono not-italic lowercase tracking-normal">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
                </div>
-               <p id="ama-answer" className="text-slate-700 transition-all font-medium whitespace-pre-wrap italic">
-                  Systems Ready. Awaiting architectural commands...
+               {/* React-driven output instead of getElementById */}
+               <p className="text-slate-700 transition-all font-medium whitespace-pre-wrap italic">
+                  {output}
                </p>
             </div>
 
@@ -174,74 +176,19 @@ export default function Home() {
                   className="bg-transparent border-none outline-none text-emerald-700 text-sm w-full placeholder:text-slate-400 tracking-tight"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      const input = e.currentTarget.value.toLowerCase().trim();
-                      const el = document.getElementById('ama-answer');
-                      if (!el) return;
-                      
-                      const suggestions = ['React', 'Node.js', 'Junior Experience', 'Microservices', 'TypeScript', 'Serverless'];
-
-                      const processCommand = (cmd: string) => {
-                        const responses: Record<string, string> = {
-                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Lab), Technical Friction Ledgers (Bug Timeline), and Architectural Nodes (Guides).",
-                          '--map-usage': "NAVIGATION LOGIC: Navigate via the [ECOSYSTEM] for production-ready services. Use the [BUG TIMELINE] for Technical Friction retrospectives and debugging insights.",
-                          '--ops-status': "OPS CENTER: Managed by Core Systems. Monitoring parity is synced with Aether Auth. No active incidents on Flux Core Gateway. Mesh stability: OPTIMAL.",
-                          '--vitals': "SYSTEM HEALTH: \n- Uptime: 99.9% \n- Latency: 14ms \n- Technical Friction rate: 94.2% \n- Active modules: 124",
-                          '--lab': "PHYSICAL PLAYGROUND PRIMITIVES: \n- Haptic Glow Trace\n- Magnetic Impulse\n- Refractive Glass\n- Volumetric Tilt\n- Elastic Modal Grid\n- Spotlight Masking",
-                          '--debug-ledger': "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads",
-                        };
-
-                        if (cmd === '--lab') return responses['--lab'];
-                        if (cmd.startsWith('--lab ')) {
-                           const filter = cmd.replace('--lab ', '').trim();
-                           return `FILTERING PHYSICAL PLAYGROUND PRIMITIVES for [${filter}]... \nMatch found: [${filter.toUpperCase()}] status: STABLE.`;
-                        }
-
-                        if (cmd.startsWith('--query-insights')) {
-                          const topic = cmd.replace('--query-insights', '').trim();
-                          if (!topic) return "USAGE: --query-insights [topic]. Suggested: React, TypeScript, Node.js...";
-                          
-                          if (suggestions.map(s => s.toLowerCase()).includes(topic.toLowerCase())) {
-                            const articleMapping: Record<string, string> = {
-                              'react': "ARCHITECTURAL NODE: Modern Web Architecture: Server Components vs. Client-side Hydration",
-                              'typescript': "ARCHITECTURAL NODE: Scaling Reliability: The Outbox Pattern (TS Implementation)",
-                              'junior experience': "ARCHITECTURAL NODE: The Junior Experience: Accelerated Growth",
-                              'node.js': "ARCHITECTURAL NODE: Scaling Reliability: Microservices Topology",
-                              'microservices': "ARCHITECTURAL NODE: The Outbox Pattern in Distributed Systems",
-                              'serverless': "ARCHITECTURAL NODE: Fullstack Performance: Edge Caching for Vitals"
-                            };
-                            return articleMapping[topic.toLowerCase()] || `MATCH FOUND: Retrieving Architectural Nodes for [${topic.toUpperCase()}]...`;
-                          } else {
-                            return `NO INSIGHTS FOUND for [${topic.toUpperCase()}]. Suggested Architectural Nodes:\n` + suggestions.map(s => ` - ${s}`).join('\n');
-                          }
-                        }
-
-                        return responses[cmd] || `CRITICAL ERROR: Command '${cmd}' unrecognized. Source --atlas-info for usage mapping.`;
-                      };
-                      
-                      el.innerText = processCommand(input);
+                      executeCommand(e.currentTarget.value);
                       e.currentTarget.value = '';
                     }
                   }}
                 />
               </div>
 
-              {/* Command Buttons */}
+              {/* Command Buttons — single source of truth via terminalEngine */}
               <div className="flex gap-2 flex-wrap">
-                {['--atlas-info', '--lab', '--debug-ledger', '--query-insights'].map(cmd => (
+                {QUICK_COMMANDS.map(cmd => (
                   <button 
                     key={cmd}
-                    onClick={() => {
-                      const el = document.getElementById('ama-answer');
-                      if (el) {
-                        const responses: Record<string, string> = {
-                          '--atlas-info': "DIRECTORY CORE: The Developer Atlas is a unified mapping protocol. It provides deep visibility into ecosystem services, Physical Playground Primitives (Lab), Technical Friction Ledgers (Bug Timeline), and Architectural Nodes (Guides).",
-                          '--lab': "PHYSICAL PLAYGROUND PRIMITIVES: \n- Haptic Glow Trace\n- Magnetic Impulse\n- Refractive Glass\n- Volumetric Tilt\n- Elastic Modal Grid\n- Spotlight Masking",
-                          '--debug-ledger': "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads",
-                          '--query-insights': "USAGE: --query-insights [topic]. Topics: React, Node.js, Junior Experience..."
-                        };
-                        el.innerText = responses[cmd];
-                      }
-                    }}
+                    onClick={() => executeQuickCommand(cmd)}
                     className="text-[11px] font-black uppercase tracking-widest px-3 py-1.5 text-slate-500 hover:text-emerald-600 transition-all"
                     style={{
                       background: 'rgba(0, 0, 0, 0.03)',
@@ -259,19 +206,20 @@ export default function Home() {
           {/* Terminal Footer */}
           <div className="mt-8 flex justify-between items-center text-[11px] text-slate-400 font-bold uppercase tracking-widest pt-4 border-t border-black/6">
              <div className="flex gap-4">
-                <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors uppercase tracking-[0.2em] underline decoration-slate-300">Physical_Lab</button>
+                <button onClick={() => scrollTo('lab')} className="hover:text-emerald-600 transition-colors uppercase tracking-[0.2em] underline decoration-slate-300">
+                  Lab_Primitives
+                </button>
                 <button 
                   onClick={() => {
-                    document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
-                    const el = document.getElementById('ama-answer');
-                    if (el) el.innerText = "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads";
+                    scrollTo('timeline');
+                    executeQuickCommand('--debug-ledger');
                   }} 
                   className="hover:text-emerald-600 transition-colors uppercase tracking-[0.2em] underline decoration-slate-300"
                 >
                   Bug_Timeline
                 </button>
              </div>
-             <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="text-emerald-600 hover:text-emerald-500 font-black">Open_Guides &rarr;</button>
+             <button onClick={() => scrollTo('blog')} className="text-emerald-600 hover:text-emerald-500 font-black">Open_Guides &rarr;</button>
           </div>
         </motion.div>
 
@@ -287,10 +235,7 @@ export default function Home() {
             borderRadius: '28px',
             boxShadow: '0 16px 48px rgba(239,68,68,0.12), 0 0 30px rgba(16,185,129,0.08)',
           }}
-          onClick={() => {
-            const el = document.getElementById('timeline');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
+          onClick={() => scrollTo('timeline')}
         >
           <div className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Bug_Trace_Central</div>
           <div>
@@ -311,8 +256,8 @@ export default function Home() {
           <h3 className="text-xl font-bold tracking-tight text-slate-900">Onboarding.</h3>
           <p className="text-xs text-slate-500 leading-relaxed font-medium">Join the directory or schedule an architectural walkthrough.</p>
           <button 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="mt-6 block w-full py-4 bg-slate-900 text-white text-center font-black text-[10px] uppercase tracking-[0.2em] hover:bg-slate-800 transition-all hover:shadow-[0_0_20px_rgba(0,0,0,0.1)]"
+            onClick={() => scrollTo('contact')}
+            className="mt-6 block w-full py-4 bg-slate-900 text-white text-center font-black text-[10px] uppercase tracking-[0.2em] hover:bg-slate-800 transition-all hover:shadow-[0_0_20px_rgba(0,0,0,0.08)]"
             style={{ borderRadius: '20px' }}
           >
             Connect

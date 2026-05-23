@@ -1,14 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import { db, OperationType, handleFirestoreError } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useRateLimit } from '../hooks/useRateLimit';
 import { Toast, type ToastType } from '../components/Toast';
+import { createInquiry } from '../services/firestore';
+import { db } from '../lib/firebase';
+
+const INITIAL_FORM = { name: '', email: '', message: '', website: '' };
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '', website: '' });
+  const [formData, setFormData] = useState(INITIAL_FORM);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const { isRateLimited, remainingSeconds, recordSubmission } = useRateLimit();
   const [toast, setToast] = useState<{ message: string; type: ToastType; visible: boolean }>({ message: '', type: 'success', visible: false });
@@ -17,21 +19,53 @@ export default function Contact() {
     setToast({ message, type, visible: true });
   }, []);
 
+  const resetForm = useCallback(() => {
+    setFormData(INITIAL_FORM);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.website) { setStatus('success'); setFormData({ name: '', email: '', message: '', website: '' }); return; }
-    if (isRateLimited) { showToast(`Please wait ${remainingSeconds}s before submitting again.`, 'error'); return; }
-    if (!db) { setStatus('error'); showToast('Contact service is unavailable. Please try again later.', 'error'); return; }
+
+    // Honeypot check
+    if (formData.website) {
+      setStatus('success');
+      resetForm();
+      return;
+    }
+
+    if (isRateLimited) {
+      showToast(`Please wait ${remainingSeconds}s before submitting again.`, 'error');
+      return;
+    }
+
+    if (!db) {
+      setStatus('error');
+      showToast('Contact service is unavailable. Please try again later.', 'error');
+      return;
+    }
+
     setStatus('submitting');
     try {
-      await addDoc(collection(db, 'inquiries'), { name: formData.name, email: formData.email, message: formData.message, status: 'new', createdAt: serverTimestamp() });
-      setStatus('success'); setFormData({ name: '', email: '', message: '', website: '' }); recordSubmission();
+      await createInquiry({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+      });
+      setStatus('success');
+      resetForm();
+      recordSubmission();
       showToast('Message transmitted successfully!', 'success');
-    } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'inquiries'); setStatus('error');
+    } catch {
+      setStatus('error');
       showToast('Transmission failed. Please try again.', 'error');
     }
   };
+
+  const handleChange = useCallback((field: keyof typeof INITIAL_FORM) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+  }, []);
 
   return (
     <div className="space-y-16">
@@ -92,12 +126,12 @@ export default function Contact() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
                 <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Identity</label>
-                <input id="contact-name" required type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                <input id="contact-name" required type="text" value={formData.name} onChange={handleChange('name')}
                   className="w-full px-6 py-4 glass-input text-xs font-bold outline-none placeholder:text-slate-400" style={{ borderRadius: '16px' }} placeholder="Full Name" />
               </div>
               <div className="space-y-3">
                 <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Protocol</label>
-                <input id="contact-email" required type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                <input id="contact-email" required type="email" value={formData.email} onChange={handleChange('email')}
                   className="w-full px-6 py-4 glass-input text-xs font-bold outline-none placeholder:text-slate-400" style={{ borderRadius: '16px' }} placeholder="name@provider.com" />
               </div>
             </div>
@@ -105,12 +139,12 @@ export default function Contact() {
             {/* Honeypot */}
             <div className="absolute opacity-0 h-0 w-0 overflow-hidden" aria-hidden="true">
               <label htmlFor="contact-website">Website</label>
-              <input id="contact-website" type="text" value={formData.website} onChange={(e) => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+              <input id="contact-website" type="text" value={formData.website} onChange={handleChange('website')} tabIndex={-1} autoComplete="off" />
             </div>
 
             <div className="space-y-3">
               <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Transmission</label>
-              <textarea id="contact-message" required rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              <textarea id="contact-message" required rows={5} value={formData.message} onChange={handleChange('message')}
                 className="w-full px-6 py-4 glass-input text-xs font-bold outline-none resize-none placeholder:text-slate-400" style={{ borderRadius: '16px' }} placeholder="Describe your vision or inquiry..." />
             </div>
 
