@@ -12,12 +12,11 @@ export default function Contact() {
     name: '',
     email: '',
     message: '',
-    website: '', // Upgrade 5: honeypot field
+    website: '',
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const { isRateLimited, remainingSeconds, recordSubmission } = useRateLimit();
 
-  // Upgrade 5: Toast state
   const [toast, setToast] = useState<{ message: string; type: ToastType; visible: boolean }>({
     message: '',
     type: 'success',
@@ -31,15 +30,12 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Upgrade 5: Honeypot — bots fill the hidden field
     if (formData.website) {
-      // Silently pretend success to not tip off the bot
       setStatus('success');
       setFormData({ name: '', email: '', message: '', website: '' });
       return;
     }
 
-    // Upgrade 5: Rate limiting
     if (isRateLimited) {
       showToast(`Please wait ${remainingSeconds}s before submitting again.`, 'error');
       return;
@@ -90,7 +86,15 @@ export default function Contact() {
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">Global Reach</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20">
+                <div
+                  className="w-10 h-10 flex items-center justify-center shrink-0"
+                  style={{
+                    background: 'rgba(16, 185, 129, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(16, 185, 129, 0.2)',
+                    borderRadius: '16px',
+                  }}
+                >
                   <Mail className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
@@ -100,7 +104,15 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
+                <div
+                  className="w-10 h-10 flex items-center justify-center shrink-0"
+                  style={{
+                    background: 'rgba(59, 130, 246, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(59, 130, 246, 0.2)',
+                    borderRadius: '16px',
+                  }}
+                >
                   <MapPin className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
@@ -110,7 +122,15 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20">
+                <div
+                  className="w-10 h-10 flex items-center justify-center shrink-0"
+                  style={{
+                    background: 'rgba(245, 158, 11, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(245, 158, 11, 0.2)',
+                    borderRadius: '16px',
+                  }}
+                >
                   <Phone className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
@@ -134,7 +154,8 @@ export default function Contact() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-600"
+                  className="w-full px-6 py-4 glass-input text-xs font-bold outline-none placeholder:text-neutral-700"
+                  style={{ borderRadius: '16px' }}
                   placeholder="Full Name"
                 />
               </div>
@@ -146,13 +167,14 @@ export default function Contact() {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-neutral-600"
+                  className="w-full px-6 py-4 glass-input text-xs font-bold outline-none placeholder:text-neutral-700"
+                  style={{ borderRadius: '16px' }}
                   placeholder="name@provider.com"
                 />
               </div>
             </div>
 
-            {/* Upgrade 5: Honeypot — invisible to humans, filled by bots */}
+            {/* Honeypot */}
             <div className="absolute opacity-0 h-0 w-0 overflow-hidden" aria-hidden="true">
               <label htmlFor="contact-website">Website</label>
               <input
@@ -173,7 +195,8 @@ export default function Contact() {
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-6 py-4 rounded-xl bg-neutral-900 border border-neutral-700/50 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none resize-none placeholder:text-neutral-600"
+                className="w-full px-6 py-4 glass-input text-xs font-bold outline-none resize-none placeholder:text-neutral-700"
+                style={{ borderRadius: '16px' }}
                 placeholder="Describe your vision or inquiry..."
               />
             </div>
@@ -181,10 +204,13 @@ export default function Contact() {
             <button
               disabled={status === 'submitting' || status === 'success' || isRateLimited}
               className={cn(
-                "w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg",
-                status === 'success' ? "bg-emerald-500 text-black" : "bg-neutral-100 text-black hover:bg-white shadow-white/5",
+                "w-full py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] active:scale-95",
+                status === 'success'
+                  ? "bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                  : "bg-neutral-100 text-black hover:bg-white hover:shadow-[0_0_24px_rgba(255,255,255,0.06)]",
                 "disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               )}
+              style={{ borderRadius: '20px' }}
             >
               {status === 'success' ? (
                 <>
@@ -204,7 +230,6 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Upgrade 5: Toast notifications */}
       <Toast
         message={toast.message}
         type={toast.type}
