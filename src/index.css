@@ -12,6 +12,30 @@
   --color-neutral-700: #1A1A1A;
 }
 
+/* ── Glassmorphism Design Tokens ── */
+:root {
+  --glass-bg:           rgba(255, 255, 255, 0.05);
+  --glass-bg-hover:     rgba(255, 255, 255, 0.08);
+  --glass-bg-elevated:  rgba(255, 255, 255, 0.10);
+  --glass-border:       rgba(255, 255, 255, 0.12);
+  --glass-border-hover: rgba(255, 255, 255, 0.20);
+
+  --glass-blur-sm:  8px;
+  --glass-blur-md:  16px;
+  --glass-blur-lg:  24px;
+  --glass-blur-xl:  40px;
+
+  --glass-shadow:      0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --glass-shadow-lg:   0 16px 48px rgba(0, 0, 0, 0.20), 0 4px 16px rgba(0, 0, 0, 0.10);
+  --glass-shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
+
+  --radius-sm:  12px;
+  --radius-md:  16px;
+  --radius-lg:  20px;
+  --radius-xl:  24px;
+  --radius-2xl: 28px;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -19,40 +43,106 @@
   }
   
   body {
-    @apply antialiased h-full bg-neutral-900 text-neutral-100;
+    @apply antialiased h-full text-neutral-100;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+      #050508;
+    background-attachment: fixed;
   }
 
   #root {
     @apply h-full;
   }
 
-  /* Upgrade 2: Visible focus ring for keyboard users */
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-emerald-500 rounded-sm;
+    @apply outline-2 outline-offset-2 outline-emerald-500;
+    border-radius: var(--radius-sm);
   }
 }
 
-/* Bento Grid Card Pattern */
+/* ── Glass Bento Card ── */
 .bento-card {
-  @apply bg-neutral-800/50 border border-neutral-700/50 rounded-4xl p-8 transition-all duration-300;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur-md)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .bento-card:hover {
-  @apply border-emerald-500/30 bg-neutral-800/80 shadow-2xl shadow-emerald-500/5;
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glass-shadow-glow);
+  transform: translateY(-2px);
 }
 
-/* Glassmorphism */
+/* ── Glass Surface ── */
 .glass {
-  @apply bg-neutral-900/70 backdrop-blur-md border border-neutral-800/50;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
-/* Upgrade 2: Skip to content link */
+/* ── Glass Input ── */
+.glass-input {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.1);
+}
+
+/* ── Glass Button ── */
+.glass-btn {
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-btn:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-glow);
+  transform: translateY(-1px);
+}
+
+/* Skip to content */
 .skip-to-content {
-  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 rounded-b-lg z-100 uppercase tracking-widest;
+  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 z-100 uppercase tracking-widest;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   top: -100%;
   transition: top 0.2s ease;
 }
 
 .skip-to-content:focus {
   top: 0;
+}
+
+/* ── Scrollbar ── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
