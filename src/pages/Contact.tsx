@@ -60,89 +60,87 @@ export default function Contact() {
       setStatus('success');
       setFormData({ name: '', email: '', message: '', website: '' });
       recordSubmission();
-      showToast('Message transmitted successfully!', 'success');
+      showToast('Message sent successfully!', 'success');
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'inquiries');
       setStatus('error');
-      showToast('Transmission failed. Please try again.', 'error');
+      showToast('Failed to send. Please try again.', 'error');
     }
   };
 
   return (
-    <div className="space-y-16">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-gray-900">
-          Let's talk about your <span className="text-emerald-600 font-serif italic">project.</span>
+    <div className="space-y-12">
+      <div className="text-center space-y-3">
+        <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-neutral-900">
+          Let's talk about your <span className="text-neutral-400 italic">project.</span>
         </h1>
-        <p className="text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed font-medium">
+        <p className="text-neutral-500 max-w-xl mx-auto text-sm leading-relaxed">
           Collaborations, engineering inquiries, or technical consultations. Reach out and let's craft something significant.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
         {/* Contact Info */}
-        <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
-          <div className="space-y-6">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Global Reach</h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 border border-emerald-200">
-                  <Mail className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Direct Line</p>
-                  <p className="text-gray-800 font-bold">hello@devflow.design</p>
-                </div>
+        <div className="lg:col-span-2 space-y-4 order-2 lg:order-1">
+          <h3 className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">Contact</h3>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-4 p-5 border border-neutral-200 rounded-xl">
+              <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center shrink-0">
+                <Mail className="w-4 h-4 text-neutral-500" />
               </div>
-
-              <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0 border border-blue-200">
-                  <MapPin className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Base of Ops</p>
-                  <p className="text-gray-800 font-bold text-sm">San Francisco, CA (GMT-7)</p>
-                </div>
+              <div>
+                <p className="text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-0.5">Email</p>
+                <p className="text-neutral-900 font-medium text-sm">hello@devflow.design</p>
               </div>
+            </div>
 
-              <div className="flex items-start space-x-4 p-8 bento-card">
-                <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0 border border-amber-200">
-                  <Phone className="w-5 h-5 text-amber-600" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Status</p>
-                  <p className="text-gray-800 font-bold text-sm">Active & Accepting Queries</p>
-                </div>
+            <div className="flex items-start space-x-4 p-5 border border-neutral-200 rounded-xl">
+              <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center shrink-0">
+                <MapPin className="w-4 h-4 text-neutral-500" />
+              </div>
+              <div>
+                <p className="text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-0.5">Location</p>
+                <p className="text-neutral-900 font-medium text-sm">San Francisco, CA (GMT-7)</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4 p-5 border border-neutral-200 rounded-xl">
+              <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center shrink-0">
+                <Phone className="w-4 h-4 text-neutral-500" />
+              </div>
+              <div>
+                <p className="text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-0.5">Status</p>
+                <p className="text-neutral-900 font-medium text-sm">Active & Accepting Queries</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Form */}
-        <div className="lg:col-span-3 bento-card p-8 md:p-12 order-1 lg:order-2">
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Identity</label>
+        <div className="lg:col-span-3 border border-neutral-200 rounded-xl p-6 md:p-8 order-1 lg:order-2">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label htmlFor="contact-name" className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">Name</label>
                 <input
                   id="contact-name"
                   required
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-white/50 backdrop-blur-sm border border-white/60 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-gray-400 text-gray-800"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-neutral-200 focus:border-neutral-400 focus:outline-none transition-colors text-sm placeholder:text-neutral-300"
                   placeholder="Full Name"
                 />
               </div>
-              <div className="space-y-3">
-                <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Protocol</label>
+              <div className="space-y-2">
+                <label htmlFor="contact-email" className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">Email</label>
                 <input
                   id="contact-email"
                   required
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-6 py-4 rounded-xl bg-white/50 backdrop-blur-sm border border-white/60 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none placeholder:text-gray-400 text-gray-800"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-neutral-200 focus:border-neutral-400 focus:outline-none transition-colors text-sm placeholder:text-neutral-300"
                   placeholder="name@provider.com"
                 />
               </div>
@@ -161,15 +159,15 @@ export default function Contact() {
               />
             </div>
 
-            <div className="space-y-3">
-              <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Transmission</label>
+            <div className="space-y-2">
+              <label htmlFor="contact-message" className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">Message</label>
               <textarea
                 id="contact-message"
                 required
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-6 py-4 rounded-xl bg-white/50 backdrop-blur-sm border border-white/60 focus:border-emerald-500/50 transition-all text-xs font-bold outline-none resize-none placeholder:text-gray-400 text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-white border border-neutral-200 focus:border-neutral-400 focus:outline-none transition-colors text-sm resize-none placeholder:text-neutral-300"
                 placeholder="Describe your vision or inquiry..."
               />
             </div>
@@ -177,22 +175,22 @@ export default function Contact() {
             <button
               disabled={status === 'submitting' || status === 'success' || isRateLimited}
               className={cn(
-                "w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg",
-                status === 'success' ? "bg-emerald-500 text-white" : "bg-gray-900 text-white hover:bg-gray-800 shadow-gray-900/20",
-                "disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                "w-full py-3 rounded-lg font-medium text-sm flex items-center justify-center space-x-2 transition-all",
+                status === 'success' ? "bg-emerald-600 text-white" : "bg-neutral-900 text-white hover:bg-neutral-800",
+                "disabled:opacity-60 disabled:cursor-not-allowed"
               )}
             >
               {status === 'success' ? (
                 <>
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span>Verified Transmission</span>
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Sent</span>
                 </>
               ) : isRateLimited ? (
                 <span>Wait {remainingSeconds}s</span>
               ) : (
                 <>
-                  <Send className="w-5 h-5" />
-                  <span>{status === 'submitting' ? 'Transmitting...' : 'Initiate Contact'}</span>
+                  <Send className="w-4 h-4" />
+                  <span>{status === 'submitting' ? 'Sending...' : 'Send Message'}</span>
                 </>
               )}
             </button>
