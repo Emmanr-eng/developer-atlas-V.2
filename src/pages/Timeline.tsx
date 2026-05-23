@@ -53,7 +53,7 @@ export default function Timeline() {
   return (
     <div className="space-y-12">
       <div className="space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">
           <Bug className="w-3 h-3" />
           <span>Active Debugging Ledger</span>
         </div>
@@ -73,19 +73,27 @@ export default function Timeline() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               className={cn(
-                "bento-card bg-neutral-900 border-neutral-800 transition-all duration-500 overflow-hidden",
-                isExpanded ? "p-8 md:p-12 ring-2 ring-red-500/20 shadow-2xl shadow-red-500/5" : "p-6 cursor-pointer hover:bg-neutral-800/50"
+                "bento-card transition-all duration-500 overflow-hidden",
+                isExpanded ? "p-8 md:p-12 ring-2 ring-red-500/20 shadow-[0_16px_48px_rgba(0,0,0,0.2),0_0_30px_rgba(239,68,68,0.08)]" : "p-6 cursor-pointer"
               )}
               id={item.id}
               onClick={() => setExpandedId(isExpanded ? null : item.id)}
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center border transition-all duration-500",
-                    isExpanded ? "bg-red-500/20 border-red-500/40" : "bg-neutral-800 border-neutral-700"
-                  )}>
-                    <AlertCircle className={cn("w-6 h-6 transition-colors", isExpanded ? "text-red-500" : "text-neutral-500")} />
+                  <div
+                    className={cn(
+                      "w-12 h-12 flex items-center justify-center transition-all duration-500",
+                      isExpanded ? "text-red-500" : "text-neutral-500"
+                    )}
+                    style={{
+                      background: isExpanded ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255, 255, 255, 0.06)',
+                      backdropFilter: 'blur(8px)',
+                      border: isExpanded ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '16px',
+                    }}
+                  >
+                    <AlertCircle className="w-6 h-6" />
                   </div>
                   <h2 className={cn(
                     "text-2xl md:text-1xl font-black tracking-tighter uppercase italic transition-colors duration-500",
@@ -108,7 +116,7 @@ export default function Timeline() {
                     exit={{ height: 0, opacity: 0, marginTop: 0 }}
                     transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 border-t border-neutral-800/50">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8 border-t border-white/6">
                       {/* Problem Section */}
                       <div className="space-y-6">
                         <div className="space-y-2">
@@ -120,7 +128,15 @@ export default function Timeline() {
                             {item.problem}
                           </p>
                         </div>
-                        <div className="p-6 bg-black border border-neutral-800 rounded-2xl font-mono text-xs text-red-400/80 leading-relaxed overflow-x-auto">
+                        <div
+                          className="p-6 font-mono text-xs text-red-400/80 leading-relaxed overflow-x-auto"
+                          style={{
+                            background: 'rgba(0, 0, 0, 0.4)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(255, 255, 255, 0.06)',
+                            borderRadius: '20px',
+                          }}
+                        >
                           <p className="text-[10px] text-neutral-600 mb-2 font-bold uppercase tracking-widest">// Trigger Code</p>
                           <pre><code>{item.problemCode}</code></pre>
                         </div>
@@ -137,7 +153,16 @@ export default function Timeline() {
                             {item.solution}
                           </p>
                         </div>
-                        <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl font-mono text-xs text-emerald-400 leading-relaxed overflow-x-auto shadow-lg shadow-emerald-500/5">
+                        <div
+                          className="p-6 font-mono text-xs text-emerald-400 leading-relaxed overflow-x-auto"
+                          style={{
+                            background: 'rgba(16, 185, 129, 0.05)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(16, 185, 129, 0.15)',
+                            borderRadius: '20px',
+                            boxShadow: '0 0 20px rgba(16, 185, 129, 0.05)',
+                          }}
+                        >
                           <p className="text-[10px] text-emerald-500/60 mb-2 font-bold uppercase tracking-widest">// Resolution Logic</p>
                           <pre><code>{item.solutionCode}</code></pre>
                         </div>
