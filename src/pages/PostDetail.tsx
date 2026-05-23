@@ -26,11 +26,9 @@ export default function PostDetail() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Upgrade 4: reading progress
   const articleRef = useRef<HTMLDivElement>(null);
   const progress = useReadingProgress(articleRef);
 
-  // Upgrade 1: dynamic head
   useDocumentHead({
     title: post?.title || 'Loading...',
     description: post?.summary || '',
@@ -66,7 +64,6 @@ export default function PostDetail() {
           const data = docSnap.data() as BlogPost;
           setPost(data);
         } else {
-          // Fallback for seed articles (existing fallback data kept as-is)
           const fallbackData: Record<string, BlogPost> = {
             'modern-web-architecture': {
               title: 'Modern Web Architecture: Server Components vs. Client-side Hydration',
@@ -77,7 +74,6 @@ export default function PostDetail() {
               createdAt: { seconds: Date.now() / 1000 },
               status: 'published'
             },
-            // ... (other fallbacks remain unchanged)
           };
 
           if (fallbackData[id]) {
@@ -111,18 +107,16 @@ export default function PostDetail() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)]"></div>
     </div>
   );
 
   if (!post) return null;
 
-  // Upgrade 4: computed read time
   const readTime = estimateReadTime(post.content);
 
   return (
     <>
-      {/* Upgrade 4: Reading progress bar */}
       <ReadingProgressBar progress={progress} />
 
       <div ref={articleRef} className="max-w-4xl mx-auto space-y-12 mb-20 pt-8">
@@ -137,7 +131,14 @@ export default function PostDetail() {
           <div className="space-y-6">
             <div className="flex flex-wrap gap-2">
               {post.tags.map(tag => (
-                <span key={tag} className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-500/20">
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full backdrop-blur-sm"
+                  style={{
+                    background: 'rgba(16, 185, 129, 0.1)',
+                    border: '1px solid rgba(16, 185, 129, 0.2)',
+                  }}
+                >
                   {tag}
                 </span>
               ))}
@@ -156,36 +157,57 @@ export default function PostDetail() {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-emerald-500" />
-                {/* Upgrade 4: computed read time */}
                 <span>{readTime} min read</span>
               </div>
             </div>
           </div>
 
           <div className="flex justify-start space-x-4">
-            <button onClick={() => share('twitter')} className="p-3 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-emerald-500/50 text-neutral-400 hover:text-white transition-all" aria-label="Share on Twitter">
+            <button
+              onClick={() => share('twitter')}
+              className="p-3 glass-btn text-neutral-400 hover:text-white hover:border-emerald-500/50 transition-all"
+              style={{ borderRadius: '20px' }}
+            >
               <Twitter className="w-5 h-5" />
             </button>
-            <button onClick={() => share('linkedin')} className="p-3 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-emerald-500/50 text-neutral-400 hover:text-white transition-all" aria-label="Share on LinkedIn">
+            <button
+              onClick={() => share('linkedin')}
+              className="p-3 glass-btn text-neutral-400 hover:text-white hover:border-emerald-500/50 transition-all"
+              style={{ borderRadius: '20px' }}
+            >
               <Linkedin className="w-5 h-5" />
             </button>
-            <button onClick={() => share('copy')} className="p-3 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-emerald-500/50 text-neutral-400 hover:text-white transition-all" aria-label="Copy link">
+            <button
+              onClick={() => share('copy')}
+              className="p-3 glass-btn text-neutral-400 hover:text-white hover:border-emerald-500/50 transition-all"
+              style={{ borderRadius: '20px' }}
+            >
               <LinkIcon className="w-5 h-5" />
             </button>
           </div>
         </section>
 
-        <div className="prose prose-invert prose-emerald max-w-none shadow-2xl p-8 md:p-12 bg-neutral-900/50 rounded-3xl border border-neutral-800 backdrop-blur-sm">
+        <div
+          className="prose prose-invert prose-emerald max-w-none p-8 md:p-12 glass"
+          style={{ borderRadius: '28px' }}
+        >
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
 
-        <section className="bg-slate-50 dark:bg-slate-900/50 p-12 rounded-3xl border border-slate-200 dark:border-slate-800 text-center space-y-6">
-          <h3 className="text-2xl font-bold">Enjoyed this article?</h3>
-          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+        <section
+          className="p-12 text-center space-y-6 glass"
+          style={{ borderRadius: '28px' }}
+        >
+          <h3 className="text-2xl font-bold text-white">Enjoyed this article?</h3>
+          <p className="text-neutral-400 max-w-md mx-auto">
             Share it with your network or subscribe to get notified about future technical deep dives.
           </p>
           <div className="flex justify-center space-x-4">
-             <button onClick={() => share('twitter')} className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-bold flex items-center gap-2 hover:bg-indigo-700 transition-colors">
+             <button
+               onClick={() => share('twitter')}
+               className="px-6 py-2 bg-emerald-500 text-black font-bold flex items-center gap-2 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all"
+               style={{ borderRadius: '16px' }}
+             >
                 <Share2 className="w-4 h-4" /> Share Post
              </button>
           </div>
