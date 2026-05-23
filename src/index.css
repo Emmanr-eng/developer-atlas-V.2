@@ -6,10 +6,10 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-serif: 'Playfair Display', serif;
   
-  --color-neutral-950: #050505;
-  --color-neutral-900: #0A0A0A;
-  --color-neutral-800: #121212;
-  --color-neutral-700: #1A1A1A;
+  --color-neutral-950: #ffffff;
+  --color-neutral-900: #ffffff;
+  --color-neutral-800: #ffffff;
+  --color-neutral-700: #ffffff;
 }
 
 /* ── Glassmorphism Design Tokens ── */
