@@ -19,30 +19,30 @@ export const Toast: React.FC<ToastProps> = ({ message, type = 'info', isVisible,
   }, [isVisible, duration, onClose]);
 
   const icons = {
-    success: <CheckCircle className="w-5 h-5 text-cyan-400" />,
-    error: <AlertCircle className="w-5 h-5 text-red-400" />,
-    info: <Info className="w-5 h-5 text-blue-400" />,
+    success: <CheckCircle className="w-4 h-4 text-emerald-600" />,
+    error: <AlertCircle className="w-4 h-4 text-red-500" />,
+    info: <Info className="w-4 h-4 text-neutral-500" />,
   };
 
   const borderColors = {
-    success: 'border-cyan-500/30',
-    error: 'border-red-500/30',
-    info: 'border-blue-500/30',
+    success: 'border-emerald-200',
+    error: 'border-red-200',
+    info: 'border-neutral-200',
   };
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 50, scale: 0.9 }}
-          className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-5 py-3 rounded-2xl bg-[#0a0a1a]/90 backdrop-blur-xl border ${borderColors[type]} shadow-2xl shadow-black/50`}
+          exit={{ opacity: 0, y: 20, scale: 0.95 }}
+          className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-xl bg-white border ${borderColors[type]} shadow-lg shadow-black/5`}
         >
           {icons[type]}
-          <span className="text-sm font-medium text-slate-200">{message}</span>
-          <button onClick={onClose} className="ml-2 text-slate-500 hover:text-slate-300 transition-colors">
-            <X className="w-4 h-4" />
+          <span className="text-sm font-medium text-neutral-700">{message}</span>
+          <button onClick={onClose} className="ml-1 text-neutral-400 hover:text-neutral-600 transition-colors">
+            <X className="w-3.5 h-3.5" />
           </button>
         </motion.div>
       )}
