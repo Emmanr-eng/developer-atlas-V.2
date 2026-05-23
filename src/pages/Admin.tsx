@@ -15,7 +15,6 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   
-  // Forms states
   const [postForm, setPostForm] = useState({ title: '', summary: '', content: '', tags: '', status: 'draft' });
   const [projectForm, setProjectForm] = useState({ title: '', description: '', codeSnippet: '', demoUrl: '', imageUrl: '', category: '' });
 
@@ -108,36 +107,79 @@ export default function Admin() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[40vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)]"></div>
+    </div>
+  );
+
+  const glassInputClass = "w-full px-4 py-3 glass-input text-sm outline-none placeholder:text-neutral-600";
 
   return (
     <div className="space-y-12 pb-20">
-      <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800">
+      {/* Header */}
+      <div
+        className="flex justify-between items-center p-8 glass"
+        style={{ borderRadius: '28px' }}
+      >
         <div className="space-y-1">
-           <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-           <p className="text-sm text-slate-500 uppercase tracking-widest font-bold">Hello, {user?.displayName}</p>
+           <h1 className="text-3xl font-bold tracking-tight text-white">Admin Dashboard</h1>
+           <p className="text-sm text-neutral-500 uppercase tracking-widest font-bold">Hello, {user?.displayName}</p>
         </div>
         <div className="flex space-x-2">
            <button 
             onClick={() => { setActiveTab('posts'); setEditingId(null); }}
-            className={cn("px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2", activeTab === 'posts' ? "bg-indigo-600 text-white" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
+            className={cn(
+              "px-4 py-2 text-sm font-bold flex items-center gap-2 transition-all",
+              activeTab === 'posts'
+                ? "text-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.15)]"
+                : "text-neutral-400 hover:text-white"
+            )}
+            style={{
+              background: activeTab === 'posts' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(8px)',
+              border: activeTab === 'posts' ? '1px solid rgba(99, 102, 241, 0.25)' : '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '16px',
+            }}
            >
              <FileText className="w-4 h-4" /> Posts
            </button>
            <button 
             onClick={() => { setActiveTab('projects'); setEditingId(null); }}
-            className={cn("px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2", activeTab === 'projects' ? "bg-indigo-600 text-white" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
+            className={cn(
+              "px-4 py-2 text-sm font-bold flex items-center gap-2 transition-all",
+              activeTab === 'projects'
+                ? "text-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.15)]"
+                : "text-neutral-400 hover:text-white"
+            )}
+            style={{
+              background: activeTab === 'projects' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(8px)',
+              border: activeTab === 'projects' ? '1px solid rgba(99, 102, 241, 0.25)' : '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '16px',
+            }}
            >
              <Code className="w-4 h-4" /> Projects
            </button>
            <button 
-             onClick={() => { setActiveTab('inquiries'); setEditingId(null); }}
-             className={cn("px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 relative", activeTab === 'inquiries' ? "bg-indigo-600 text-white" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
+              onClick={() => { setActiveTab('inquiries'); setEditingId(null); }}
+              className={cn(
+                "px-4 py-2 text-sm font-bold flex items-center gap-2 relative transition-all",
+                activeTab === 'inquiries'
+                  ? "text-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.15)]"
+                  : "text-neutral-400 hover:text-white"
+              )}
+              style={{
+                background: activeTab === 'inquiries' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(8px)',
+                border: activeTab === 'inquiries' ? '1px solid rgba(99, 102, 241, 0.25)' : '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+              }}
            >
              <Mail className="w-4 h-4" /> 
              Inquiries
              {inquiries.filter(i => i.status === 'new').length > 0 && (
-               <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center">
+               <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center shadow-[0_0_8px_rgba(239,68,68,0.4)]">
                  {inquiries.filter(i => i.status === 'new').length}
                </span>
              )}
@@ -148,61 +190,76 @@ export default function Admin() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Management List */}
         <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-xl font-bold px-2 flex items-center gap-2">
+          <h2 className="text-xl font-bold px-2 flex items-center gap-2 text-white">
              {activeTab === 'posts' && <><FileText className="w-5 h-5" /> Blog Posts</>}
              {activeTab === 'projects' && <><Code className="w-5 h-5" /> Portfolio Projects</>}
              {activeTab === 'inquiries' && <><Mail className="w-5 h-5" /> Contact Inquiries</>}
           </h2>
 
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+          <div
+            className="overflow-hidden glass"
+            style={{ borderRadius: '28px' }}
+          >
             {activeTab === 'posts' && posts.map(post => (
-              <div key={post.id} className="p-6 border-b border-slate-100 dark:border-slate-800 last:border-0 flex justify-between items-center group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div key={post.id} className="p-6 border-b border-white/6 last:border-0 flex justify-between items-center group hover:bg-white/4 transition-colors">
                 <div className="space-y-1">
-                  <h3 className="font-bold">{post.title}</h3>
-                  <div className="flex items-center space-x-3 text-xs text-slate-500">
-                    <span className={cn("px-2 py-0.5 rounded-full font-bold", post.status === 'published' ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600")}>
+                  <h3 className="font-bold text-white">{post.title}</h3>
+                  <div className="flex items-center space-x-3 text-xs text-neutral-500">
+                    <span
+                      className="px-2 py-0.5 rounded-full font-bold backdrop-blur-sm"
+                      style={{
+                        background: post.status === 'published' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
+                        color: post.status === 'published' ? 'rgb(52,211,153)' : 'rgb(251,191,36)',
+                      }}
+                    >
                       {post.status}
                     </span>
                     <span>{formatDate(post.createdAt)}</span>
                   </div>
                 </div>
                 <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                   <button onClick={() => { setPostForm(post); setEditingId(post.id); }} className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-indigo-600 rounded-lg"><Edit2 className="w-4 h-4" /></button>
-                   <button onClick={() => handleDelete('posts', post.id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                   <button onClick={() => { setPostForm(post); setEditingId(post.id); }} className="p-2 hover:bg-indigo-500/10 text-indigo-400 rounded-lg transition-colors"><Edit2 className="w-4 h-4" /></button>
+                   <button onClick={() => handleDelete('posts', post.id)} className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}
 
             {activeTab === 'projects' && projects.map(proj => (
-              <div key={proj.id} className="p-6 border-b border-slate-100 dark:border-slate-800 last:border-0 flex justify-between items-center group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div key={proj.id} className="p-6 border-b border-white/6 last:border-0 flex justify-between items-center group hover:bg-white/4 transition-colors">
                 <div className="space-y-1">
-                  <h3 className="font-bold">{proj.title}</h3>
-                  <div className="flex items-center space-x-3 text-xs text-slate-500">
-                    <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 px-2 py-0.5 rounded-full font-bold">{proj.category}</span>
+                  <h3 className="font-bold text-white">{proj.title}</h3>
+                  <div className="flex items-center space-x-3 text-xs text-neutral-500">
+                    <span className="px-2 py-0.5 rounded-full font-bold backdrop-blur-sm" style={{ background: 'rgba(99,102,241,0.1)', color: 'rgb(129,140,248)' }}>{proj.category}</span>
                     <span>{formatDate(proj.createdAt)}</span>
                   </div>
                 </div>
                 <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                   <button onClick={() => { setProjectForm(proj); setEditingId(proj.id); }} className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-indigo-600 rounded-lg"><Edit2 className="w-4 h-4" /></button>
-                   <button onClick={() => handleDelete('projects', proj.id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                   <button onClick={() => { setProjectForm(proj); setEditingId(proj.id); }} className="p-2 hover:bg-indigo-500/10 text-indigo-400 rounded-lg transition-colors"><Edit2 className="w-4 h-4" /></button>
+                   <button onClick={() => handleDelete('projects', proj.id)} className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}
 
             {activeTab === 'inquiries' && inquiries.map(inq => (
-              <div key={inq.id} className="p-6 border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div key={inq.id} className="p-6 border-b border-white/6 last:border-0 hover:bg-white/4 transition-colors">
                 <div className="flex justify-between items-start mb-4">
                   <div className="space-y-1">
-                    <h3 className="font-bold">{inq.name}</h3>
-                    <p className="text-xs text-indigo-600 font-medium">{inq.email}</p>
+                    <h3 className="font-bold text-white">{inq.name}</h3>
+                    <p className="text-xs text-indigo-400 font-medium">{inq.email}</p>
                   </div>
-                  <span className={cn("text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider", inq.status === 'new' ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-500")}>
+                  <span
+                    className="text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider backdrop-blur-sm"
+                    style={{
+                      background: inq.status === 'new' ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.05)',
+                      color: inq.status === 'new' ? 'rgb(248,113,113)' : 'rgb(163,163,163)',
+                    }}
+                  >
                     {inq.status}
                   </span>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">"{inq.message}"</p>
+                <p className="text-sm text-neutral-400 italic mb-4">"{inq.message}"</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] text-slate-400">{formatDate(inq.createdAt)}</span>
+                  <span className="text-[10px] text-neutral-600">{formatDate(inq.createdAt)}</span>
                   <div className="flex space-x-2">
                     {inq.status === 'new' && (
                       <button 
@@ -212,20 +269,20 @@ export default function Admin() {
                           await updateDoc(ref, { status: 'read' });
                           fetchData();
                         }}
-                        className="p-1 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-emerald-600 rounded"
+                        className="p-1 hover:bg-emerald-500/10 text-emerald-400 rounded transition-colors"
                         title="Mark as Read"
                       >
                         <CheckCircle className="w-4 h-4" />
                       </button>
                     )}
-                    <button onClick={() => handleDelete('inquiries', inq.id)} className="p-1 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 rounded"><Trash2 className="w-4 h-4" /></button>
+                    <button onClick={() => handleDelete('inquiries', inq.id)} className="p-1 hover:bg-red-500/10 text-red-400 rounded transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
               </div>
             ))}
             
             {(activeTab === 'posts' ? posts : activeTab === 'projects' ? projects : inquiries).length === 0 && (
-              <div className="p-20 text-center text-slate-400 italic text-sm">
+              <div className="p-20 text-center text-neutral-500 italic text-sm">
                 No items found.
               </div>
             )}
@@ -235,78 +292,107 @@ export default function Admin() {
         {/* Editor Side */}
         <div className="lg:col-span-1">
           {activeTab !== 'inquiries' && (
-            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm h-fit sticky top-28">
-              <h3 className="text-xl font-bold mb-8 flex items-center gap-2">
-                {editingId ? <><Edit2 className="w-5 h-5 text-amber-500" /> Edit {activeTab === 'posts' ? 'Post' : 'Project'}</> : <><Plus className="w-5 h-5 text-indigo-600" /> New {activeTab === 'posts' ? 'Post' : 'Project'}</>}
+            <div
+              className="p-8 h-fit sticky top-28 glass"
+              style={{ borderRadius: '28px' }}
+            >
+              <h3 className="text-xl font-bold mb-8 flex items-center gap-2 text-white">
+                {editingId ? <><Edit2 className="w-5 h-5 text-amber-400" /> Edit {activeTab === 'posts' ? 'Post' : 'Project'}</> : <><Plus className="w-5 h-5 text-indigo-400" /> New {activeTab === 'posts' ? 'Post' : 'Project'}</>}
               </h3>
 
               {activeTab === 'posts' ? (
                 <form onSubmit={handlePostSubmit} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Title</label>
-                    <input required value={postForm.title} onChange={e => setPostForm({...postForm, title: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Title</label>
+                    <input required value={postForm.title} onChange={e => setPostForm({...postForm, title: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="Post title" />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Summary</label>
-                    <textarea value={postForm.summary} onChange={e => setPostForm({...postForm, summary: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500 h-20" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Summary</label>
+                    <textarea value={postForm.summary} onChange={e => setPostForm({...postForm, summary: e.target.value})} className={`${glassInputClass} resize-none`} style={{ borderRadius: '16px' }} rows={2} placeholder="Brief summary" />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Content (Markdown)</label>
-                    <textarea required value={postForm.content} onChange={e => setPostForm({...postForm, content: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-xs outline-none focus:ring-2 focus:ring-indigo-500 h-40 font-mono" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Content (Markdown)</label>
+                    <textarea required value={postForm.content} onChange={e => setPostForm({...postForm, content: e.target.value})} className={`${glassInputClass} resize-none font-mono text-xs`} style={{ borderRadius: '16px' }} rows={8} placeholder="Write in Markdown..." />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tags (comma separated)</label>
-                      <input value={postForm.tags} onChange={e => setPostForm({...postForm, tags: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Tags (comma separated)</label>
+                      <input value={postForm.tags} onChange={e => setPostForm({...postForm, tags: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="React, TypeScript" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Status</label>
-                      <select value={postForm.status} onChange={e => setPostForm({...postForm, status: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Status</label>
+                      <select value={postForm.status} onChange={e => setPostForm({...postForm, status: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }}>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
                       </select>
                     </div>
                   </div>
                   <div className="pt-4 flex gap-2">
-                    <button type="submit" className="grow py-3 bg-indigo-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all uppercase tracking-widest text-xs">
+                    <button
+                      type="submit"
+                      className="grow py-3 bg-indigo-500 text-white font-bold flex items-center justify-center gap-2 hover:bg-indigo-400 transition-all uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+                      style={{ borderRadius: '16px' }}
+                    >
                       <Save className="w-4 h-4" /> {editingId ? 'Update' : 'Create'}
                     </button>
-                    {editingId && <button type="button" onClick={() => setEditingId(null)} className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-500 hover:text-slate-700"><XCircle className="w-5 h-5" /></button>}
+                    {editingId && (
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(null)}
+                        className="p-3 glass-btn text-neutral-500 hover:text-white"
+                        style={{ borderRadius: '16px' }}
+                      >
+                        <XCircle className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 </form>
               ) : (
                 <form onSubmit={handleProjectSubmit} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Title</label>
-                    <input required value={projectForm.title} onChange={e => setProjectForm({...projectForm, title: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Title</label>
+                    <input required value={projectForm.title} onChange={e => setProjectForm({...projectForm, title: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="Project title" />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Description</label>
-                    <textarea required value={projectForm.description} onChange={e => setProjectForm({...projectForm, description: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500 h-24" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Description</label>
+                    <textarea required value={projectForm.description} onChange={e => setProjectForm({...projectForm, description: e.target.value})} className={`${glassInputClass} resize-none`} style={{ borderRadius: '16px' }} rows={3} placeholder="Project description" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                      <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Category</label>
-                      <input required value={projectForm.category} onChange={e => setProjectForm({...projectForm, category: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Category</label>
+                      <input required value={projectForm.category} onChange={e => setProjectForm({...projectForm, category: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="e.g. Frontend" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Demo URL</label>
-                      <input value={projectForm.demoUrl} onChange={e => setProjectForm({...projectForm, demoUrl: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Demo URL</label>
+                      <input value={projectForm.demoUrl} onChange={e => setProjectForm({...projectForm, demoUrl: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="https://..." />
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Image URL</label>
-                    <input value={projectForm.imageUrl} onChange={e => setProjectForm({...projectForm, imageUrl: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-sm outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Image URL</label>
+                    <input value={projectForm.imageUrl} onChange={e => setProjectForm({...projectForm, imageUrl: e.target.value})} className={glassInputClass} style={{ borderRadius: '16px' }} placeholder="https://..." />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Code Snippet</label>
-                    <textarea value={projectForm.codeSnippet} onChange={e => setProjectForm({...projectForm, codeSnippet: e.target.value})} className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border-none text-xs outline-none focus:ring-2 focus:ring-indigo-500 h-32 font-mono" />
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Code Snippet</label>
+                    <textarea value={projectForm.codeSnippet} onChange={e => setProjectForm({...projectForm, codeSnippet: e.target.value})} className={`${glassInputClass} resize-none font-mono text-xs`} style={{ borderRadius: '16px' }} rows={4} placeholder="Code example..." />
                   </div>
                   <div className="pt-4 flex gap-2">
-                    <button type="submit" className="grow py-3 bg-indigo-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all uppercase tracking-widest text-xs">
+                    <button
+                      type="submit"
+                      className="grow py-3 bg-indigo-500 text-white font-bold flex items-center justify-center gap-2 hover:bg-indigo-400 transition-all uppercase tracking-widest text-xs hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+                      style={{ borderRadius: '16px' }}
+                    >
                       <Save className="w-4 h-4" /> {editingId ? 'Update' : 'Create'}
                     </button>
-                    {editingId && <button type="button" onClick={() => setEditingId(null)} className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-500 hover:text-slate-700"><XCircle className="w-5 h-5" /></button>}
+                    {editingId && (
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(null)}
+                        className="p-3 glass-btn text-neutral-500 hover:text-white"
+                        style={{ borderRadius: '16px' }}
+                      >
+                        <XCircle className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 </form>
               )}
