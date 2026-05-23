@@ -1,71 +1,42 @@
 import React from 'react';
 
 interface SectionSkeletonProps {
-  variant?: 'grid' | 'list' | 'hero' | 'form';
-  label?: string;
+  variant?: 'card' | 'list' | 'hero';
+  count?: number;
 }
 
-const Pulse: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`animate-pulse bg-neutral-800/50 rounded-2xl ${className}`} />
-);
-
-export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'grid', label }) => {
-  return (
-    <div className="space-y-8 py-8" aria-label={label ? `Loading ${label}` : 'Loading section'} role="status">
-      {/* Section header skeleton */}
-      <div className="text-center space-y-4">
-        <Pulse className="h-10 w-64 mx-auto" />
-        <Pulse className="h-4 w-96 mx-auto max-w-full" />
+export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'card', count = 3 }) => {
+  if (variant === 'hero') {
+    return (
+      <div className="animate-pulse space-y-6">
+        <div className="h-10 bg-cyan-500/5 rounded-2xl w-3/4 border border-cyan-500/10"></div>
+        <div className="h-4 bg-cyan-500/5 rounded-xl w-1/2 border border-cyan-500/10"></div>
+        <div className="h-64 bg-cyan-500/5 rounded-3xl border border-cyan-500/10"></div>
       </div>
+    );
+  }
 
-      {variant === 'grid' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bento-card space-y-4">
-              <Pulse className="h-40 w-full" />
-              <Pulse className="h-5 w-3/4" />
-              <Pulse className="h-3 w-full" />
-              <Pulse className="h-3 w-2/3" />
-            </div>
-          ))}
-        </div>
-      )}
+  if (variant === 'list') {
+    return (
+      <div className="animate-pulse space-y-3">
+        {Array.from({ length: count }).map((_, i) => (
+          <div key={i} className="h-16 bg-cyan-500/5 rounded-2xl border border-cyan-500/10"></div>
+        ))}
+      </div>
+    );
+  }
 
-      {variant === 'list' && (
-        <div className="space-y-4 max-w-3xl mx-auto">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bento-card flex gap-6 items-start">
-              <Pulse className="h-16 w-16 shrink-0 rounded-xl" />
-              <div className="flex-1 space-y-3">
-                <Pulse className="h-5 w-2/3" />
-                <Pulse className="h-3 w-full" />
-                <Pulse className="h-3 w-1/2" />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {variant === 'hero' && (
-        <div className="space-y-6 max-w-3xl mx-auto text-center">
-          <Pulse className="h-14 w-96 mx-auto max-w-full" />
-          <Pulse className="h-5 w-80 mx-auto max-w-full" />
-          <Pulse className="h-12 w-40 mx-auto rounded-full" />
-        </div>
-      )}
-
-      {variant === 'form' && (
-        <div className="max-w-2xl mx-auto space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <Pulse className="h-14 w-full" />
-            <Pulse className="h-14 w-full" />
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="animate-pulse">
+          <div className="h-48 bg-cyan-500/5 rounded-3xl border border-cyan-500/10 p-6 space-y-4">
+            <div className="h-4 bg-cyan-500/5 rounded-xl w-2/3 border border-cyan-500/5"></div>
+            <div className="h-3 bg-cyan-500/5 rounded-xl w-full border border-cyan-500/5"></div>
+            <div className="h-3 bg-cyan-500/5 rounded-xl w-4/5 border border-cyan-500/5"></div>
           </div>
-          <Pulse className="h-32 w-full" />
-          <Pulse className="h-14 w-full rounded-2xl" />
         </div>
-      )}
-
-      <span className="sr-only">Loading...</span>
+      ))}
     </div>
   );
 };
