@@ -60,8 +60,56 @@ export default function PostDetail() {
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
         
+        // Starting from line 63, replace the truncated portion:
         if (docSnap.exists()) {
           const data = docSnap.data() as BlogPost;
           setPost(data);
         } else {
-          
+          navigate('/blog');
+        }
+      } catch (error) {
+        handleFirestoreError(OperationType.READ, error);
+        navigate('/blog');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id, navigate]);
+
+  if (loading) {
+    return <div className="text-center py-20">Loading...</div>;
+  }
+
+  if (!post) {
+    return null;
+  }
+
+  const readTime = estimateReadTime(post.content);
+
+  return (
+    <>
+      <ReadingProgressBar progress={progress} />
+      <motion.article
+        ref={articleRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-3xl mx-auto px-4 py-12"
+      >
+        <Link to="/blog" className="inline-flex items-center gap-2 mb-8 text-sm hover:underline">
+          <ArrowLeft size={16} /> Back to Blog
+        </Link>
+        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        <div className="flex items-center gap-4 text-sm text-gray-500 mb-8">
+          <span className="flex items-center gap-1"><User size={14} /> {post.authorName}</span>
+          <span className="flex items-center gap-1"><Calendar size={14} /> {formatDate(post.createdAt)}</span>
+          <span className="flex items-center gap-1"><Clock size={14} /> {readTime} min read</span>
+        </div>
+        <div className="prose max-w-none">
+          <ReactMarkdown>{post.content}</ReactMarkdown>
+        </div>
+      </motion.article>
+    </>
+  );
+}
