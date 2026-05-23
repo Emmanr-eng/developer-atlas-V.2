@@ -168,7 +168,7 @@ export default function Portfolio() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)]"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 shadow-[0_0_16px_rgba(16,185,129,0.2)]"></div>
     </div>
   );
 
@@ -176,12 +176,12 @@ export default function Portfolio() {
     <div className="space-y-12 h-full pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-200 backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Architectural Map Active</span>
+            <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Architectural Map Active</span>
           </div>
-          <h1 className="text-5xl font-black tracking-tighter uppercase italic text-white leading-none">Service Directory</h1>
-          <p className="text-neutral-500 max-w-2xl text-sm leading-relaxed font-medium">
+          <h1 className="text-5xl font-black tracking-tighter uppercase italic text-slate-900 leading-none">Service Directory</h1>
+          <p className="text-slate-500 max-w-2xl text-sm leading-relaxed font-medium">
             A centralized mapping protocol for technical modules, production services, and foundational blueprints within the Atlas grid.
           </p>
         </div>
@@ -197,13 +197,13 @@ export default function Portfolio() {
               className={cn(
                 "px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all",
                 filter === cat
-                  ? "bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-                  : "text-neutral-500 hover:text-white"
+                  ? "bg-emerald-600 text-white shadow-[0_0_20px_rgba(16,185,129,0.15)]"
+                  : "text-slate-500 hover:text-slate-900"
               )}
               style={{
-                background: filter === cat ? undefined : 'rgba(0, 0, 0, 0.3)',
+                background: filter === cat ? undefined : 'rgba(255, 255, 255, 0.6)',
                 backdropFilter: 'blur(8px)',
-                border: filter === cat ? '2px solid rgba(16,185,129,0.6)' : '2px solid rgba(255,255,255,0.08)',
+                border: filter === cat ? '2px solid rgba(16,185,129,0.6)' : '2px solid rgba(0,0,0,0.06)',
                 borderRadius: '16px',
               }}
             >
@@ -213,13 +213,13 @@ export default function Portfolio() {
         </div>
 
         <div className="relative w-full sm:w-80 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-600 group-focus-within:text-emerald-500 transition-colors" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-emerald-600 transition-colors" />
           <input
             type="text"
             placeholder="Search Atlas Nodes..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 glass-input text-xs font-bold placeholder:text-neutral-700 uppercase tracking-widest outline-none focus:border-emerald-500/50"
+            className="w-full pl-12 pr-6 py-4 glass-input text-xs font-bold placeholder:text-slate-400 uppercase tracking-widest outline-none focus:border-emerald-500/50"
             style={{ borderRadius: '20px' }}
           />
         </div>
@@ -251,11 +251,11 @@ export default function Portfolio() {
                 <div className="absolute top-6 left-6 flex flex-col gap-2">
                    <div className={cn(
                      "px-3 py-1 text-[9px] font-black uppercase tracking-widest backdrop-blur-md",
-                     project.status === 'Online' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-400",
-                     project.status === 'Experimental' && "bg-amber-500/20 border-amber-500/30 text-amber-400",
-                     project.status === 'Approved Architecture' && "bg-blue-500/20 border-blue-500/30 text-blue-400",
-                     project.status === 'Deprecated' && "bg-red-500/20 border-red-500/30 text-red-400",
-                     project.status === 'Stable' && "bg-neutral-500/20 border-neutral-500/30 text-neutral-400"
+                     project.status === 'Online' && "bg-emerald-500/20 border-emerald-500/30 text-emerald-300",
+                     project.status === 'Experimental' && "bg-amber-500/20 border-amber-500/30 text-amber-300",
+                     project.status === 'Approved Architecture' && "bg-blue-500/20 border-blue-500/30 text-blue-300",
+                     project.status === 'Deprecated' && "bg-red-500/20 border-red-500/30 text-red-300",
+                     project.status === 'Stable' && "bg-neutral-500/20 border-neutral-500/30 text-neutral-300"
                    )}
                    style={{ borderRadius: '10px', border: '1px solid' }}
                    >
@@ -271,19 +271,19 @@ export default function Portfolio() {
               <div
                 className="p-10 flex flex-col grow"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
+                  background: 'rgba(255, 255, 255, 0.5)',
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                <h3 className="text-2xl font-black tracking-tighter mb-4 text-white uppercase italic group-hover:text-emerald-500 transition-colors leading-none">
+                <h3 className="text-2xl font-black tracking-tighter mb-4 text-slate-900 uppercase italic group-hover:text-emerald-600 transition-colors leading-none">
                   {project.title}
                 </h3>
-                <p className="text-xs text-neutral-500 leading-relaxed font-medium mb-10 grow text-balance">
+                <p className="text-xs text-slate-500 leading-relaxed font-medium mb-10 grow text-balance">
                   {project.description}
                 </p>
                 
-                <div className="pt-8 border-t border-white/6 flex justify-between items-center mt-auto">
-                   <div className="flex items-center gap-3 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] hover:text-white transition-colors group/link">
+                <div className="pt-8 border-t border-black/6 flex justify-between items-center mt-auto">
+                   <div className="flex items-center gap-3 text-emerald-600 text-[10px] font-black uppercase tracking-[0.2em] hover:text-slate-900 transition-colors group/link">
                      {project.actionLabel || 'Deploy Node'}
                      <ExternalLink className="w-3.5 h-3.5 transform group-hover/link:translate-x-1 transition-transform" />
                    </div>
@@ -294,7 +294,7 @@ export default function Portfolio() {
                          e.stopPropagation();
                          navigator.clipboard.writeText(project.codeSnippet);
                        }}
-                       className="p-3 glass-btn text-neutral-500 hover:bg-emerald-500 hover:text-black transition-all"
+                       className="p-3 glass-btn text-slate-400 hover:bg-emerald-600 hover:text-white transition-all"
                        style={{ borderRadius: '16px' }}
                        title="Copy Code Primitives"
                      >
@@ -304,9 +304,9 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-10 group-hover:opacity-40 transition-opacity">
-                 <div className="absolute top-4 right-4 w-12 h-px bg-white rotate-45" />
-                 <div className="absolute top-4 right-4 w-px h-12 bg-white rotate-45" />
+              <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none opacity-10 group-hover:opacity-30 transition-opacity">
+                 <div className="absolute top-4 right-4 w-12 h-px bg-slate-900 rotate-45" />
+                 <div className="absolute top-4 right-4 w-px h-12 bg-slate-900 rotate-45" />
               </div>
             </motion.div>
           ))}
@@ -318,36 +318,36 @@ export default function Portfolio() {
           <div
             className="text-center py-20 relative overflow-hidden"
             style={{
-              background: 'rgba(255, 255, 255, 0.03)',
+              background: 'rgba(255, 255, 255, 0.6)',
               backdropFilter: 'blur(24px)',
-              border: '2px dashed rgba(255, 255, 255, 0.1)',
+              border: '2px dashed rgba(0, 0, 0, 0.08)',
               borderRadius: '28px',
-              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.06)',
             }}
           >
-            <div className="absolute inset-0 bg-linear-to-b from-emerald-500/5 to-transparent pointer-events-none" />
-            <Layers className="w-16 h-16 text-emerald-500/20 mx-auto mb-6 animate-pulse" />
-            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">No Architectural Nodes Found</h3>
-            <p className="text-neutral-500 text-sm max-w-md mx-auto mb-8 font-medium">Your query did not return any direct matches. Try cross-referencing our technical insights or bug ledger entries.</p>
+            <div className="absolute inset-0 bg-linear-to-b from-emerald-500/8 to-transparent pointer-events-none" />
+            <Layers className="w-16 h-16 text-emerald-600/20 mx-auto mb-6 animate-pulse" />
+            <h3 className="text-2xl font-black text-slate-900 italic uppercase tracking-tighter mb-4">No Architectural Nodes Found</h3>
+            <p className="text-slate-500 text-sm max-w-md mx-auto mb-8 font-medium">Your query did not return any direct matches. Try cross-referencing our technical insights or bug ledger entries.</p>
             
             <div className="flex gap-4 justify-center">
-              <Link to="/blog" className="bg-emerald-500 text-black px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.2)]" style={{ borderRadius: '16px' }}>
+              <Link to="/blog" className="bg-emerald-600 text-white px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] hover:scale-105 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.15)]" style={{ borderRadius: '20px' }}>
                 Check Insights
               </Link>
-              <Link to="/timeline" className="text-white px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] glass-btn hover:border-emerald-500/30 transition-all" style={{ borderRadius: '16px' }}>
+              <Link to="/timeline" className="text-slate-900 px-8 py-3 font-black text-[10px] uppercase tracking-[0.2em] glass-btn hover:border-emerald-600/30 transition-all" style={{ borderRadius: '20px' }}>
                 View Ledger
               </Link>
             </div>
           </div>
           
           <div className="text-center">
-             <p className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.4em] mb-4">System Suggestions</p>
+             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4">System Suggestions</p>
              <div className="flex justify-center gap-2 flex-wrap">
                 {['React', 'TypeScript', 'Node.js', 'Infrastructure', 'Telemetry'].map(tag => (
                    <button 
                     key={tag}
                     onClick={() => setSearch(tag)}
-                    className="px-6 py-2 rounded-full text-[10px] font-black text-neutral-500 hover:text-emerald-500 glass-btn hover:border-emerald-500/30 transition-all"
+                    className="px-6 py-2 rounded-full text-[10px] font-black text-slate-500 hover:text-emerald-600 glass-btn hover:border-emerald-600/30 transition-all"
                    >
                      {tag}
                    </button>

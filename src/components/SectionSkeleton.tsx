@@ -9,9 +9,9 @@ const Pulse: React.FC<{ className?: string }> = ({ className = '' }) => (
   <div
     className={`animate-pulse ${className}`}
     style={{
-      background: 'rgba(255, 255, 255, 0.05)',
+      background: 'rgba(0, 0, 0, 0.04)',
       backdropFilter: 'blur(4px)',
-      border: '1px solid rgba(255, 255, 255, 0.06)',
+      border: '1px solid rgba(0, 0, 0, 0.04)',
       borderRadius: '20px',
     }}
   />

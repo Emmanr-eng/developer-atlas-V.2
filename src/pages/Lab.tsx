@@ -125,15 +125,15 @@ style={{
   return (
     <div className="space-y-12 pb-24"> 
       <div className="space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 text-[10px] font-black uppercase tracking-widest backdrop-blur-sm">
           <FlaskConical className="w-3 h-3" />
           <span>Component Lab</span>
         </div>
         <div>
-          <h1 className="text-4xl font-bold tracking-tighter uppercase italic">Component Lab</h1>
-          <p className="text-emerald-500 text-xs font-medium uppercase tracking-[0.2em] mt-1">Interactive experiments in UI architecture</p>
+          <h1 className="text-4xl font-bold tracking-tighter uppercase italic text-slate-900">Component Lab</h1>
+          <p className="text-emerald-600 text-xs font-medium uppercase tracking-[0.2em] mt-1">Interactive experiments in UI architecture</p>
         </div>
-        <p className="text-neutral-400 max-w-2xl text-sm leading-relaxed">
+        <p className="text-slate-500 max-w-2xl text-sm leading-relaxed">
           A physical playground for structural UI primitives. Interact with the workbench below to explore different architectural nodes.
         </p>
       </div>
@@ -143,13 +143,13 @@ style={{
       >
         {/* Workspace Sidebar */}
         <div
-          className="w-full md:w-80 border-r border-white/6 p-6 flex flex-col space-y-6"
+          className="w-full md:w-80 border-r border-black/6 p-6 flex flex-col space-y-6"
           style={{
-            background: 'rgba(0, 0, 0, 0.2)',
+            background: 'rgba(255, 255, 255, 0.4)',
             backdropFilter: 'blur(24px)',
           }}
         >
-          <div className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.3em]">Experiment Library</div>
+          <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Experiment Library</div>
           <div className="space-y-2 grow overflow-y-auto pr-2 custom-scrollbar">
             {experiments.map((exp) => ( 
               <button
@@ -158,8 +158,8 @@ style={{
                 className={cn(
                   "w-full text-left p-5 transition-all duration-300 group relative overflow-hidden",
                   selectedId === exp.id 
-                    ? "bg-emerald-500 text-black shadow-[0_0_20px_rgba(16,185,129,0.2)]" 
-                    : "text-neutral-500 hover:text-white hover:bg-white/6"
+                    ? "bg-emerald-600 text-white shadow-[0_0_20px_rgba(16,185,129,0.15)]" 
+                    : "text-slate-500 hover:text-slate-900 hover:bg-black/3"
                 )}
                 style={{ borderRadius: '20px' }}
               >
@@ -167,7 +167,7 @@ style={{
                 {selectedId === exp.id && (
                   <motion.div 
                     layoutId="active-bg"
-                    className="absolute inset-0 bg-emerald-500"
+                    className="absolute inset-0 bg-emerald-600"
                     style={{ borderRadius: '20px' }}
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -176,8 +176,8 @@ style={{
               </button>
             ))}
           </div>
-          <div className="pt-6 border-t border-white/6">
-             <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+          <div className="pt-6 border-t border-black/6">
+             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 System Stable
              </div>
@@ -185,28 +185,28 @@ style={{
         </div>
 
         {/* Workspace Action Area */}
-        <div className="grow flex flex-col relative" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+        <div className="grow flex flex-col relative" style={{ background: 'rgba(0, 0, 0, 0.02)' }}>
           {/* Action Area Header */}
           <div
-            className="p-8 border-b border-white/6 flex justify-between items-center relative z-20"
+            className="p-8 border-b border-black/6 flex justify-between items-center relative z-20"
             style={{
-              background: 'rgba(255, 255, 255, 0.04)',
+              background: 'rgba(255, 255, 255, 0.5)',
               backdropFilter: 'blur(16px)',
             }}
           >
             <div className="space-y-1">
-              <h2 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tighter transition-all">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase italic tracking-tighter transition-all">
                 {activeExp.title}
               </h2>
-              <p className="text-xs text-neutral-500 font-medium">{activeExp.description}</p>
+              <p className="text-xs text-slate-500 font-medium">{activeExp.description}</p>
             </div>
             <button 
               onClick={() => setShowCode(!showCode)}
               className={cn(
                 "px-8 py-3 font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500",
                 showCode 
-                  ? "bg-emerald-500 text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]" 
-                  : "text-emerald-500 glass-btn hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+                  ? "bg-emerald-600 text-white shadow-[0_0_30px_rgba(16,185,129,0.2)]" 
+                  : "text-emerald-600 glass-btn hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
               )}
               style={{
                 borderRadius: '16px',
@@ -232,13 +232,13 @@ style={{
               </motion.div>
             </AnimatePresence>
 
-            <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 opacity-[0.02] pointer-events-none">
+            <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 opacity-[0.03] pointer-events-none">
                {[...Array(100)].map((_, i) => (
-                 <div key={i} className="border-[0.5px] border-white" />
+                 <div key={i} className="border-[0.5px] border-slate-900" />
                ))}
             </div>
             
-            {/* Source Code Overlay */}
+            {/* Source Code Overlay — stays dark for readability */}
             <AnimatePresence>
               {showCode && (
                 <motion.div
@@ -246,18 +246,18 @@ style={{
                   animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
                   exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
                   className="absolute inset-0 z-50 p-12 overflow-y-auto custom-scrollbar"
-                  style={{ background: 'rgba(0, 0, 0, 0.6)' }}
+                  style={{ background: 'rgba(15, 23, 42, 0.88)' }}
                 >
                   <div className="max-w-4xl mx-auto space-y-12">
                     <div className="flex justify-between items-center border-b border-white/6 pb-8">
                        <div className="space-y-1">
-                          <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">Node_Trace // Implement</span>
+                          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em]">Node_Trace // Implement</span>
                           <h3 className="text-1xl font-black text-white italic uppercase tracking-tighter">{activeExp.title}</h3>
                        </div>
                        <div className="flex items-center gap-4">
                           <button 
                             onClick={() => copyToClipboard(activeExp.code)}
-                            className="bg-emerald-500/10 border border-emerald-500/20 px-6 py-2 text-emerald-500 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-black transition-all flex items-center gap-2"
+                            className="bg-emerald-500/10 border border-emerald-500/20 px-6 py-2 text-emerald-400 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-black flex items-center gap-2 transition-all"
                             style={{ borderRadius: '16px' }}
                           >
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -265,7 +265,7 @@ style={{
                           </button>
                           <button 
                             onClick={() => setShowCode(false)}
-                            className="text-neutral-500 hover:text-white text-[10px] font-black uppercase tracking-widest"
+                            className="text-neutral-400 hover:text-white text-[10px] font-black uppercase tracking-widest"
                           >
                             [ Close ]
                           </button>
@@ -276,8 +276,14 @@ style={{
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="text-emerald-400 text-1xl font-mono leading-relaxed italic whitespace-pre-wrap p-8 glass"
-                      style={{ borderRadius: '28px' }}
+                      className="text-emerald-400 text-1xl font-mono leading-relaxed italic whitespace-pre-wrap p-8"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(24px)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                        borderRadius: '28px',
+                      }}
                     >
                       <code>{activeExp.code}</code>
                     </motion.pre>
@@ -286,11 +292,16 @@ style={{
                        {['REACTIVE', 'THREAD_SAFE', 'ATOMIC'].map((label) => (
                          <div
                            key={label}
-                           className="p-6 text-center glass-btn"
-                           style={{ borderRadius: '20px' }}
+                           className="p-6 text-center"
+                           style={{
+                             background: 'rgba(255, 255, 255, 0.05)',
+                             backdropFilter: 'blur(8px)',
+                             border: '1px solid rgba(255, 255, 255, 0.08)',
+                             borderRadius: '20px',
+                           }}
                          >
-                            <div className="text-[10px] font-black text-neutral-600 uppercase tracking-widest">{label}</div>
-                            <div className="text-emerald-500 font-bold mt-2">VERIFIED</div>
+                            <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">{label}</div>
+                            <div className="text-emerald-400 font-bold mt-2">VERIFIED</div>
                          </div>
                        ))}
                     </div>
@@ -323,11 +334,11 @@ function HapticGlow() {
       onMouseMove={handleMouseMove}
       className="w-full h-full absolute inset-0 cursor-crosshair group/glow"
       style={{
-        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(16, 185, 129, 0.1), transparent 80%)`
+        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(16, 185, 129, 0.15), transparent 80%)`
       }}
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <Sparkles className="w-8 h-8 text-emerald-500/20 group-hover/glow:text-emerald-500 transition-colors duration-700" />
+        <Sparkles className="w-8 h-8 text-emerald-600/20 group-hover/glow:text-emerald-600 transition-colors duration-700" />
       </div>
     </div>
   );
@@ -348,14 +359,14 @@ function MagneticButton() {
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
       animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="px-8 py-4 bg-emerald-500 font-black text-[10px] uppercase tracking-[0.2em] text-black shadow-2xl relative group shadow-emerald-500/20"
+      className="px-8 py-4 bg-emerald-600 font-black text-[10px] uppercase tracking-[0.2em] text-white shadow-2xl relative group shadow-emerald-600/20"
       style={{ borderRadius: '20px' }}
     >
       <span className="relative z-10 flex items-center gap-2">
         <MousePointer2 className="w-3 h-3" />
         Trace Momentum
       </span>
-      <div className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500" style={{ borderRadius: '20px' }} />
+      <div className="absolute inset-0 bg-black/10 scale-0 group-hover:scale-100 transition-transform duration-500" style={{ borderRadius: '20px' }} />
     </motion.button>
   );
 }
@@ -363,24 +374,24 @@ function MagneticButton() {
 function GlassRefraction() {
   return (
     <div className="relative w-full h-full flex items-center justify-center p-12 overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-tr from-emerald-900/20 via-black to-red-900/20" />
+      <div className="absolute inset-0 bg-linear-to-tr from-emerald-100/40 via-white to-indigo-100/40" />
       <motion.div 
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl absolute"
+        className="w-48 h-48 bg-emerald-500/15 rounded-full blur-3xl absolute"
       />
       <div
         className="relative w-full max-w-50 aspect-square flex flex-col items-center justify-center p-6 text-center"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
+          background: 'rgba(255, 255, 255, 0.55)',
           backdropFilter: 'blur(24px) saturate(180%)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
           borderRadius: '28px',
-          boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+          boxShadow: '0 16px 48px rgba(0, 0, 0, 0.06)',
         }}
       >
-        <Layers className="w-6 h-6 text-white/40 mb-4" />
-        <span className="text-[10px] font-black text-white/60 tracking-widest uppercase italic">Refraction Layer</span>
+        <Layers className="w-6 h-6 text-slate-400 mb-4" />
+        <span className="text-[10px] font-black text-slate-500 tracking-widest uppercase italic">Refraction Layer</span>
       </div>
     </div>
   );
@@ -406,14 +417,14 @@ function ParallaxDepth() {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="w-48 h-64 shadow-2xl flex items-center justify-center relative group"
         style={{
-          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.06), rgba(0,0,0,0.4))',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.7), rgba(255,255,255,0.3))',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
           borderRadius: '28px',
           transformStyle: 'preserve-3d',
         }}
       >
-        <div className="absolute inset-4 border border-emerald-500/20" style={{ borderRadius: '20px', transform: 'translateZ(20px)' }} />
-        <Maximize2 className="w-8 h-8 text-emerald-500 animate-pulse" style={{ transform: 'translateZ(50px)' }} />
+        <div className="absolute inset-4 border border-emerald-600/20" style={{ borderRadius: '20px', transform: 'translateZ(20px)' }} />
+        <Maximize2 className="w-8 h-8 text-emerald-600 animate-pulse" style={{ transform: 'translateZ(50px)' }} />
       </motion.div>
     </div>
   );
@@ -427,7 +438,7 @@ function ElasticExpand() {
       transition={{ type: "spring", stiffness: 400, damping: 10, mass: 0.5 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        "bg-emerald-500 text-black font-black uppercase tracking-widest cursor-pointer",
+        "bg-emerald-600 text-white font-black uppercase tracking-widest cursor-pointer",
         expanded ? "w-64 h-64 p-12" : "w-16 h-16 p-4 flex items-center justify-center"
       )}
       style={{ borderRadius: expanded ? '28px' : '20px' }}
@@ -435,12 +446,12 @@ function ElasticExpand() {
       {expanded ? (
         <div className="space-y-4">
           <p className="text-[10px]">Elastic Node</p>
-          <div className="h-2 w-full bg-black/10 rounded-full overflow-hidden">
-            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-black" />
+          <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
+            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-white" />
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <div className="h-8 bg-black/5" style={{ borderRadius: '16px' }} />
-            <div className="h-8 bg-black/5" style={{ borderRadius: '16px' }} />
+            <div className="h-8 bg-white/10" style={{ borderRadius: '16px' }} />
+            <div className="h-8 bg-white/10" style={{ borderRadius: '16px' }} />
           </div>
         </div>
       ) : (
@@ -460,21 +471,21 @@ function FluidSpotlight() {
   return (
     <div 
       onMouseMove={handleMouseMove}
-      className="relative w-full h-full bg-neutral-900 overflow-hidden cursor-none"
+      className="relative w-full h-full bg-slate-100 overflow-hidden cursor-none"
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <span className="text-8xl font-black text-white italic">ATLAS</span>
+        <span className="text-8xl font-black text-slate-900 italic">ATLAS</span>
       </div>
       <div 
-        className="absolute inset-0 flex items-center justify-center bg-emerald-500"
+        className="absolute inset-0 flex items-center justify-center bg-emerald-600"
         style={{
           clipPath: `circle(80px at ${pos.x}px ${pos.y}px)`
         }}
       >
-        <span className="text-8xl font-black text-black italic">ATLAS</span>
+        <span className="text-8xl font-black text-white italic">ATLAS</span>
       </div>
       <div 
-        className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
+        className="absolute w-2 h-2 bg-slate-900 rounded-full pointer-events-none"
         style={{ left: pos.x, top: pos.y, transform: 'translate(-50%, -50%)' }}
       />
     </div>

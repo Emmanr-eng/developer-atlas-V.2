@@ -6,28 +6,28 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-serif: 'Playfair Display', serif;
   
-  --color-neutral-950: #ffffff;
-  --color-neutral-900: #ffffff;
-  --color-neutral-800: #ffffff;
-  --color-neutral-700: #ffffff;
+  --color-neutral-950: #0a0a0a;
+  --color-neutral-900: #171717;
+  --color-neutral-800: #262626;
+  --color-neutral-700: #404040;
 }
 
-/* ── Glassmorphism Design Tokens ── */
+/* ── Light Glassmorphism Design Tokens ── */
 :root {
-  --glass-bg:           rgba(255, 255, 255, 0.05);
-  --glass-bg-hover:     rgba(255, 255, 255, 0.08);
-  --glass-bg-elevated:  rgba(255, 255, 255, 0.10);
-  --glass-border:       rgba(255, 255, 255, 0.12);
-  --glass-border-hover: rgba(255, 255, 255, 0.20);
+  --glass-bg:           rgba(255, 255, 255, 0.55);
+  --glass-bg-hover:     rgba(255, 255, 255, 0.70);
+  --glass-bg-elevated:  rgba(255, 255, 255, 0.65);
+  --glass-border:       rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(0, 0, 0, 0.14);
 
   --glass-blur-sm:  8px;
   --glass-blur-md:  16px;
   --glass-blur-lg:  24px;
   --glass-blur-xl:  40px;
 
-  --glass-shadow:      0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-  --glass-shadow-lg:   0 16px 48px rgba(0, 0, 0, 0.20), 0 4px 16px rgba(0, 0, 0, 0.10);
-  --glass-shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
+  --glass-shadow:      0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --glass-shadow-lg:   0 16px 48px rgba(0, 0, 0, 0.10), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --glass-shadow-glow: 0 0 24px rgba(16, 185, 129, 0.18);
 
   --radius-sm:  12px;
   --radius-md:  16px;
@@ -43,12 +43,12 @@
   }
   
   body {
-    @apply antialiased h-full text-neutral-100;
+    @apply antialiased h-full text-slate-800;
     background:
-      radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
-      #050508;
+      radial-gradient(ellipse at 15% 5%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 15%, rgba(99, 102, 241, 0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(244, 114, 182, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 1) 0%, #f0f2f5 100%);
     background-attachment: fixed;
   }
 
@@ -57,7 +57,7 @@
   }
 
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-emerald-500;
+    @apply outline-2 outline-offset-2 outline-emerald-600;
     border-radius: var(--radius-sm);
   }
 }
@@ -92,17 +92,19 @@
 
 /* ── Glass Input ── */
 .glass-input {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(var(--glass-blur-sm));
   -webkit-backdrop-filter: blur(var(--glass-blur-sm));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   transition: all 0.3s ease;
+  color: #1e293b;
 }
 
 .glass-input:focus {
   border-color: rgba(16, 185, 129, 0.5);
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.12);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* ── Glass Button ── */
@@ -125,7 +127,7 @@
 
 /* Skip to content */
 .skip-to-content {
-  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 z-100 uppercase tracking-widest;
+  @apply absolute left-4 bg-emerald-600 text-white font-bold text-xs px-4 py-2 z-100 uppercase tracking-widest;
   border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   top: -100%;
   transition: top 0.2s ease;
@@ -143,6 +145,6 @@
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 4px;
 }

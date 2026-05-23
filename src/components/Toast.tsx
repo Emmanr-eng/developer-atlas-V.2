@@ -40,16 +40,16 @@ export const Toast: React.FC<ToastProps> = ({
           <div
             className={`flex items-center gap-3 px-5 py-4 ${
               type === 'success'
-                ? 'text-emerald-400'
-                : 'text-red-400'
+                ? 'text-emerald-700'
+                : 'text-red-700'
             }`}
             style={{
-              background: type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+              background: type === 'success' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.85)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
               border: `1px solid ${type === 'success' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)'}`,
               borderRadius: '20px',
-              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04)',
             }}
           >
             {type === 'success' ? (
@@ -60,7 +60,7 @@ export const Toast: React.FC<ToastProps> = ({
             <span className="text-xs font-bold uppercase tracking-widest">{message}</span>
             <button
               onClick={onClose}
-              className="ml-2 p-1 rounded-lg hover:bg-white/10 transition-colors"
+              className="ml-2 p-1 rounded-lg hover:bg-black/5 transition-colors"
               aria-label="Dismiss notification"
             >
               <X className="w-4 h-4" />

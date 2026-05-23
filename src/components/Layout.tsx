@@ -37,18 +37,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     location.hash === `#${id}` || (location.hash === '' && id === 'home' && location.pathname === '/');
 
   return (
-    <div className="min-h-screen bg-transparent text-neutral-100 flex flex-col font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-slate-800 flex flex-col font-sans transition-colors duration-300">
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
 
       <nav
-        className="sticky top-0 z-50 px-6 py-4 border-b border-white/8"
+        className="sticky top-0 z-50 px-6 py-4 border-b border-black/6"
         style={{
-          background: 'rgba(255, 255, 255, 0.03)',
+          background: 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(24px) saturate(180%)',
           WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+          boxShadow: '0 4px 24px rgba(0, 0, 0, 0.04)',
         }}
         role="navigation"
         aria-label="Main navigation"
@@ -64,8 +64,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             }}
             className="flex items-center space-x-3 group text-left outline-none"
           >
-            <div className="w-10 h-10 bg-emerald-500 rounded-[14px] flex items-center justify-center font-bold text-black text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-500/20" aria-hidden="true">A</div>
-            <span className="text-lg font-medium tracking-tight">Atlas <span className="text-neutral-500 hidden sm:inline">/ Developer Portal</span></span>
+            <div className="w-10 h-10 bg-emerald-600 rounded-[14px] flex items-center justify-center font-bold text-white text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-600/20" aria-hidden="true">A</div>
+            <span className="text-lg font-medium tracking-tight text-slate-900">Atlas <span className="text-slate-400 hidden sm:inline">/ Developer Portal</span></span>
           </button>
 
           {/* Desktop Nav */}
@@ -73,9 +73,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <div
               className="flex p-1 mr-4"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
+                background: 'rgba(0, 0, 0, 0.04)',
                 backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '24px',
               }}
               role="tablist"
@@ -96,8 +96,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   className={cn(
                     "px-4 py-1.5 rounded-full text-xs font-semibold transition-all",
                     isActiveNav(item.id)
-                      ? "bg-emerald-500/15 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
-                      : "text-neutral-400 hover:text-neutral-200 hover:bg-white/6"
+                      ? "bg-emerald-600/15 text-emerald-700 shadow-[0_0_12px_rgba(16,185,129,0.12)]"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-black/4"
                   )}
                 >
                   {item.name}
@@ -106,7 +106,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {isAdmin && (
                 <Link 
                   to="/admin"
-                  className="px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-400 hover:text-neutral-200 hover:bg-white/6"
+                  className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-black/4"
                 >
                   Admin
                 </Link>
@@ -115,11 +115,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             
             <div className="flex gap-2">
               <div
-                className="hidden lg:flex px-4 py-2 rounded-full text-[10px] items-center gap-2 uppercase tracking-widest font-bold"
+                className="hidden lg:flex px-4 py-2 rounded-full text-[10px] items-center gap-2 uppercase tracking-widest font-bold text-slate-600"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.06)',
+                  background: 'rgba(255, 255, 255, 0.7)',
                   backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
                 }}
               >
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></div> Available
@@ -128,7 +128,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {user ? (
                 <button
                   onClick={logout}
-                  className="bg-neutral-100 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-white transition-colors hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                  className="bg-slate-900 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-slate-800 transition-colors hover:shadow-[0_0_20px_rgba(0,0,0,0.1)]"
                   id="logout-btn"
                 >
                   Sign Out
@@ -136,7 +136,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               ) : (
                 <button
                   onClick={login}
-                  className="bg-emerald-500 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-500/20 hover:shadow-[0_0_24px_rgba(16,185,129,0.3)]"
+                  className="bg-emerald-600 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-emerald-600/20 hover:shadow-[0_0_24px_rgba(16,185,129,0.25)]"
                   id="login-btn"
                 >
                   Admin Access
@@ -149,11 +149,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-[14px]"
+              className="p-2 rounded-[14px] text-slate-700"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
+                background: 'rgba(255, 255, 255, 0.7)',
                 backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
               }}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav-menu"
@@ -176,12 +176,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               exit={{ opacity: 0, y: -10 }}
               className="md:hidden mt-4 overflow-hidden shadow-2xl"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: 'rgba(255, 255, 255, 0.75)',
                 backdropFilter: 'blur(40px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '28px',
-                boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+                boxShadow: '0 16px 48px rgba(0, 0, 0, 0.08)',
               }}
             >
               <div className="p-4 space-y-1">
@@ -197,7 +197,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         scrollTo(item.id);
                       }
                     }}
-                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl transition-colors hover:bg-white/6 text-neutral-400"
+                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl transition-colors hover:bg-black/4 text-slate-600"
                   >
                     <item.icon className="w-5 h-5" aria-hidden="true" />
                     <span className="font-semibold text-sm">{item.name}</span>
@@ -211,11 +211,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       
       {!isOnline && (
         <div
-          className="px-6 py-2 text-center text-amber-400 text-xs font-bold uppercase tracking-widest"
+          className="px-6 py-2 text-center text-amber-700 text-xs font-bold uppercase tracking-widest"
           style={{
             background: 'rgba(245, 158, 11, 0.08)',
             backdropFilter: 'blur(8px)',
-            borderBottom: '1px solid rgba(245, 158, 11, 0.2)',
+            borderBottom: '1px solid rgba(245, 158, 11, 0.15)',
           }}
           role="alert"
         >
@@ -239,14 +239,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </main>
 
       <footer
-        className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-bold border-t border-white/6"
+        className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold border-t border-black/6"
         role="contentinfo"
       >
         <div>&copy; {new Date().getFullYear()} Developer Atlas. Navigating the tech landscape.</div>
         <div className="flex gap-8 mt-4 sm:mt-0">
-          <a href="#" className="hover:text-emerald-400 transition-colors">GitHub</a>
-          <a href="#" className="hover:text-emerald-400 transition-colors">LinkedIn</a>
-          <a href="#" className="hover:text-emerald-400 transition-colors">Twitter</a>
+          <a href="#" className="hover:text-emerald-600 transition-colors">GitHub</a>
+          <a href="#" className="hover:text-emerald-600 transition-colors">LinkedIn</a>
+          <a href="#" className="hover:text-emerald-600 transition-colors">Twitter</a>
         </div>
       </footer>
     </div>
