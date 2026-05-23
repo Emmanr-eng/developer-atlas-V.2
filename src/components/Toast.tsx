@@ -38,11 +38,19 @@ export const Toast: React.FC<ToastProps> = ({
           aria-live="polite"
         >
           <div
-            className={`flex items-center gap-3 px-5 py-4 rounded-2xl border shadow-2xl backdrop-blur-md ${
+            className={`flex items-center gap-3 px-5 py-4 ${
               type === 'success'
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                : 'bg-red-500/10 border-red-500/30 text-red-400'
+                ? 'text-emerald-400'
+                : 'text-red-400'
             }`}
+            style={{
+              background: type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+              backdropFilter: 'blur(16px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+              border: `1px solid ${type === 'success' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)'}`,
+              borderRadius: '20px',
+              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1)',
+            }}
           >
             {type === 'success' ? (
               <CheckCircle2 className="w-5 h-5 shrink-0" />
