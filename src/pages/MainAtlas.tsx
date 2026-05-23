@@ -58,7 +58,7 @@ export default function MainAtlas() {
   }, [location.hash]);
 
   return (
-    <div className="space-y-32 pb-32">
+    <div className="space-y-24 pb-24">
       {/* Home loads eagerly — it's above the fold */}
       <section id="home">
         <Suspense fallback={<SectionSkeleton variant="hero" label="Home" />}>
