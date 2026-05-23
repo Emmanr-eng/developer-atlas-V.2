@@ -3,7 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - "feature/day7-upgrade7-VisualRevamp"
+    - "main"
+    - "feature/day7-upgrade8-VisualRevampV.2"
   workflow_dispatch:
 
 permissions:
