@@ -93,9 +93,30 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 | `npm run dev` | Start the dev server on port 3000 |
 | `npm run build` | Production build to `dist/` |
 | `npm run preview` | Preview the production build |
+| `npm run preview:local` | Preview build on `0.0.0.0:4173` with Vite server |
 | `npm run lint` | Type-check with TypeScript |
 | `npm run deploy` | Build and deploy to GitHub Pages |
 | `npm run clean` | Remove `dist/` and `server.js` |
+
+### White Screen / MIME Type Module Error
+
+If the browser reports a MIME error for module scripts, it usually means the app tried to load either:
+
+- Source files like `src/main.tsx` from a plain static server, or
+- A missing built asset path that got rewritten to HTML.
+
+Use the project with Vite commands only:
+
+```bash
+npm run dev
+```
+
+or for production output:
+
+```bash
+npm run build
+npm run preview:local
+```
 
 ---
 
