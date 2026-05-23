@@ -13,58 +13,60 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss() as any,
-      VitePWA({
-        registerType: 'autoUpdate',
-        includeAssets: ['offline.html'],
-        manifest: false,
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-          // ✅ FIX: navigateFallback must include the base path for GitHub Pages
-          navigateFallback: isGitHubPages ? '/developer-atlas-V.2/index.html' : '/index.html',
-          navigateFallbackDenylist: [/^\/api/],
-          // ✅ FIX 2: Force the new SW to activate immediately, replacing the stale one
-          skipWaiting: true,
-          clientsClaim: true,
-          // ✅ FIX 3: Clean old precaches from previous builds
-          cleanupOutdatedCaches: true,
-          runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/firestore\.googleapis\.com\/.*/i,
-              handler: 'NetworkFirst',
-              options: {
-                cacheName: 'firestore-api-cache',
-                networkTimeoutSeconds: 3,
-                expiration: {
-                  maxEntries: 50,
-                  maxAgeSeconds: 60 * 60 * 24,
-                },
+      // ✅ Only enable PWA for Firebase deploys, NOT GitHub Pages
+      ...(!isGitHubPages
+        ? [
+            VitePWA({
+              registerType: 'autoUpdate',
+              includeAssets: ['offline.html'],
+              manifest: false,
+              workbox: {
+                globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+                navigateFallback: '/index.html',
+                navigateFallbackDenylist: [/^\/api/],
+                skipWaiting: true,
+                clientsClaim: true,
+                cleanupOutdatedCaches: true,
+                runtimeCaching: [
+                  {
+                    urlPattern: /^https:\/\/firestore\.googleapis\.com\/.*/i,
+                    handler: 'NetworkFirst',
+                    options: {
+                      cacheName: 'firestore-api-cache',
+                      networkTimeoutSeconds: 3,
+                      expiration: {
+                        maxEntries: 50,
+                        maxAgeSeconds: 60 * 60 * 24,
+                      },
+                    },
+                  },
+                  {
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'image-cache',
+                      expiration: {
+                        maxEntries: 60,
+                        maxAgeSeconds: 60 * 60 * 24 * 30,
+                      },
+                    },
+                  },
+                  {
+                    urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'google-fonts-cache',
+                      expiration: {
+                        maxEntries: 10,
+                        maxAgeSeconds: 60 * 60 * 24 * 365,
+                      },
+                    },
+                  },
+                ],
               },
-            },
-            {
-              urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'image-cache',
-                expiration: {
-                  maxEntries: 60,
-                  maxAgeSeconds: 60 * 60 * 24 * 30,
-                },
-              },
-            },
-            {
-              urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'google-fonts-cache',
-                expiration: {
-                  maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365,
-                },
-              },
-            },
-          ],
-        },
-      } as any),
+            } as any),
+          ]
+        : []),
     ],
     base,
     resolve: {
