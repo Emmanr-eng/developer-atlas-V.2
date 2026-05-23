@@ -19,8 +19,8 @@ export default defineConfig(({ mode }) => {
         manifest: false,
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-          // ✅ FIX 1: navigateFallback should be relative to base, not include it
-          navigateFallback: 'index.html',
+          // ✅ FIX: navigateFallback must include the base path for GitHub Pages
+          navigateFallback: isGitHubPages ? '/developer-atlas-V.2/index.html' : '/index.html',
           navigateFallbackDenylist: [/^\/api/],
           // ✅ FIX 2: Force the new SW to activate immediately, replacing the stale one
           skipWaiting: true,
