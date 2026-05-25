@@ -6,7 +6,7 @@ interface SectionSkeletonProps {
 }
 
 const Pulse: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`animate-pulse bg-neutral-800/50 rounded-2xl ${className}`} />
+  <div className={`animate-pulse bg-[#1a1a2e] rounded-lg border border-[#2a2a4a]/30 ${className}`} />
 );
 
 export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'grid', label }) => {
@@ -35,7 +35,7 @@ export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'gri
         <div className="space-y-4 max-w-3xl mx-auto">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="bento-card flex gap-6 items-start">
-              <Pulse className="h-16 w-16 shrink-0 rounded-xl" />
+              <Pulse className="h-16 w-16 shrink-0 rounded-lg" />
               <div className="flex-1 space-y-3">
                 <Pulse className="h-5 w-2/3" />
                 <Pulse className="h-3 w-full" />
@@ -50,7 +50,7 @@ export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'gri
         <div className="space-y-6 max-w-3xl mx-auto text-center">
           <Pulse className="h-14 w-96 mx-auto max-w-full" />
           <Pulse className="h-5 w-80 mx-auto max-w-full" />
-          <Pulse className="h-12 w-40 mx-auto rounded-full" />
+          <Pulse className="h-12 w-40 mx-auto rounded-lg" />
         </div>
       )}
 
@@ -61,7 +61,7 @@ export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({ variant = 'gri
             <Pulse className="h-14 w-full" />
           </div>
           <Pulse className="h-32 w-full" />
-          <Pulse className="h-14 w-full rounded-2xl" />
+          <Pulse className="h-14 w-full rounded-lg" />
         </div>
       )}
 

@@ -11,26 +11,26 @@ interface Experiment {
   code: string;
   component: React.ReactNode;
 }
-// Line 101
+
 export default function Lab() {
-  const [searchParams] = useSearchParams();     // Line 102
-  const [selectedId, setSelectedId] = useState('haptic-glow'); // Line 103
-  const [showCode, setShowCode] = useState(false); // Line 104
-  const [copied, setCopied] = useState(false); // Line 105
-// Line 106
-  useEffect(() => { 
+  const [searchParams] = useSearchParams();
+  const [selectedId, setSelectedId] = useState('haptic-glow');
+  const [showCode, setShowCode] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
     const expId = searchParams.get('exp');
     if (expId && experiments.some(e => e.id === expId)) {
       setSelectedId(expId);
     }
   }, [searchParams]);
-// Line 107
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-// Line 108
+
   const experiments: Experiment[] = [
     {
       id: 'haptic-glow',
@@ -119,83 +119,73 @@ style={{
       component: <FluidSpotlight />
     }
   ];
-//  Line 109
+
   const activeExp = experiments.find(e => e.id === selectedId) || experiments[0];
-//  Line 110
+
   return (
-    // Line 111
-    <div className="space-y-12 pb-24"> 
+    <div className="space-y-12 pb-24">
       <div className="space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest">
-          <FlaskConical className="w-3 h-3" /> {/* Line 112*/}
+        <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-arcade-green/10 border border-arcade-green/20 text-arcade-green text-[8px] font-mono font-bold uppercase tracking-widest">
+          <FlaskConical className="w-3 h-3" />
           <span>Component Lab</span>
         </div>
         <div>
-          <h1 className="text-4xl font-bold tracking-tighter uppercase italic">Component Lab</h1>
-          <p className="text-emerald-500 text-xs font-medium uppercase tracking-[0.2em] mt-1">Interactive experiments in UI architecture</p>
+          <h1 className="pixel-heading text-xl neon-green leading-relaxed">COMPONENT LAB</h1>
+          <p className="text-arcade-green/60 text-[8px] font-mono font-bold uppercase tracking-[0.2em] mt-1">Interactive experiments in UI architecture</p>
         </div>
-        <p className="text-neutral-400 max-w-2xl text-sm leading-relaxed">
+        <p className="text-[#2a2a4a] max-w-2xl text-xs leading-relaxed font-mono">
           A physical playground for structural UI primitives. Interact with the workbench below to explore different architectural nodes.
         </p>
       </div>
 
-      <div className="bento-card bg-neutral-900 border-neutral-800 min-h-187.5 flex flex-col md:flex-row overflow-hidden shadow-2xl relative">
+      <div className="bento-card bg-[#0a0a12] border-[#2a2a4a] min-h-187.5 flex flex-col md:flex-row overflow-hidden relative"
+           style={{ boxShadow: '0 0 40px rgba(57, 255, 20, 0.05)' }}>
         {/* Workspace Sidebar */}
-        <div className="w-full md:w-80 border-r border-neutral-800 bg-black/30 p-6 flex flex-col space-y-6">
-          <div className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.3em]">Experiment Library</div>
-          <div className="space-y-2 grow overflow-y-auto pr-2 custom-scrollbar">
-            {/* Line 113 */}
-            {experiments.map((exp) => ( 
+        <div className="w-full md:w-80 border-r-2 border-[#2a2a4a] bg-[#0a0a12] p-6 flex flex-col space-y-6">
+          <div className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">EXPERIMENT LIBRARY</div>
+          <div className="space-y-2 grow overflow-y-auto pr-2">
+            {experiments.map((exp) => (
               <button
                 key={exp.id}
-                onClick={() => { setSelectedId(exp.id); setShowCode(false); }} // line 114
+                onClick={() => { setSelectedId(exp.id); setShowCode(false); }}
                 className={cn(
-                  "w-full text-left p-5 rounded-2xl transition-all duration-300 group relative overflow-hidden",
-                  selectedId === exp.id 
-                    ? "bg-emerald-500 text-black" 
-                    : "text-neutral-500 hover:text-white hover:bg-neutral-800/50"
+                  "w-full text-left p-4 rounded-lg transition-all duration-300 group relative overflow-hidden border-2",
+                  selectedId === exp.id
+                    ? "bg-arcade-green text-[#0a0a12] border-arcade-green"
+                    : "text-[#2a2a4a] hover:text-arcade-green hover:bg-[#1a1a2e] border-transparent hover:border-arcade-green/30"
                 )}
               >
-                <div className="text-xs font-black uppercase tracking-tighter italic relative z-10">{exp.title}</div>
-                {selectedId === exp.id && (
-                  <motion.div 
-                    layoutId="active-bg"
-                    className="absolute inset-0 bg-emerald-500"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
+                <div className="text-[9px] font-mono font-bold uppercase tracking-wider relative z-10">{exp.title}</div>
               </button>
             ))}
           </div>
-          <div className="pt-6 border-t border-neutral-800">
-             <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                System Stable
-             </div>
+          <div className="pt-6 border-t border-[#2a2a4a]/30">
+            <div className="flex items-center gap-2 text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest">
+              <span className="w-1.5 h-1.5 rounded-full bg-arcade-green coin-blink"></span>
+              System Stable
+            </div>
           </div>
         </div>
 
         {/* Workspace Action Area */}
-        <div className="grow flex flex-col relative bg-black">
-          {/* Action Area Header */}
-          <div className="p-8 border-b border-neutral-800 bg-neutral-900/40 backdrop-blur-md flex justify-between items-center relative z-20">
+        <div className="grow flex flex-col relative bg-[#0a0a12]">
+          <div className="p-8 border-b-2 border-[#2a2a4a] bg-[#12121f]/40 backdrop-blur-md flex justify-between items-center relative z-20">
             <div className="space-y-1">
-              <h2 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tighter transition-all">
+              <h2 className="pixel-heading text-[11px] text-white leading-relaxed">
                 {activeExp.title}
               </h2>
-              <p className="text-xs text-neutral-500 font-medium">{activeExp.description}</p>
+              <p className="text-[9px] text-[#2a2a4a] font-mono">{activeExp.description}</p>
             </div>
-            <button 
+            <button
               onClick={() => setShowCode(!showCode)}
               className={cn(
-                "px-8 py-3 rounded-xl border-2 font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500",
-                showCode 
-                  ? "bg-emerald-500 border-emerald-400 text-black shadow-[0_0_30px_rgba(16,185,129,0.3)]" 
-                  : "bg-black border-neutral-800 text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+                "arcade-btn text-[8px]",
+                showCode
+                  ? "bg-arcade-green border-[#22cc00] text-[#0a0a12] shadow-[0_0_20px_rgba(57,255,20,0.3)]"
+                  : "bg-[#0a0a12] border-[#2a2a4a] text-arcade-green hover:border-arcade-green"
               )}
             >
-              CODE
+              {'</>'}  CODE
             </button>
           </div>
 
@@ -214,61 +204,62 @@ style={{
               </motion.div>
             </AnimatePresence>
 
-            {/* Stage Background Decoration */}
+            {/* Grid Background */}
             <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 opacity-[0.03] pointer-events-none">
-               {[...Array(100)].map((_, i) => (
-                 <div key={i} className="border-[0.5px] border-white" />
-               ))}
+              {[...Array(100)].map((_, i) => (
+                <div key={i} className="border-[0.5px] border-arcade-cyan" />
+              ))}
             </div>
-            
-            {/* Source Code Overaly */}
+
+            {/* Code Overlay */}
             <AnimatePresence>
               {showCode && (
                 <motion.div
                   initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
                   animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
                   exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                  className="absolute inset-0 bg-black/80 z-50 p-12 overflow-y-auto custom-scrollbar"
+                  className="absolute inset-0 bg-[#0a0a12]/90 z-50 p-12 overflow-y-auto"
                 >
                   <div className="max-w-4xl mx-auto space-y-12">
-                    <div className="flex justify-between items-center border-b border-neutral-800 pb-8">
-                       <div className="space-y-1">
-                          <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em]">Node_Trace // Implement</span>
-                          <h3 className="text-1xl font-black text-white italic uppercase tracking-tighter">{activeExp.title}</h3>
-                       </div>
-                       <div className="flex items-center gap-4">
-                          <button 
-                            onClick={() => copyToClipboard(activeExp.code)}
-                            className="bg-emerald-500/10 border border-emerald-500/20 px-6 py-2 rounded-xl text-emerald-500 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-black transition-all flex items-center gap-2"
-                          >
-                            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            {copied ? "Copied" : "Copy Source"}
-                          </button>
-                          <button 
-                            onClick={() => setShowCode(false)}
-                            className="text-neutral-500 hover:text-white text-[10px] font-black uppercase tracking-widest"
-                          >
-                            [ Close ]
-                          </button>
-                       </div>
+                    <div className="flex justify-between items-center border-b border-[#2a2a4a] pb-8">
+                      <div className="space-y-1">
+                        <span className="pixel-heading text-[7px] text-arcade-green leading-relaxed">NODE_TRACE // IMPLEMENT</span>
+                        <h3 className="text-lg font-mono font-bold text-white">{activeExp.title}</h3>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <button
+                          onClick={() => copyToClipboard(activeExp.code)}
+                          className="arcade-btn bg-arcade-green/10 border-arcade-green/20 text-arcade-green hover:bg-arcade-green hover:text-[#0a0a12] text-[8px] flex items-center gap-2"
+                        >
+                          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          {copied ? "Copied" : "Copy"}
+                        </button>
+                        <button
+                          onClick={() => setShowCode(false)}
+                          className="text-[#2a2a4a] hover:text-white text-[8px] font-mono font-bold uppercase tracking-widest"
+                        >
+                          [ CLOSE ]
+                        </button>
+                      </div>
                     </div>
-                    
-                    <motion.pre 
+
+                    <motion.pre
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="text-emerald-400 text-1xl font-mono leading-relaxed italic whitespace-pre-wrap p-8 bg-neutral-900/50 rounded-3xl border border-neutral-800 shadow-2xl"
+                      className="text-arcade-green text-sm font-mono leading-relaxed whitespace-pre-wrap p-8 bg-[#0a0a12] rounded-xl border-2 border-arcade-green/20"
+                      style={{ boxShadow: '0 0 30px rgba(57, 255, 20, 0.05)' }}
                     >
                       <code>{activeExp.code}</code>
                     </motion.pre>
-                    
+
                     <div className="grid grid-cols-3 gap-6">
-                       {['REACTIVE', 'THREAD_SAFE', 'ATOMIC'].map((label) => (
-                         <div key={label} className="p-6 border border-neutral-800 rounded-2xl bg-black/50 text-center">
-                            <div className="text-[10px] font-black text-neutral-600 uppercase tracking-widest">{label}</div>
-                            <div className="text-emerald-500 font-bold mt-2">VERIFIED</div>
-                         </div>
-                       ))}
+                      {['REACTIVE', 'THREAD_SAFE', 'ATOMIC'].map((label) => (
+                        <div key={label} className="p-6 border-2 border-[#2a2a4a] rounded-xl bg-[#0a0a12] text-center">
+                          <div className="pixel-heading text-[6px] text-[#2a2a4a] leading-relaxed">{label}</div>
+                          <div className="neon-green font-mono font-bold mt-2 text-sm">VERIFIED</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </motion.div>
@@ -281,7 +272,7 @@ style={{
   );
 }
 
-// --- Experiment Components ---
+// --- Experiment Components (visual-only updates) ---
 
 function HapticGlow() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -294,16 +285,16 @@ function HapticGlow() {
   };
 
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       onMouseMove={handleMouseMove}
       className="w-full h-full absolute inset-0 cursor-crosshair group/glow"
       style={{
-        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(16, 185, 129, 0.1), transparent 80%)`
+        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(0, 240, 255, 0.15), transparent 80%)`
       }}
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <Sparkles className="w-8 h-8 text-emerald-500/20 group-hover/glow:text-emerald-500 transition-colors duration-700" />
+        <Sparkles className="w-8 h-8 text-arcade-cyan/20 group-hover/glow:text-arcade-cyan transition-colors duration-700" />
       </div>
     </div>
   );
@@ -324,13 +315,14 @@ function MagneticButton() {
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
       animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="px-8 py-4 bg-emerald-500 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] text-black shadow-2xl relative group"
+      className="px-8 py-4 bg-arcade-magenta rounded-lg font-mono font-bold text-[10px] uppercase tracking-[0.2em] text-white relative group border-2 border-[#ff44cc]"
+      style={{ boxShadow: '0 0 25px rgba(255, 0, 170, 0.3), 0 4px 0 #990066' }}
     >
       <span className="relative z-10 flex items-center gap-2">
         <MousePointer2 className="w-3 h-3" />
         Trace Momentum
       </span>
-      <div className="absolute inset-0 bg-white/20 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500" />
+      <div className="absolute inset-0 bg-white/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-500" />
     </motion.button>
   );
 }
@@ -338,15 +330,15 @@ function MagneticButton() {
 function GlassRefraction() {
   return (
     <div className="relative w-full h-full flex items-center justify-center p-12 overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-tr from-emerald-900/20 via-black to-red-900/20" />
-      <motion.div 
+      <div className="absolute inset-0 bg-linear-to-tr from-arcade-purple/20 via-[#0a0a12] to-arcade-magenta/20" />
+      <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl absolute"
+        className="w-48 h-48 bg-arcade-cyan/20 rounded-full blur-3xl absolute"
       />
-      <div className="relative w-full max-w-50 aspect-square rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl flex flex-col items-center justify-center p-6 text-center">
+      <div className="relative w-full max-w-50 aspect-square rounded-xl backdrop-blur-xl bg-white/5 border-2 border-white/10 shadow-2xl flex flex-col items-center justify-center p-6 text-center">
         <Layers className="w-6 h-6 text-white/40 mb-4" />
-        <span className="text-[10px] font-black text-white/60 tracking-widest uppercase italic">Refraction Layer</span>
+        <span className="pixel-heading text-[7px] text-white/60 leading-relaxed">REFRACTION</span>
       </div>
     </div>
   );
@@ -362,7 +354,7 @@ function ParallaxDepth() {
   };
 
   return (
-    <div 
+    <div
       className="w-full h-full flex items-center justify-center perspective-[1000px]"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
@@ -370,11 +362,11 @@ function ParallaxDepth() {
       <motion.div
         animate={{ rotateX: tilt.y, rotateY: tilt.x }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-48 h-64 bg-linear-to-br from-neutral-800 to-black rounded-3xl border border-neutral-700/50 shadow-2xl flex items-center justify-center relative group"
-        style={{ transformStyle: 'preserve-3d' }}
+        className="w-48 h-64 bg-linear-to-br from-[#1a1a2e] to-[#0a0a12] rounded-xl border-2 border-[#2a2a4a] flex items-center justify-center relative group"
+        style={{ transformStyle: 'preserve-3d', boxShadow: '0 0 30px rgba(0, 240, 255, 0.1)' }}
       >
-        <div className="absolute inset-4 border border-emerald-500/20 rounded-2xl" style={{ transform: 'translateZ(20px)' }} />
-        <Maximize2 className="w-8 h-8 text-emerald-500 animate-pulse" style={{ transform: 'translateZ(50px)' }} />
+        <div className="absolute inset-4 border border-arcade-cyan/20 rounded-lg" style={{ transform: 'translateZ(20px)' }} />
+        <Maximize2 className="w-8 h-8 text-arcade-cyan coin-blink" style={{ transform: 'translateZ(50px)' }} />
       </motion.div>
     </div>
   );
@@ -388,19 +380,20 @@ function ElasticExpand() {
       transition={{ type: "spring", stiffness: 400, damping: 10, mass: 0.5 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        "bg-emerald-500 text-black font-black uppercase tracking-widest cursor-pointer",
-        expanded ? "w-64 h-64 rounded-[3rem] p-12" : "w-16 h-16 rounded-2xl p-4 flex items-center justify-center"
+        "bg-arcade-yellow text-[#0a0a12] font-mono font-bold uppercase tracking-widest cursor-pointer border-2 border-[#ccb800]",
+        expanded ? "w-64 h-64 rounded-xl p-12" : "w-16 h-16 rounded-lg p-4 flex items-center justify-center"
       )}
+      style={{ boxShadow: '0 0 20px rgba(255, 230, 0, 0.2)' }}
     >
       {expanded ? (
         <div className="space-y-4">
-          <p className="text-[10px]">Elastic Node</p>
-          <div className="h-2 w-full bg-black/10 rounded-full overflow-hidden">
-            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-black" />
+          <p className="pixel-heading text-[7px] leading-relaxed">ELASTIC NODE</p>
+          <div className="h-2 w-full bg-[#0a0a12]/10 rounded-full overflow-hidden">
+            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-[#0a0a12]" />
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <div className="h-8 bg-black/5 rounded-xl" />
-            <div className="h-8 bg-black/5 rounded-xl" />
+            <div className="h-8 bg-[#0a0a12]/10 rounded-lg" />
+            <div className="h-8 bg-[#0a0a12]/10 rounded-lg" />
           </div>
         </div>
       ) : (
@@ -418,22 +411,22 @@ function FluidSpotlight() {
   };
 
   return (
-    <div 
+    <div
       onMouseMove={handleMouseMove}
-      className="relative w-full h-full bg-neutral-900 overflow-hidden cursor-none"
+      className="relative w-full h-full bg-[#0a0a12] overflow-hidden cursor-none"
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <span className="text-8xl font-black text-white italic">ATLAS</span>
+        <span className="pixel-heading text-4xl text-white leading-relaxed">ATLAS</span>
       </div>
-      <div 
-        className="absolute inset-0 flex items-center justify-center bg-emerald-500"
+      <div
+        className="absolute inset-0 flex items-center justify-center bg-arcade-magenta"
         style={{
           clipPath: `circle(80px at ${pos.x}px ${pos.y}px)`
         }}
       >
-        <span className="text-8xl font-black text-black italic">ATLAS</span>
+        <span className="pixel-heading text-4xl text-white leading-relaxed">ATLAS</span>
       </div>
-      <div 
+      <div
         className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
         style={{ left: pos.x, top: pos.y, transform: 'translate(-50%, -50%)' }}
       />

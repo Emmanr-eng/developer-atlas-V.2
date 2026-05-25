@@ -1,15 +1,30 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-serif: 'Playfair Display', serif;
-  
-  --color-neutral-950: #050505;
-  --color-neutral-900: #0A0A0A;
-  --color-neutral-800: #121212;
-  --color-neutral-700: #1A1A1A;
+  --font-pixel: 'Press Start 2P', monospace;
+
+  /* Arcade Palette */
+  --color-arcade-black: #0a0a12;
+  --color-arcade-dark: #12121f;
+  --color-arcade-panel: #1a1a2e;
+  --color-arcade-border: #2a2a4a;
+  --color-arcade-cyan: #00f0ff;
+  --color-arcade-magenta: #ff00aa;
+  --color-arcade-yellow: #ffe600;
+  --color-arcade-green: #39ff14;
+  --color-arcade-red: #ff3333;
+  --color-arcade-purple: #b44aff;
+  --color-arcade-orange: #ff6f00;
+  --color-arcade-blue: #4466ff;
+
+  --color-neutral-950: #0a0a12;
+  --color-neutral-900: #12121f;
+  --color-neutral-800: #1a1a2e;
+  --color-neutral-700: #2a2a4a;
 }
 
 @layer base {
@@ -17,42 +32,142 @@
     scroll-behavior: smooth;
     @apply h-full;
   }
-  
+
   body {
-    @apply antialiased h-full bg-neutral-900 text-neutral-100;
+    @apply antialiased h-full bg-[#0a0a12] text-neutral-100;
+    image-rendering: auto;
   }
 
   #root {
     @apply h-full;
   }
 
-  /* Upgrade 2: Visible focus ring for keyboard users */
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-emerald-500 rounded-sm;
+    @apply outline-2 outline-offset-2 outline-arcade-cyan rounded-sm;
+  }
+
+  ::selection {
+    background: rgba(0, 240, 255, 0.3);
+    color: #fff;
   }
 }
 
-/* Bento Grid Card Pattern */
+/* Scanline overlay */
+.arcade-scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* Arcade Card */
 .bento-card {
-  @apply bg-neutral-800/50 border border-neutral-700/50 rounded-4xl p-8 transition-all duration-300;
+  @apply bg-[#1a1a2e]/80 border-2 border-[#2a2a4a] rounded-xl p-8 transition-all duration-300;
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.05);
 }
 
 .bento-card:hover {
-  @apply border-emerald-500/30 bg-neutral-800/80 shadow-2xl shadow-emerald-500/5;
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow:
+    0 0 15px rgba(0, 240, 255, 0.1),
+    0 0 30px rgba(0, 240, 255, 0.05),
+    inset 0 1px 0 rgba(0, 240, 255, 0.1);
 }
 
-/* Glassmorphism */
+/* Neon glow text utility */
+.neon-cyan {
+  color: #00f0ff;
+  text-shadow: 0 0 7px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.neon-magenta {
+  color: #ff00aa;
+  text-shadow: 0 0 7px rgba(255, 0, 170, 0.6), 0 0 20px rgba(255, 0, 170, 0.3);
+}
+
+.neon-green {
+  color: #39ff14;
+  text-shadow: 0 0 7px rgba(57, 255, 20, 0.6), 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.neon-yellow {
+  color: #ffe600;
+  text-shadow: 0 0 7px rgba(255, 230, 0, 0.6), 0 0 20px rgba(255, 230, 0, 0.3);
+}
+
+/* Arcade button */
+.arcade-btn {
+  @apply font-[--font-pixel] text-[10px] uppercase tracking-widest px-6 py-3 border-2 rounded-lg transition-all duration-150;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.arcade-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Pixel heading */
+.pixel-heading {
+  font-family: 'Press Start 2P', monospace;
+  line-height: 1.6;
+}
+
+/* Glass */
 .glass {
-  @apply bg-neutral-900/70 backdrop-blur-md border border-neutral-800/50;
+  @apply bg-[#12121f]/70 backdrop-blur-md border border-[#2a2a4a]/50;
 }
 
-/* Upgrade 2: Skip to content link */
+/* CRT flicker keyframes */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+}
+
+@keyframes coin-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 0.1s infinite;
+}
+
+.coin-blink {
+  animation: coin-blink 1s step-end infinite;
+}
+
+/* Skip to content */
 .skip-to-content {
-  @apply absolute left-4 bg-emerald-500 text-black font-bold text-xs px-4 py-2 rounded-b-lg z-100 uppercase tracking-widest;
+  @apply absolute left-4 bg-arcade-cyan text-black font-bold text-xs px-4 py-2 rounded-b-lg z-100 uppercase tracking-widest;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
   top: -100%;
   transition: top 0.2s ease;
 }
 
 .skip-to-content:focus {
   top: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a12;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a4a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
 }

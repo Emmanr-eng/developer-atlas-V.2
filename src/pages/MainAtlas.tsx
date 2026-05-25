@@ -4,7 +4,6 @@ import { useDocumentHead } from '../hooks/useDocumentHead';
 import { useLazySection } from '../hooks/useLazySection';
 import { SectionSkeleton } from '../components/SectionSkeleton';
 
-// Upgrade 6: Lazy imports — components only load when scrolled near
 const Home = lazy(() => import('./Home'));
 const Portfolio = lazy(() => import('./Portfolio'));
 const Lab = lazy(() => import('./Lab'));
@@ -39,7 +38,6 @@ function LazySection({ id, skeletonVariant = 'grid', label, children, className 
 export default function MainAtlas() {
   const location = useLocation();
 
-  // Upgrade 1: SEO metadata
   useDocumentHead({
     title: '',
     description: 'Explore projects, experiments, blog posts, and connect. A full-stack developer portal.',
@@ -59,7 +57,6 @@ export default function MainAtlas() {
 
   return (
     <div className="space-y-32 pb-32">
-      {/* Home loads eagerly — it's above the fold */}
       <section id="home">
         <Suspense fallback={<SectionSkeleton variant="hero" label="Home" />}>
           <Home />

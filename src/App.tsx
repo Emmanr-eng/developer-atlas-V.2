@@ -33,24 +33,28 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-neutral-950 text-white flex items-center justify-center px-6">
-          <div className="w-full max-w-lg rounded-3xl border border-neutral-800 bg-neutral-900/90 p-8 space-y-4 shadow-2xl">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">Application Error</p>
-            <h1 className="text-3xl font-bold tracking-tight">Something went wrong.</h1>
-            <p className="text-sm text-neutral-400">
-              The app hit an unexpected runtime error and could not finish rendering.
+        <div className="min-h-screen bg-[#0a0a12] text-white flex items-center justify-center px-6 arcade-scanlines">
+          <div className="w-full max-w-lg border-2 border-arcade-red bg-[#1a1a2e] p-8 space-y-6 rounded-xl"
+               style={{ boxShadow: '0 0 30px rgba(255, 51, 51, 0.2), inset 0 0 60px rgba(255, 51, 51, 0.05)' }}>
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">💀</span>
+              <p className="pixel-heading text-[10px] text-arcade-red uppercase">GAME OVER</p>
+            </div>
+            <h1 className="pixel-heading text-lg leading-relaxed">CRITICAL ERROR</h1>
+            <p className="text-sm text-neutral-400 font-mono">
+              The system encountered a fatal runtime exception.
             </p>
             {this.state.errorMessage && (
-              <p className="text-xs text-neutral-500 wrap-break-word rounded-2xl border border-neutral-800 bg-black/30 p-4">
-                {this.state.errorMessage}
+              <p className="text-xs text-arcade-red/70 font-mono wrap-break-word rounded-lg border border-arcade-red/30 bg-black/50 p-4">
+                &gt; {this.state.errorMessage}
               </p>
             )}
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-transform hover:scale-[1.01]"
+              className="arcade-btn bg-arcade-red border-[#ff0000] text-white hover:bg-[#ff5555] w-full text-center"
             >
-              Reload
+              🔄 INSERT COIN TO CONTINUE
             </button>
           </div>
         </div>
@@ -66,7 +70,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+      <div className="pixel-heading text-[10px] text-arcade-cyan coin-blink">LOADING...</div>
     </div>
   );
 
