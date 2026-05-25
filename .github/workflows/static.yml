@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - "feature/day7-upgrade-6-SmartLoad"
+      - "feature/day7-upgrade-9-ThemeB"
       
   workflow_dispatch:
 
