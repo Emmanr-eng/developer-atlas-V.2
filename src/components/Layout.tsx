@@ -53,6 +53,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               }
             }}
             className="flex items-center gap-4 rounded-2xl text-left outline-none transition hover:opacity-90"
+            aria-label="Navigate to home"
           >
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 text-blue-600 shadow-sm dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-300">
               <Terminal className="h-5 w-5" aria-hidden="true" />

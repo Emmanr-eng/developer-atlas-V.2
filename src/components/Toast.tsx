@@ -50,8 +50,7 @@ export const Toast: React.FC<ToastProps> = ({
               <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">{type === 'success' ? 'Success' : 'Attention'}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">{message}</p>
+              <p className="text-sm leading-6 text-slate-700 dark:text-slate-200">{message}</p>
             </div>
             <button
               onClick={onClose}
