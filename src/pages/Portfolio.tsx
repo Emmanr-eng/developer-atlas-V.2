@@ -229,7 +229,7 @@ export default function Portfolio() {
               onClick={() => navigate(project.actionUrl || project.demoUrl || '#')}
               className="group flex cursor-pointer flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500/30 dark:hover:shadow-black/30"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
+              <div className="relative aspect-16/10 overflow-hidden bg-slate-950">
                 {project.imageUrl && (
                   <img
                     src={project.imageUrl}
@@ -238,7 +238,7 @@ export default function Portfolio() {
                     referrerPolicy="no-referrer"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/88 via-slate-950/30 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/88 via-slate-950/30 to-transparent" />
 
                 <div className="absolute left-4 top-4 flex flex-col gap-2">
                   <div className={cn(

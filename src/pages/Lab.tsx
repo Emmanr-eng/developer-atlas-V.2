@@ -137,8 +137,8 @@ style={{
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
-        <div className="flex min-h-[46rem] flex-col md:flex-row">
+      <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex min-h-184 flex-col md:flex-row">
           <div className="w-full border-b border-slate-200 bg-slate-50/80 p-6 dark:border-slate-800 dark:bg-slate-950/70 md:w-80 md:border-b-0 md:border-r">
             <div className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Experiment library</div>
             <div className="space-y-2 pr-1">
@@ -186,7 +186,7 @@ style={{
               </button>
             </div>
 
-            <div className="relative flex grow items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.08),_transparent_40%)] p-8 dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_34%)] md:p-12">
+            <div className="relative flex grow items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.08),transparent_40%)] p-8 dark:bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_34%)] md:p-12">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeExp.id}
@@ -200,7 +200,7 @@ style={{
                 </motion.div>
               </AnimatePresence>
 
-              <div className="pointer-events-none absolute inset-0 opacity-50 [background-image:linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:48px_48px] dark:[background-image:linear-gradient(to_right,rgba(71,85,105,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(71,85,105,0.18)_1px,transparent_1px)]" />
+              <div className="pointer-events-none absolute inset-0 opacity-50 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-size-[48px_48px] dark:bg-[linear-gradient(to_right,rgba(71,85,105,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(71,85,105,0.18)_1px,transparent_1px)]" />
 
               <AnimatePresence>
                 {showCode && (
@@ -276,7 +276,7 @@ function HapticGlow() {
     <div
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="group/glow absolute inset-0 h-full w-full cursor-crosshair rounded-[2rem]"
+      className="group/glow absolute inset-0 h-full w-full cursor-crosshair rounded-4xl"
       style={{
         background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(37, 99, 235, 0.16), transparent 80%)`
       }}
@@ -316,14 +316,14 @@ function MagneticButton() {
 
 function GlassRefraction() {
   return (
-    <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] p-12">
-      <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 via-transparent to-indigo-100 dark:from-blue-500/10 dark:via-transparent dark:to-indigo-500/10" />
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-4xl p-12">
+      <div className="absolute inset-0 bg-linear-to-tr from-blue-100 via-transparent to-indigo-100 dark:from-blue-500/10 dark:via-transparent dark:to-indigo-500/10" />
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         className="absolute h-48 w-48 rounded-full bg-blue-400/20 blur-3xl"
       />
-      <div className="glass relative flex aspect-square w-full max-w-52 flex-col items-center justify-center rounded-[2rem] p-6 text-center">
+      <div className="glass relative flex aspect-square w-full max-w-52 flex-col items-center justify-center rounded-4xl p-6 text-center">
         <Layers className="mb-4 h-6 w-6 text-slate-500 dark:text-slate-300" />
         <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Refraction</span>
       </div>
@@ -349,7 +349,7 @@ function ParallaxDepth() {
       <motion.div
         animate={{ rotateX: tilt.y, rotateY: tilt.x }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="relative flex h-64 w-48 items-center justify-center rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900"
+        className="relative flex h-64 w-48 items-center justify-center rounded-4xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900"
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div className="absolute inset-4 rounded-2xl border border-blue-200/80 dark:border-blue-500/20" style={{ transform: 'translateZ(20px)' }} />
@@ -367,7 +367,7 @@ function ElasticExpand() {
       transition={{ type: "spring", stiffness: 400, damping: 10, mass: 0.5 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        'cursor-pointer rounded-[2rem] bg-white text-slate-900 shadow-xl shadow-slate-900/8 dark:bg-slate-900 dark:text-white',
+        'cursor-pointer rounded-4xl-white text-slate-900 shadow-xl shadow-slate-900/8 dark:bg-slate-900 dark:text-white',
         expanded ? 'h-64 w-64 p-10' : 'flex h-20 w-20 items-center justify-center'
       )}
     >
@@ -399,13 +399,13 @@ function FluidSpotlight() {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="relative h-full w-full overflow-hidden rounded-[2rem] bg-slate-950 cursor-none"
+      className="relative h-full w-full overflow-hidden rounded-4xl bg-slate-950 cursor-none"
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
         <span className="text-4xl font-semibold tracking-tight text-white">ATLAS</span>
       </div>
       <div
-        className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-500"
+        className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-blue-600 to-indigo-500"
         style={{
           clipPath: `circle(80px at ${pos.x}px ${pos.y}px)`
         }}

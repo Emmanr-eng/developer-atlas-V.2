@@ -50,7 +50,7 @@ export default function Home() {
           transition={{ delay: 0.1 }}
           className="bento-card flex flex-col md:col-span-1 md:row-span-2"
         >
-          <div className="mb-6 flex aspect-square items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-500 p-4 text-center text-white shadow-lg shadow-blue-600/20">
+          <div className="mb-6 flex aspect-square items-center justify-center rounded-3xl bg-linear-to-br from-blue-600 via-blue-500 to-indigo-500 p-4 text-center text-white shadow-lg shadow-blue-600/20">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Workspace</p>
               <p className="mt-3 text-2xl font-semibold tracking-tight">Core Atlas</p>
@@ -249,7 +249,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-red-200 bg-gradient-to-br from-white via-white to-red-50 p-8 shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/10 dark:border-red-500/20 dark:from-slate-900 dark:via-slate-900 dark:to-red-500/10 md:col-span-1 md:row-span-1"
+          className="relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-red-200 bg-linear-to-br from-white via-white to-red-50 p-8 shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/10 dark:border-red-500/20 dark:from-slate-900 dark:via-slate-900 dark:to-red-500/10 md:col-span-1 md:row-span-1"
           onClick={() => {
             const el = document.getElementById('timeline');
             if (el) el.scrollIntoView({ behavior: 'smooth' });

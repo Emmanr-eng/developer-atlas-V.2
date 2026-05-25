@@ -131,7 +131,7 @@ export default function PostDetail() {
           <span>Back to guides</span>
         </button>
 
-        <section className="space-y-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-10">
+        <section className="space-y-8 rounded-4xl border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-10">
           <div className="space-y-6">
             <div className="flex flex-wrap gap-2">
               {post.tags.map(tag => (
@@ -173,7 +173,7 @@ export default function PostDetail() {
           </div>
         </section>
 
-        <div className="prose prose-slate max-w-none rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:prose-invert dark:border-slate-800 dark:bg-slate-900 md:p-12
+        <div className="prose prose-slate max-w-none rounded-4xl border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:prose-invert dark:border-slate-800 dark:bg-slate-900 md:p-12
                         prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-slate-950 dark:prose-headings:text-white
                         prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-blue-300
                         prose-strong:text-slate-950 dark:prose-strong:text-white
@@ -182,7 +182,7 @@ export default function PostDetail() {
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
 
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-10 text-center shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+        <section className="rounded-4xl border border-slate-200 bg-white p-10 text-center shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
           <h3 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">Enjoyed this article?</h3>
           <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
             Share it with your network or save it as a reference for future architecture conversations.

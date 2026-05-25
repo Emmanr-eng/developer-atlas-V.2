@@ -120,7 +120,7 @@ export default function Admin() {
 
   return (
     <div className="space-y-10 pb-20">
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-4xlrder border-slate-200 bg-white p-8 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <div className="section-kicker">
@@ -176,7 +176,7 @@ export default function Admin() {
 
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
         <div className="xl:col-span-2">
-          <div className="rounded-[2rem] border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+          <div className="rounded-4xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800 md:px-8">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Current view</p>
@@ -279,7 +279,7 @@ export default function Admin() {
 
         <div className="xl:col-span-1">
           {activeTab !== 'inquiries' && (
-            <div className="sticky top-28 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-8">
+            <div className="sticky top-28 rounded-4xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-8">
               <div className="mb-8 flex items-center gap-3">
                 <div className={cn(
                   'flex h-10 w-10 items-center justify-center rounded-2xl',
