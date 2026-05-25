@@ -10,7 +10,7 @@ export const ReadingProgressBar: React.FC<ReadingProgressBarProps> = ({ progress
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-60 h-0.75 bg-[#1a1a2e]"
+      className="fixed left-0 right-0 top-0 z-60 h-1 bg-slate-200/70 backdrop-blur dark:bg-slate-800/80"
       role="progressbar"
       aria-valuenow={progress}
       aria-valuemin={0}
@@ -18,10 +18,10 @@ export const ReadingProgressBar: React.FC<ReadingProgressBarProps> = ({ progress
       aria-label="Reading progress"
     >
       <motion.div
-        className="h-full"
+        className="h-full rounded-r-full"
         style={{
-          background: 'linear-gradient(90deg, #00f0ff, #ff00aa, #ffe600)',
-          boxShadow: '0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(255, 0, 170, 0.3)',
+          background: 'linear-gradient(90deg, #2563EB, #3B82F6, #6366F1)',
+          boxShadow: '0 0 12px rgba(37, 99, 235, 0.25)',
         }}
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}

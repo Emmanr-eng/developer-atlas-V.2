@@ -37,23 +37,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     location.hash === `#${id}` || (location.hash === '' && id === 'home' && location.pathname === '/');
 
   return (
-    <div className="min-h-screen bg-[#0a0a12] text-neutral-100 flex flex-col font-sans transition-colors duration-300 arcade-scanlines">
+    <div className="arcade-scanlines flex min-h-screen flex-col font-sans text-slate-700 transition-colors duration-300 dark:text-slate-200">
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
 
-      {/* ─── Top Marquee Bar ─── */}
-      <div className="bg-[#0a0a12] border-b border-[#2a2a4a] overflow-hidden">
-        <div className="flex items-center justify-center py-1.5 gap-4">
-          <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-[#2a2a4a]">
-            ★ DEVELOPER ATLAS ★ RETRO ARCADE EDITION ★
-          </span>
-        </div>
-      </div>
-
-      <nav className="sticky top-0 z-50 bg-[#0a0a12]/90 backdrop-blur-md border-b-2 border-[#2a2a4a] px-6 py-3" role="navigation" aria-label="Main navigation">
-        <div className="max-w-7xl mx-auto flex justify-between items-center h-14">
-          {/* Logo */}
+      <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 px-4 py-4 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72" role="navigation" aria-label="Main navigation">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-6">
           <button
             onClick={() => {
               if (location.pathname === '/') {
@@ -62,21 +52,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 window.location.href = '/';
               }
             }}
-            className="flex items-center space-x-3 group text-left outline-none"
+            className="flex items-center gap-4 rounded-2xl text-left outline-none transition hover:opacity-90"
           >
-            <div className="w-11 h-11 bg-arcade-cyan rounded-lg flex items-center justify-center font-bold text-[#0a0a12] text-xl group-hover:rotate-12 transition-transform border-2 border-arcade-cyan"
-                 style={{ boxShadow: '0 0 15px rgba(0, 240, 255, 0.4), 0 3px 0 #008899' }}>
-              🕹️
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 text-blue-600 shadow-sm dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-300">
+              <Terminal className="h-5 w-5" aria-hidden="true" />
             </div>
             <div className="flex flex-col">
-              <span className="pixel-heading text-[10px] neon-cyan leading-none">ATLAS</span>
-              <span className="text-[8px] font-mono text-[#2a2a4a] uppercase tracking-[0.2em] hidden sm:block">Developer Portal</span>
+              <span className="text-sm font-semibold tracking-[-0.03em] text-slate-950 dark:text-white">Developer Atlas</span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Product engineering portfolio</span>
             </div>
           </button>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-2">
-            <div className="flex bg-[#12121f] p-1 rounded-lg border-2 border-[#2a2a4a] mr-4" role="tablist">
+          <div className="hidden items-center gap-3 md:flex">
+            <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50/90 p-1 shadow-sm dark:border-slate-800 dark:bg-slate-900/90" role="tablist">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -91,10 +79,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     }
                   }}
                   className={cn(
-                    "px-3 py-2 rounded-md text-[9px] font-mono font-bold uppercase tracking-wider transition-all",
+                    'rounded-full px-4 py-2 text-sm font-medium transition-all',
                     isActiveNav(item.id)
-                      ? "bg-arcade-cyan text-[#0a0a12] shadow-[0_0_10px_rgba(0,240,255,0.3)]"
-                      : "text-[#2a2a4a] hover:text-arcade-cyan hover:bg-[#1a1a2e]"
+                      ? 'bg-white text-blue-600 shadow-sm shadow-slate-900/8 dark:bg-slate-800 dark:text-blue-300 dark:shadow-black/25'
+                      : 'text-slate-500 hover:bg-white hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100'
                   )}
                 >
                   {item.name}
@@ -103,55 +91,52 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="px-3 py-2 rounded-md text-[9px] font-mono font-bold uppercase tracking-wider text-arcade-purple hover:bg-arcade-purple/10"
+                  className="rounded-full px-4 py-2 text-sm font-medium text-slate-500 transition hover:bg-white hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                 >
                   Admin
                 </Link>
               )}
             </div>
 
-            <div className="flex gap-2">
-              <div className="hidden lg:flex bg-[#12121f] px-3 py-2 rounded-lg text-[8px] items-center gap-2 border border-[#2a2a4a] font-mono uppercase tracking-widest font-bold">
-                <div className="w-2 h-2 rounded-full bg-arcade-green coin-blink" aria-hidden="true"></div>
-                <span className="text-arcade-green">P1 Ready</span>
+            <div className="flex items-center gap-3">
+              <div className="hidden items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-700 lg:flex dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true" />
+                Available
               </div>
 
               {user ? (
                 <button
                   onClick={logout}
-                  className="arcade-btn bg-[#1a1a2e] border-arcade-magenta text-arcade-magenta hover:bg-arcade-magenta hover:text-black text-[8px]"
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                   id="logout-btn"
                 >
-                  Sign Out
+                  Sign out
                 </button>
               ) : (
                 <button
                   onClick={login}
-                  className="arcade-btn bg-arcade-magenta border-[#ff44cc] text-white hover:bg-[#ff44cc] text-[8px]"
-                  style={{ boxShadow: '0 0 15px rgba(255, 0, 170, 0.3), 0 3px 0 #990066' }}
+                  className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500"
                   id="login-btn"
                 >
-                  🔑 Admin Access
+                  Admin access
                 </button>
               )}
             </div>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg bg-[#1a1a2e] border-2 border-[#2a2a4a] text-arcade-cyan"
+              className="rounded-xl border border-slate-200 bg-white p-2.5 text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200"
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav-menu"
               aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             >
-              {isMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
+              {isMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -161,9 +146,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="md:hidden mt-4 bg-[#12121f] border-2 border-[#2a2a4a] rounded-xl overflow-hidden shadow-2xl"
+              className="mx-auto mt-4 max-w-7xl rounded-3xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-950 dark:shadow-black/30 md:hidden"
             >
-              <div className="p-4 space-y-1">
+              <div className="space-y-1">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
@@ -176,12 +161,35 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         scrollTo(item.id);
                       }
                     }}
-                    className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-[#1a1a2e] text-[#2a2a4a] hover:text-arcade-cyan"
+                    className="flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white"
                   >
-                    <item.icon className="w-5 h-5" aria-hidden="true" />
-                    <span className="font-mono font-bold text-xs uppercase tracking-wider">{item.name}</span>
+                    <item.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                    <span>{item.name}</span>
                   </button>
                 ))}
+                {user ? (
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      logout();
+                    }}
+                    className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                    id="logout-btn-mobile"
+                  >
+                    Sign out
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      login();
+                    }}
+                    className="mt-2 w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20"
+                    id="login-btn-mobile"
+                  >
+                    Admin access
+                  </button>
+                )}
               </div>
             </motion.div>
           )}
@@ -189,37 +197,36 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </nav>
 
       {!isOnline && (
-        <div className="bg-arcade-yellow/10 border-b-2 border-arcade-yellow/30 px-6 py-2 text-center text-arcade-yellow text-[8px] font-mono font-bold uppercase tracking-[0.3em]" role="alert">
-          <span>⚠ CONNECTION LOST — SHOWING CACHED DATA ⚠</span>
+        <div className="border-b border-amber-200 bg-amber-50/90 px-6 py-3 text-center text-sm font-medium text-amber-800 backdrop-blur dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300" role="alert">
+          You’re offline. Showing the most recently cached content.
         </div>
       )}
 
-      <main id="main-content" className="grow max-w-7xl mx-auto w-full px-6 py-6 overflow-x-hidden" role="main" tabIndex={-1}>
+      <main id="main-content" className="mx-auto flex grow w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8" role="main" tabIndex={-1}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            className="h-full"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
+            className="h-full w-full"
           >
             {children}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      <footer className="border-t-2 border-[#2a2a4a] bg-[#0a0a12]" role="contentinfo">
-        <div className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed text-center sm:text-left">
-            &copy; {new Date().getFullYear()} DEVELOPER ATLAS
-            <br />
-            <span className="text-[#2a2a4a]/60">RETRO ARCADE EDITION</span>
+      <footer className="border-t border-slate-200/80 bg-white/80 dark:border-slate-800/80 dark:bg-slate-950/75" role="contentinfo">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1 text-center sm:text-left">
+            <p className="text-sm font-semibold text-slate-950 dark:text-white">Developer Atlas</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Designing resilient digital products</p>
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#2a2a4a] hover:text-arcade-cyan transition-colors">GitHub</a>
-            <a href="#" className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#2a2a4a] hover:text-arcade-magenta transition-colors">LinkedIn</a>
-            <a href="#" className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#2a2a4a] hover:text-arcade-yellow transition-colors">Twitter</a>
+          <div className="flex justify-center gap-6 text-sm text-slate-500 dark:text-slate-400">
+            <a href="#" className="transition-colors hover:text-blue-600 dark:hover:text-blue-300">GitHub</a>
+            <a href="#" className="transition-colors hover:text-blue-600 dark:hover:text-blue-300">LinkedIn</a>
+            <a href="#" className="transition-colors hover:text-blue-600 dark:hover:text-blue-300">Twitter</a>
           </div>
         </div>
       </footer>

@@ -33,29 +33,32 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#0a0a12] text-white flex items-center justify-center px-6 arcade-scanlines">
-          <div className="w-full max-w-lg border-2 border-arcade-red bg-[#1a1a2e] p-8 space-y-6 rounded-xl"
-               style={{ boxShadow: '0 0 30px rgba(255, 51, 51, 0.2), inset 0 0 60px rgba(255, 51, 51, 0.05)' }}>
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">💀</span>
-              <p className="pixel-heading text-[10px] text-arcade-red uppercase">GAME OVER</p>
+        <div className="min-h-screen bg-slate-50 px-6 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+          <div className="mx-auto flex min-h-screen max-w-2xl items-center justify-center">
+            <div className="w-full rounded-3xl border border-red-200 bg-white p-8 shadow-xl shadow-slate-900/10 dark:border-red-500/20 dark:bg-slate-900 dark:shadow-black/30 md:p-10">
+              <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-red-600 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-300">
+                <span className="h-2 w-2 rounded-full bg-red-500" />
+                Application error
+              </div>
+              <div className="space-y-4">
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">Something went wrong.</h1>
+                <p className="max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  The application hit an unexpected runtime error. Refresh the page to restore the latest stable state.
+                </p>
+                {this.state.errorMessage && (
+                  <p className="rounded-2xl border border-red-100 bg-red-50/80 p-4 font-mono text-sm text-red-700 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-200">
+                    {this.state.errorMessage}
+                  </p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500"
+              >
+                Reload application
+              </button>
             </div>
-            <h1 className="pixel-heading text-lg leading-relaxed">CRITICAL ERROR</h1>
-            <p className="text-sm text-neutral-400 font-mono">
-              The system encountered a fatal runtime exception.
-            </p>
-            {this.state.errorMessage && (
-              <p className="text-xs text-arcade-red/70 font-mono wrap-break-word rounded-lg border border-arcade-red/30 bg-black/50 p-4">
-                &gt; {this.state.errorMessage}
-              </p>
-            )}
-            <button
-              type="button"
-              onClick={() => window.location.reload()}
-              className="arcade-btn bg-arcade-red border-[#ff0000] text-white hover:bg-[#ff5555] w-full text-center"
-            >
-              🔄 INSERT COIN TO CONTINUE
-            </button>
           </div>
         </div>
       );
@@ -69,8 +72,11 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
   const { user, loading, isAdmin } = useAuth();
 
   if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="pixel-heading text-[10px] text-arcade-cyan coin-blink">LOADING...</div>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-600 dark:bg-blue-400" />
+        Loading workspace
+      </div>
     </div>
   );
 

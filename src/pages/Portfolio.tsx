@@ -167,38 +167,37 @@ export default function Portfolio() {
   });
 
   if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="pixel-heading text-[10px] text-arcade-cyan coin-blink">LOADING NODES...</div>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-600 dark:bg-blue-400" />
+        Loading projects
+      </div>
     </div>
   );
 
   return (
-    <div className="space-y-12 h-full pb-24">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+    <div className="h-full space-y-12 pb-24">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-arcade-cyan/10 border border-arcade-cyan/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-arcade-cyan coin-blink" />
-            <span className="text-[8px] font-mono font-bold text-arcade-cyan uppercase tracking-widest">Architectural Map Active</span>
-          </div>
-          <h1 className="pixel-heading text-xl md:text-2xl neon-cyan leading-relaxed">SERVICE DIRECTORY</h1>
-          <p className="text-[#2a2a4a] max-w-2xl text-xs leading-relaxed font-mono">
-            A centralized mapping protocol for technical modules, production services, and foundational blueprints within the Atlas grid.
+          <div className="section-kicker">Portfolio</div>
+          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">Selected systems, experiments, and production-facing product work.</h1>
+          <p className="max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+            Browse technical modules, foundational blueprints, and product services organized for quick scanning and deeper review.
           </p>
         </div>
       </div>
 
-      {/* Filters & Search */}
-      <div className="flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center">
+      <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
               className={cn(
-                "px-4 py-2.5 rounded-lg text-[8px] font-mono font-bold uppercase tracking-widest transition-all border-2",
+                'rounded-full border px-4 py-2.5 text-sm font-medium transition-all',
                 filter === cat
-                  ? "bg-arcade-cyan border-arcade-cyan text-[#0a0a12] shadow-[0_0_15px_rgba(0,240,255,0.3)]"
-                  : "bg-[#0a0a12] border-[#2a2a4a] text-[#2a2a4a] hover:text-arcade-cyan hover:border-arcade-cyan/50"
+                  ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white'
               )}
             >
               {cat}
@@ -206,20 +205,19 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="relative w-full sm:w-80 group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2a2a4a] group-focus-within:text-arcade-cyan transition-colors" />
+        <div className="relative w-full max-w-sm group">
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400" />
           <input
             type="text"
-            placeholder="Search Atlas Nodes..."
+            placeholder="Search projects"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-3.5 rounded-lg bg-[#0a0a12] border-2 border-[#2a2a4a] focus:outline-none focus:border-arcade-cyan/50 transition-all text-xs font-mono font-bold placeholder:text-[#2a2a4a]/50 text-arcade-cyan"
+            className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-sm text-slate-700 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-blue-500/50 dark:focus:ring-blue-500/10"
           />
         </div>
       </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project) => (
             <motion.div
@@ -229,53 +227,49 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={() => navigate(project.actionUrl || project.demoUrl || '#')}
-              className="bento-card p-0! overflow-hidden flex flex-col group bg-[#12121f] border-[#2a2a4a] relative cursor-pointer hover:border-arcade-cyan/40"
-              style={{ transition: 'box-shadow 0.3s' }}
-              onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 240, 255, 0.1)')}
-              onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
+              className="group flex cursor-pointer flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500/30 dark:hover:shadow-black/30"
             >
-              <div className="relative aspect-16/10 overflow-hidden bg-[#0a0a12]">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
                 {project.imageUrl && (
                   <img
                     src={project.imageUrl}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-30 group-hover:opacity-50 grayscale"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     referrerPolicy="no-referrer"
                   />
                 )}
-                {/* Scanline overlay on image */}
-                <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-[#12121f]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/88 via-slate-950/30 to-transparent" />
 
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                <div className="absolute left-4 top-4 flex flex-col gap-2">
                   <div className={cn(
-                    "px-2.5 py-1 rounded text-[7px] font-mono font-bold uppercase tracking-widest border",
-                    project.status === 'Online' && "bg-arcade-green/10 border-arcade-green/30 text-arcade-green",
-                    project.status === 'Experimental' && "bg-arcade-yellow/10 border-arcade-yellow/30 text-arcade-yellow",
-                    project.status === 'Approved Architecture' && "bg-arcade-blue/10 border-arcade-blue/30 text-arcade-blue",
-                    project.status === 'Deprecated' && "bg-arcade-red/10 border-arcade-red/30 text-arcade-red",
-                    project.status === 'Stable' && "bg-[#2a2a4a]/30 border-[#2a2a4a] text-[#2a2a4a]"
+                    'rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] backdrop-blur',
+                    project.status === 'Online' && 'border-emerald-400/20 bg-emerald-400/10 text-emerald-200',
+                    project.status === 'Experimental' && 'border-amber-400/20 bg-amber-400/10 text-amber-200',
+                    project.status === 'Approved Architecture' && 'border-blue-400/20 bg-blue-400/10 text-blue-200',
+                    project.status === 'Deprecated' && 'border-red-400/20 bg-red-400/10 text-red-200',
+                    project.status === 'Stable' && 'border-white/15 bg-white/10 text-slate-200'
                   )}>
                     {project.status}
                   </div>
                 </div>
 
-                <div className="absolute bottom-4 left-4 text-[7px] font-mono font-bold uppercase tracking-[0.3em] text-white/30">
+                <div className="absolute bottom-4 left-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70">
                   {project.category}
                 </div>
               </div>
 
-              <div className="p-8 flex flex-col grow">
-                <h3 className="pixel-heading text-[10px] mb-4 text-white group-hover:text-arcade-cyan transition-colors leading-relaxed">
+              <div className="flex grow flex-col p-7">
+                <h3 className="text-xl font-semibold tracking-tight text-slate-950 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-300">
                   {project.title}
                 </h3>
-                <p className="text-xs text-[#2a2a4a] leading-relaxed font-mono mb-8 grow">
+                <p className="mt-4 grow text-sm leading-7 text-slate-600 dark:text-slate-300">
                   {project.description}
                 </p>
 
-                <div className="pt-6 border-t border-[#2a2a4a]/30 flex justify-between items-center mt-auto">
-                  <div className="flex items-center gap-2 text-arcade-cyan text-[8px] font-mono font-bold uppercase tracking-widest hover:text-arcade-magenta transition-colors group/link">
+                <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-5 dark:border-slate-800">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-blue-600 transition-colors group-hover:text-blue-500 dark:text-blue-300">
                     {project.actionLabel || 'Deploy Node'}
-                    <ExternalLink className="w-3 h-3 transform group-hover/link:translate-x-1 transition-transform" />
+                    <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
 
                   {project.codeSnippet && (
@@ -284,10 +278,10 @@ export default function Portfolio() {
                         e.stopPropagation();
                         navigator.clipboard.writeText(project.codeSnippet);
                       }}
-                      className="p-2.5 rounded-lg bg-[#0a0a12] hover:bg-arcade-cyan text-[#2a2a4a] hover:text-[#0a0a12] transition-all border border-[#2a2a4a]/30"
+                      className="rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-300"
                       title="Copy Code Primitives"
                     >
-                      <Code className="w-4 h-4" />
+                      <Code className="h-4 w-4" />
                     </button>
                   )}
                 </div>
@@ -298,31 +292,30 @@ export default function Portfolio() {
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center py-20 bg-[#12121f] border-2 border-dashed border-[#2a2a4a] rounded-xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-b from-arcade-cyan/5 to-transparent pointer-events-none" />
-            <Layers className="w-16 h-16 text-arcade-cyan/20 mx-auto mb-6 coin-blink" />
-            <h3 className="pixel-heading text-sm text-white mb-4 leading-relaxed">NO NODES FOUND</h3>
-            <p className="text-[#2a2a4a] text-xs max-w-md mx-auto mb-8 font-mono">Your query did not return any direct matches. Try cross-referencing.</p>
+        <div className="mx-auto max-w-4xl space-y-12">
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white/90 px-6 py-20 text-center shadow-sm shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-900/90">
+            <Layers className="mx-auto mb-6 h-14 w-14 text-slate-300 dark:text-slate-600" />
+            <h3 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">No matching projects found</h3>
+            <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">Try a broader category or search term to discover more of the atlas.</p>
 
-            <div className="flex gap-4 justify-center">
-              <Link to="/blog" className="arcade-btn bg-arcade-cyan border-[#0099aa] text-[#0a0a12] text-[8px]">
-                Check Insights
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link to="/blog" className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500">
+                Check insights
               </Link>
-              <Link to="/timeline" className="arcade-btn bg-[#0a0a12] border-[#2a2a4a] text-arcade-cyan hover:border-arcade-cyan text-[8px]">
-                View Ledger
+              <Link to="/timeline" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                View ledger
               </Link>
             </div>
           </div>
 
           <div className="text-center">
-            <p className="pixel-heading text-[7px] text-[#2a2a4a] mb-4 leading-relaxed">SYSTEM SUGGESTIONS</p>
-            <div className="flex justify-center gap-2 flex-wrap">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Suggested searches</p>
+            <div className="flex flex-wrap justify-center gap-2">
               {['React', 'TypeScript', 'Node.js', 'Infrastructure', 'Telemetry'].map(tag => (
                 <button
                   key={tag}
                   onClick={() => setSearch(tag)}
-                  className="px-4 py-2 rounded-lg border border-[#2a2a4a] bg-[#0a0a12] text-[8px] font-mono font-bold text-[#2a2a4a] hover:text-arcade-cyan hover:border-arcade-cyan/30 transition-all"
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-blue-200 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-blue-500/30 dark:hover:text-blue-300"
                 >
                   {tag}
                 </button>

@@ -110,33 +110,37 @@ export default function Blog() {
   );
 
   if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="pixel-heading text-[10px] text-arcade-purple coin-blink">LOADING INSIGHTS...</div>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-indigo-600 dark:bg-indigo-400" />
+        Loading articles
+      </div>
     </div>
   );
 
   return (
     <div className="space-y-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="space-y-4">
-          <h1 className="pixel-heading text-xl neon-magenta leading-relaxed">INSIGHTS</h1>
-          <p className="text-[#2a2a4a] max-w-2xl text-xs leading-relaxed font-mono">
-            Exploring software design patterns, fullstack engineering, and modern web architectures.
+          <div className="section-kicker">Writing</div>
+          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">Technical writing on product architecture, systems thinking, and modern web engineering.</h1>
+          <p className="max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+            A collection of articles that turn implementation details into reusable product and engineering insight.
           </p>
         </div>
         <div className="relative w-full md:w-80 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2a2a4a]" />
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400" />
           <input
             type="text"
-            placeholder="Search articles..."
+            placeholder="Search articles"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-lg bg-[#12121f] border-2 border-[#2a2a4a] focus:outline-none focus:border-arcade-magenta/50 text-xs font-mono font-bold text-arcade-magenta placeholder:text-[#2a2a4a]/50"
+            className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-sm text-slate-700 shadow-sm outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-indigo-500/50 dark:focus:ring-indigo-500/10"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <AnimatePresence mode="popLayout">
           {filteredPosts.map((post, idx) => (
             <motion.article
@@ -145,44 +149,42 @@ export default function Blog() {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.05 }}
-              className="bento-card group h-full flex flex-col hover:border-arcade-magenta/40"
-              style={{ transition: 'box-shadow 0.3s' }}
-              onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 0 25px rgba(255, 0, 170, 0.1)')}
-              onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
+              className="group flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm shadow-slate-900/5 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-slate-900/8 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-500/30 dark:hover:shadow-black/25"
             >
-              <div className="flex flex-col h-full">
-                <div className="flex items-center space-x-3 mb-6">
+              <div className="flex h-full flex-col">
+                <div className="mb-6 flex flex-wrap items-center gap-3">
                   {post.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="text-[7px] font-mono font-bold uppercase tracking-[0.2em] text-arcade-magenta bg-arcade-magenta/10 px-2 py-0.5 rounded border border-arcade-magenta/20">
+                    <span key={tag} className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-700 dark:border-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-300">
                       {tag}
                     </span>
                   ))}
-                  <div className="h-3 w-px bg-[#2a2a4a]" />
-                  <span className="text-[7px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest">
+                  <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
                     {formatDate(post.createdAt)}
                   </span>
                 </div>
 
-                <h2 className="text-lg font-bold tracking-tight mb-4 group-hover:text-arcade-magenta transition-colors leading-tight font-mono">
+                <h2 className="text-2xl font-semibold tracking-tight text-slate-950 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
                   <Link to={`/blog/${post.id}`}>{post.title}</Link>
                 </h2>
 
-                <p className="text-xs text-[#2a2a4a] mb-8 grow leading-relaxed line-clamp-2 font-mono">
+                <p className="mt-4 grow text-sm leading-7 text-slate-600 dark:text-slate-300">
                   {post.summary}
                 </p>
 
-                <div className="flex items-center justify-between pt-6 border-t border-[#2a2a4a]/30 mt-auto">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-7 h-7 rounded-lg bg-[#1a1a2e] border border-[#2a2a4a] flex items-center justify-center font-mono font-bold text-[10px] text-arcade-purple">
+                <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-5 dark:border-slate-800">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                       {post.authorName.charAt(0)}
                     </div>
-                    <span className="text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest">{post.authorName}</span>
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{post.authorName}</span>
                   </div>
                   <Link
                     to={`/blog/${post.id}`}
-                    className="inline-flex items-center space-x-2 text-[9px] font-mono font-bold uppercase tracking-widest text-arcade-cyan hover:text-arcade-magenta transition-colors"
+                    className="inline-flex items-center space-x-2 text-sm font-semibold text-blue-600 transition-colors hover:text-indigo-600 dark:text-blue-300 dark:hover:text-indigo-300"
                   >
-                    Read →
+                    <span>Read article</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
               </div>
@@ -192,48 +194,47 @@ export default function Blog() {
       </div>
 
       {filteredPosts.length === 0 && (
-        <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center py-20 bg-[#12121f] border-2 border-[#2a2a4a] rounded-xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-b from-arcade-magenta/5 to-transparent pointer-events-none" />
-            <Rss className="w-16 h-16 text-arcade-magenta/20 mx-auto mb-6 coin-blink" />
-            <h3 className="pixel-heading text-sm text-white mb-4 leading-relaxed">NO INSIGHTS FOUND</h3>
-            <p className="text-[#2a2a4a] text-xs max-w-md mx-auto mb-8 font-mono">Your search query did not return any architectural nodes.</p>
+        <div className="mx-auto max-w-4xl space-y-12">
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white/90 px-6 py-20 text-center shadow-sm shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-900/90">
+            <Rss className="mx-auto mb-6 h-14 w-14 text-slate-300 dark:text-slate-600" />
+            <h3 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">No articles match your search</h3>
+            <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">Try a broader topic or browse the suggested areas below.</p>
 
-            <button className="arcade-btn bg-arcade-magenta border-[#cc0088] text-white text-[8px]">
-              Request an Article
+            <button className="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-500">
+              Request an article
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             <div className="space-y-6">
-              <h4 className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">SUGGESTED TOPICS</h4>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Suggested topics</h4>
               <div className="grid grid-cols-2 gap-3">
                 {['React', 'Node.js', 'Junior Experience', 'Microservices', 'TypeScript', 'Serverless'].map(topic => (
                   <button
                     key={topic}
                     onClick={() => setSearch(topic)}
-                    className="p-4 rounded-lg bg-[#0a0a12] border border-[#2a2a4a] text-left hover:border-arcade-magenta/50 transition-all group"
+                    className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-left text-sm font-medium text-slate-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-indigo-500/30 dark:hover:text-indigo-300"
                   >
-                    <span className="text-xs font-mono font-bold text-[#2a2a4a] group-hover:text-arcade-magenta">{topic}</span>
+                    {topic}
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="space-y-6">
-              <h4 className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">TRENDING INSIGHTS</h4>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Trending insights</h4>
               <div className="space-y-4">
                 {posts.slice(0, 3).map((post, i) => (
                   <Link
                     key={post.id}
                     to={`/blog/${post.id}`}
-                    className="flex items-center gap-4 group"
+                    className="group flex items-center gap-4 rounded-2xl border border-transparent px-2 py-2 transition hover:border-slate-200 hover:bg-white/70 dark:hover:border-slate-800 dark:hover:bg-slate-900/60"
                   >
-                    <span className="pixel-heading text-lg text-[#2a2a4a]/30 group-hover:text-arcade-magenta/30 transition-colors leading-relaxed">0{i+1}</span>
+                    <span className="text-3xl font-semibold tracking-tight text-slate-300 dark:text-slate-700">0{i+1}</span>
                     <div className="grow">
-                      <h5 className="text-[10px] font-mono font-bold text-[#2a2a4a] uppercase tracking-tight group-hover:text-white transition-colors">{post.title}</h5>
+                      <h5 className="text-sm font-semibold text-slate-700 transition-colors group-hover:text-slate-950 dark:text-slate-300 dark:group-hover:text-white">{post.title}</h5>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[#2a2a4a] group-hover:text-arcade-magenta transform group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="h-4 w-4 text-slate-400 transition-all group-hover:translate-x-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-300" />
                   </Link>
                 ))}
               </div>

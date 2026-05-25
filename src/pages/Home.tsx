@@ -13,50 +13,55 @@ export default function Home() {
   ];
 
   return (
-    <div className="h-full flex flex-col gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-3 gap-4 grow">
-
-        {/* Hero Tile */}
+    <div className="flex h-full flex-col gap-6">
+      <div className="grid grow grid-cols-1 gap-6 md:grid-cols-4 md:grid-rows-3">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:col-span-2 md:row-span-1 bento-card flex flex-col justify-center relative overflow-hidden group"
+          className="bento-card relative flex flex-col justify-center overflow-hidden md:col-span-2 md:row-span-1"
         >
-          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-            <Globe className="w-32 h-32 rotate-12" />
+          <div className="absolute right-0 top-0 p-8 text-blue-100 dark:text-blue-500/10">
+            <Globe className="h-28 w-28 rotate-12" />
           </div>
-          <div className="absolute top-4 right-4">
-            <span className="pixel-heading text-[7px] text-arcade-magenta coin-blink">● REC</span>
+          <div className="relative z-10 max-w-xl space-y-6">
+            <div className="section-kicker">Full-stack product engineering</div>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">
+                Building clean, reliable digital experiences for modern teams.
+              </h1>
+              <p className="max-w-lg text-base leading-8 text-slate-600 dark:text-slate-300">
+                Developer Atlas brings projects, experiments, and technical writing together in one polished workspace designed for clarity, depth, and fast exploration.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {features.map((feature) => (
+                <div key={feature.name} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300">
+                  <feature.icon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  {feature.name}
+                </div>
+              ))}
+            </div>
           </div>
-          <h1 className="pixel-heading text-lg md:text-2xl mb-4 leading-relaxed">
-            <span className="neon-cyan">SYNCHRONIZING</span>
-            <br />
-            <span className="text-white">THE ARCHITECTURAL</span>
-            <br />
-            <span className="neon-magenta">SUBSTRATE.</span>
-          </h1>
-          <p className="text-[#2a2a4a] max-w-md text-xs md:text-sm leading-relaxed font-mono">
-            Atlas_Terminal v3.0 is now active. Real-time synchronization of Physical Playground Primitives, Technical Friction Ledgers, and universal Architectural Nodes.
-          </p>
         </motion.div>
 
-        {/* Central Directory */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="md:col-span-1 md:row-span-2 bento-card flex flex-col"
+          className="bento-card flex flex-col md:col-span-1 md:row-span-2"
         >
-          <div className="aspect-square bg-linear-to-br from-arcade-purple to-arcade-cyan rounded-xl mb-6 flex items-center justify-center p-4 border-2 border-arcade-purple/50"
-               style={{ boxShadow: '0 0 30px rgba(180, 74, 255, 0.2)' }}>
-            <div className="pixel-heading text-white text-xl text-center leading-relaxed">CORE<br/>ECO</div>
+          <div className="mb-6 flex aspect-square items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-500 p-4 text-center text-white shadow-lg shadow-blue-600/20">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Workspace</p>
+              <p className="mt-3 text-2xl font-semibold tracking-tight">Core Atlas</p>
+            </div>
           </div>
-          <div className="flex justify-between items-start mb-3">
-            <h3 className="pixel-heading text-[10px] text-white leading-relaxed">Service Directory</h3>
-            <span className="text-[8px] font-mono font-bold bg-arcade-cyan/10 text-arcade-cyan px-2 py-0.5 rounded border border-arcade-cyan/20 uppercase">MAP</span>
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <h3 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">Project ecosystem</h3>
+            <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-300">Live</span>
           </div>
-          <p className="text-[#2a2a4a] text-xs leading-relaxed font-mono mb-6">
-            A comprehensive catalog of Technical Modules, Production Services, and Foundational Blueprints.
+          <p className="mb-8 text-sm leading-7 text-slate-600 dark:text-slate-300">
+            Review product work, reusable patterns, and technical systems organized into a clear, searchable portfolio.
           </p>
           <div className="mt-auto">
             <button
@@ -64,78 +69,82 @@ export default function Home() {
                 const el = document.getElementById('portfolio');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="text-[9px] font-mono font-bold uppercase tracking-widest text-arcade-cyan hover:text-arcade-magenta flex items-center gap-2 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-blue-500 dark:text-blue-300"
             >
-              Explore Ecosystem <ArrowRight className="w-3 h-3" />
+              Explore ecosystem <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </motion.div>
 
-        {/* Atlas Guides */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="md:col-span-1 md:row-span-1 bento-card flex flex-col justify-between"
+          className="bento-card flex flex-col justify-between md:col-span-1 md:row-span-1"
         >
-          <h4 className="pixel-heading text-[7px] text-arcade-yellow mb-4 leading-relaxed">ATLAS GUIDES</h4>
-          <div className="space-y-3">
-            {[
-              { icon: BookOpen, label: "Architectural Nodes", color: "#00f0ff" },
-              { icon: Terminal, label: "Physical Primitives", color: "#39ff14" },
-              { icon: Layers, label: "Friction Ledger", color: "#ff00aa" }
-            ].map((f, i) => (
-              <div key={i} className="flex items-center gap-3 p-2 bg-[#0a0a12]/50 rounded-lg border border-[#2a2a4a]">
-                <f.icon className="w-4 h-4" style={{ color: f.color }} />
-                <span className="text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest">{f.label}</span>
-              </div>
-            ))}
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">What’s inside</p>
+            <div className="mt-5 space-y-3">
+              {[
+                { icon: BookOpen, label: 'Architecture notes', color: 'text-blue-600 dark:text-blue-400' },
+                { icon: Terminal, label: 'Lab experiments', color: 'text-emerald-600 dark:text-emerald-400' },
+                { icon: Layers, label: 'System patterns', color: 'text-indigo-600 dark:text-indigo-400' }
+              ].map((f, i) => (
+                <div key={i} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/90 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/70">
+                  <f.icon className={cn('h-4 w-4', f.color)} />
+                  <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{f.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
 
-        {/* Terminal Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="md:col-span-2 md:row-span-2 bento-card flex flex-col bg-[#0a0a12] border-arcade-cyan/30 font-mono shadow-2xl"
-          style={{ boxShadow: '0 0 40px rgba(0, 240, 255, 0.05), inset 0 0 60px rgba(0, 240, 255, 0.02)' }}
+          className="bento-card flex flex-col bg-slate-950 text-slate-100 shadow-xl shadow-slate-900/12 dark:border-slate-800 dark:bg-slate-950 md:col-span-2 md:row-span-2"
         >
-          <div className="flex justify-between items-center mb-6">
+          <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Terminal className="w-5 h-5 text-arcade-cyan" />
-              <h2 className="pixel-heading text-[10px] neon-cyan leading-relaxed">ATLAS_TERMINAL / V3.0</h2>
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-500/10 text-blue-300">
+                <Terminal className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold tracking-tight text-white">Atlas console</h2>
+                <p className="text-sm text-slate-400">A lightweight command surface for navigating the portfolio.</p>
+              </div>
             </div>
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-arcade-red" />
-              <div className="w-2.5 h-2.5 rounded-full bg-arcade-yellow" />
-              <div className="w-2.5 h-2.5 rounded-full bg-arcade-green" />
+            <div className="flex gap-2">
+              <div className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
             </div>
           </div>
 
-          <div className="grow flex flex-col">
-            <div className="p-5 bg-[#0a0a12] rounded-xl border border-[#2a2a4a]/50 min-h-40 flex flex-col text-xs leading-relaxed relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <Terminal className="w-24 h-24" />
+          <div className="flex grow flex-col">
+            <div className="relative min-h-44 rounded-3xl border border-white/10 bg-slate-950 px-5 py-5 text-sm leading-7 shadow-inner shadow-black/20">
+              <div className="absolute right-0 top-0 p-4 text-white/5 pointer-events-none">
+                <Terminal className="h-24 w-24" />
               </div>
-              <div className="mb-4 space-y-1 text-[#2a2a4a] tracking-wider font-bold uppercase">
-                <p className="text-arcade-green/40"># INITIALIZING CONNECTION TO PORTAL_SUBNET...</p>
-                <p className="text-arcade-green/40"># SYNCHRONIZING LAB_PROTOCOLS...</p>
-                <p className="text-arcade-green/40"># INDEXING BUG_LEDGER...</p>
-                <p className="text-arcade-cyan/60 mt-2 lowercase tracking-normal">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
+              <div className="mb-4 space-y-1 text-slate-500">
+                <p># Connecting to content index...</p>
+                <p># Syncing experiments and system notes...</p>
+                <p># Workspace ready for guided exploration.</p>
+                <p className="mt-2 text-slate-400">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
               </div>
-              <p id="ama-answer" className="text-arcade-green transition-all font-medium whitespace-pre-wrap">
-                &gt; Systems Ready. Awaiting architectural commands...
+              <p id="ama-answer" className="whitespace-pre-wrap font-medium text-blue-300 transition-all">
+                &gt; Workspace ready. Enter a command to explore the atlas.
               </p>
             </div>
 
             <div className="mt-6 space-y-4">
-              <div className="flex items-center gap-3 p-3.5 bg-[#0a0a12] rounded-xl border-2 border-[#2a2a4a] group focus-within:border-arcade-cyan/50 transition-all">
-                <span className="text-arcade-cyan font-black coin-blink shrink-0">&gt;_</span>
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 transition-all focus-within:border-blue-400/40 focus-within:bg-white/[0.07]">
+                <span className="shrink-0 text-blue-300">&gt;</span>
                 <input
                   type="text"
                   placeholder="Enter command (e.g. --lab)..."
-                  className="bg-transparent border-none outline-none text-arcade-green text-sm w-full placeholder:text-[#2a2a4a]/50 tracking-tight font-mono"
+                  className="w-full border-none bg-transparent text-sm text-slate-100 outline-none placeholder:text-slate-500"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       const input = e.currentTarget.value.toLowerCase().trim();
@@ -189,7 +198,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex flex-wrap gap-2">
                 {['--atlas-info', '--lab', '--debug-ledger', '--query-insights'].map(cmd => (
                   <button
                     key={cmd}
@@ -205,7 +214,7 @@ export default function Home() {
                         el.innerText = responses[cmd];
                       }
                     }}
-                    className="text-[9px] font-mono font-bold uppercase tracking-widest px-3 py-1.5 bg-[#0a0a12] border border-[#2a2a4a] text-[#2a2a4a] hover:text-arcade-cyan hover:border-arcade-cyan/50 rounded-lg transition-all"
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-medium text-slate-300 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white"
                   >
                     {cmd}
                   </button>
@@ -214,10 +223,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-[9px] text-[#2a2a4a] font-mono font-bold uppercase tracking-widest pt-4 border-t border-[#2a2a4a]/30">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4 text-sm font-medium text-slate-400">
             <div className="flex gap-4">
-              <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-arcade-green transition-colors">
-                🎮 Open_Lab
+              <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="transition-colors hover:text-emerald-300">
+                Open lab
               </button>
               <button
                 onClick={() => {
@@ -225,86 +234,82 @@ export default function Home() {
                   const el = document.getElementById('ama-answer');
                   if (el) el.innerText = "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads";
                 }}
-                className="hover:text-arcade-red transition-colors"
+                className="transition-colors hover:text-red-300"
               >
-                🐛 Bug_Timeline
+                View bug timeline
               </button>
             </div>
-            <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="text-arcade-cyan hover:text-arcade-magenta font-bold transition-colors">
-              📖 Open_Guides →
+            <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="font-semibold text-blue-300 transition-colors hover:text-white">
+              Open guides →
             </button>
           </div>
         </motion.div>
 
-        {/* Bug Timeline Tile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="md:col-span-1 md:row-span-1 bg-linear-to-br from-arcade-red to-arcade-magenta rounded-xl p-8 text-white flex flex-col justify-between group cursor-pointer border-2 border-arcade-red/50"
-          style={{ boxShadow: '0 0 30px rgba(255, 51, 51, 0.2)' }}
+          className="relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-red-200 bg-gradient-to-br from-white via-white to-red-50 p-8 shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-500/10 dark:border-red-500/20 dark:from-slate-900 dark:via-slate-900 dark:to-red-500/10 md:col-span-1 md:row-span-1"
           onClick={() => {
             const el = document.getElementById('timeline');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
         >
-          <div className="pixel-heading text-[7px] uppercase opacity-80 leading-relaxed">Bug_Trace_Central</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-red-600 dark:text-red-300">Bug timeline</div>
           <div>
-            <div className="pixel-heading text-4xl mb-1 leading-relaxed">04</div>
-            <div className="text-[8px] font-mono font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity flex items-center gap-2">
-              Critical Bugs Logged <ArrowRight className="w-3 h-3" />
+            <div className="text-5xl font-semibold tracking-tight text-slate-950 dark:text-white">04</div>
+            <div className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-500 transition-opacity group-hover:opacity-100 dark:text-slate-300">
+              Critical bugs logged <ArrowRight className="h-4 w-4" />
             </div>
           </div>
         </motion.div>
 
-        {/* Onboarding Tile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="md:col-span-1 md:row-span-1 bento-card flex flex-col justify-between"
+          className="bento-card flex flex-col justify-between md:col-span-1 md:row-span-1"
         >
-          <h3 className="pixel-heading text-[10px] text-white leading-relaxed">ONBOARDING.</h3>
-          <p className="text-xs text-[#2a2a4a] leading-relaxed font-mono mt-2">Join the directory or schedule an architectural walkthrough.</p>
+          <div>
+            <h3 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">Ready to collaborate?</h3>
+            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">Reach out for product engineering, design systems, or technical consulting.</p>
+          </div>
           <button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="mt-6 block w-full py-4 bg-arcade-yellow text-[#0a0a12] text-center rounded-lg transition-all hover:bg-[#ffee44] arcade-btn border-[#ccb800] text-[8px]"
-            style={{ boxShadow: '0 0 15px rgba(255, 230, 0, 0.2), 0 3px 0 #ccb800' }}
+            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500"
           >
-            🎮 PRESS START
+            Start a conversation
           </button>
         </motion.div>
 
-        {/* Local Vitals Tile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="md:col-span-1 md:row-span-1 bento-card flex flex-col justify-between bg-[#0a0a12] border-[#2a2a4a]"
+          className="bento-card flex flex-col justify-between bg-white/95 md:col-span-1 md:row-span-1 dark:bg-slate-900/90"
         >
-          <div className="flex justify-between items-start">
-            <h4 className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">LOCAL_VITALS</h4>
-            <div className="w-2 h-2 rounded-full bg-arcade-green coin-blink" />
+          <div className="flex items-start justify-between">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Local snapshot</h4>
+            <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
           </div>
 
-          <div className="space-y-1 my-4">
-            <div className="pixel-heading text-lg text-arcade-cyan leading-relaxed">
+          <div className="my-4 space-y-1">
+            <div className="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">
               {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
             </div>
-            <div className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#2a2a4a]">
+            <div className="text-sm text-slate-500 dark:text-slate-400">
               {new Date().toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
             </div>
           </div>
 
-          <div className="pt-4 border-t border-[#2a2a4a]/30 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Cloud className="w-3 h-3 text-arcade-cyan" />
-              <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#2a2a4a]">22°C // Stable</span>
+          <div className="flex items-center justify-between border-t border-slate-200 pt-4 dark:border-slate-800">
+            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+              <Cloud className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span>22°C · Stable</span>
             </div>
-            <span className="text-[8px] font-mono font-bold uppercase tracking-widest neon-green">LIVE</span>
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Live</span>
           </div>
         </motion.div>
-
       </div>
     </div>
   );

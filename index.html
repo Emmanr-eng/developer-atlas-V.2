@@ -4,29 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Font preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Primary SEO -->
     <title>Developer Atlas | Full-Stack Developer Portfolio</title>
     <meta name="description" content="A full-stack developer portfolio powered by React, Firebase, and Google Gemini AI. Explore projects, blog posts, and technical experiments." />
     <meta name="author" content="Emmanuel R." />
     <link rel="canonical" href="https://gen-lang-client-0809812074.web.app/" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Developer Atlas | Full-Stack Developer Portfolio" />
     <meta property="og:description" content="A full-stack developer portfolio powered by React, Firebase, and Google Gemini AI." />
     <meta property="og:url" content="https://gen-lang-client-0809812074.web.app/" />
     <meta property="og:site_name" content="Developer Atlas" />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Developer Atlas | Full-Stack Developer Portfolio" />
     <meta name="twitter:description" content="A full-stack developer portfolio powered by React, Firebase, and Google Gemini AI." />
 
-    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -41,7 +37,6 @@
   <body>
     <div id="root"></div>
     <script>
-      // One-time cleanup: unregister stale service workers causing 404s
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(regs => {
           regs.forEach(r => r.unregister());

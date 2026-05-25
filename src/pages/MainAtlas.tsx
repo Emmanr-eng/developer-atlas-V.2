@@ -56,30 +56,30 @@ export default function MainAtlas() {
   }, [location.hash]);
 
   return (
-    <div className="space-y-32 pb-32">
+    <div className="space-y-24 pb-24 lg:space-y-28 lg:pb-28">
       <section id="home">
         <Suspense fallback={<SectionSkeleton variant="hero" label="Home" />}>
           <Home />
         </Suspense>
       </section>
 
-      <LazySection id="portfolio" label="Portfolio" skeletonVariant="grid" className="scroll-mt-24">
+      <LazySection id="portfolio" label="Portfolio" skeletonVariant="grid" className="scroll-mt-28">
         <Portfolio />
       </LazySection>
 
-      <LazySection id="lab" label="Lab" skeletonVariant="grid" className="scroll-mt-24">
+      <LazySection id="lab" label="Lab" skeletonVariant="grid" className="scroll-mt-28">
         <Lab />
       </LazySection>
 
-      <LazySection id="timeline" label="Timeline" skeletonVariant="list" className="scroll-mt-24">
+      <LazySection id="timeline" label="Timeline" skeletonVariant="list" className="scroll-mt-28">
         <Timeline />
       </LazySection>
 
-      <LazySection id="blog" label="Blog" skeletonVariant="list" className="scroll-mt-24">
+      <LazySection id="blog" label="Blog" skeletonVariant="list" className="scroll-mt-28">
         <Blog />
       </LazySection>
 
-      <LazySection id="contact" label="Contact" skeletonVariant="form" className="scroll-mt-24">
+      <LazySection id="contact" label="Contact" skeletonVariant="form" className="scroll-mt-28">
         <Contact />
       </LazySection>
     </div>

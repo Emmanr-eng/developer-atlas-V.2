@@ -1,41 +1,52 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-pixel: 'Press Start 2P', monospace;
+  --font-pixel: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  /* Arcade Palette */
-  --color-arcade-black: #0a0a12;
-  --color-arcade-dark: #12121f;
-  --color-arcade-panel: #1a1a2e;
-  --color-arcade-border: #2a2a4a;
-  --color-arcade-cyan: #00f0ff;
-  --color-arcade-magenta: #ff00aa;
-  --color-arcade-yellow: #ffe600;
-  --color-arcade-green: #39ff14;
-  --color-arcade-red: #ff3333;
-  --color-arcade-purple: #b44aff;
-  --color-arcade-orange: #ff6f00;
-  --color-arcade-blue: #4466ff;
+  --color-arcade-black: #f8fafc;
+  --color-arcade-dark: #ffffff;
+  --color-arcade-panel: #f8fafc;
+  --color-arcade-border: #e2e8f0;
+  --color-arcade-cyan: #2563eb;
+  --color-arcade-magenta: #6366f1;
+  --color-arcade-yellow: #f59e0b;
+  --color-arcade-green: #10b981;
+  --color-arcade-red: #ef4444;
+  --color-arcade-purple: #4f46e5;
+  --color-arcade-orange: #d97706;
+  --color-arcade-blue: #3b82f6;
 
-  --color-neutral-950: #0a0a12;
-  --color-neutral-900: #12121f;
-  --color-neutral-800: #1a1a2e;
-  --color-neutral-700: #2a2a4a;
+  --color-neutral-950: #0f172a;
+  --color-neutral-900: #1e293b;
+  --color-neutral-800: #334155;
+  --color-neutral-700: #475569;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    @apply h-full;
+    @apply h-full bg-slate-50 text-slate-900;
   }
 
   body {
-    @apply antialiased h-full bg-[#0a0a12] text-neutral-100;
-    image-rendering: auto;
+    @apply h-full bg-slate-50 text-slate-700 antialiased font-sans;
+    background-image:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 38%),
+      linear-gradient(180deg, #fafbfc 0%, #f8fafc 52%, #f4f5f7 100%);
+  }
+
+  html.dark {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  html.dark body {
+    @apply bg-slate-950 text-slate-300;
+    background-image:
+      radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 34%),
+      linear-gradient(180deg, #0f172a 0%, #111827 45%, #1e293b 100%);
   }
 
   #root {
@@ -43,131 +54,191 @@
   }
 
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-arcade-cyan rounded-sm;
+    @apply outline-2 outline-offset-2 outline-blue-500 rounded-md;
   }
 
   ::selection {
-    background: rgba(0, 240, 255, 0.3);
-    color: #fff;
+    background: rgba(37, 99, 235, 0.18);
+    color: #0f172a;
+  }
+
+  html.dark ::selection {
+    background: rgba(96, 165, 250, 0.28);
+    color: #f8fafc;
   }
 }
 
-/* Scanline overlay */
-.arcade-scanlines::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
+@layer components {
+  .arcade-scanlines::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      radial-gradient(circle at top, rgba(255, 255, 255, 0.4), transparent 45%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 20%);
+    opacity: 0.6;
+  }
+
+  html.dark .arcade-scanlines::after {
+    background:
+      radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 40%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 18%);
+  }
+
+  .bento-card {
+    @apply rounded-2xl border border-slate-200/90 bg-white/90 p-8 shadow-sm shadow-slate-900/5 backdrop-blur-sm transition-all duration-300;
+  }
+
+  .bento-card:hover {
+    @apply border-blue-200 shadow-md shadow-slate-900/8;
+    transform: translateY(-2px);
+  }
+
+  html.dark .bento-card {
+    @apply border-slate-800/80 bg-slate-900/88 shadow-black/20;
+  }
+
+  html.dark .bento-card:hover {
+    @apply border-blue-500/30 shadow-black/30;
+  }
+
+  .neon-cyan {
+    @apply text-blue-600;
+  }
+
+  .neon-magenta {
+    @apply text-indigo-600;
+  }
+
+  .neon-green {
+    @apply text-emerald-600;
+  }
+
+  .neon-yellow {
+    @apply text-amber-600;
+  }
+
+  html.dark .neon-cyan {
+    @apply text-blue-400;
+  }
+
+  html.dark .neon-magenta {
+    @apply text-indigo-400;
+  }
+
+  html.dark .neon-green {
+    @apply text-emerald-400;
+  }
+
+  html.dark .neon-yellow {
+    @apply text-amber-400;
+  }
+
+  .arcade-btn {
+    @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold tracking-[-0.01em] text-slate-700 shadow-sm shadow-slate-900/5 transition-all duration-200;
+  }
+
+  .arcade-btn:hover {
+    @apply border-slate-300 shadow-md shadow-slate-900/8;
+    transform: translateY(-1px);
+  }
+
+  .arcade-btn:active {
+    transform: translateY(0);
+  }
+
+  html.dark .arcade-btn {
+    @apply border-slate-700 bg-slate-900 text-slate-100 shadow-black/25;
+  }
+
+  .pixel-heading {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .glass {
+    @apply border border-slate-200/80 bg-white/75 backdrop-blur-xl shadow-sm shadow-slate-900/5;
+  }
+
+  html.dark .glass {
+    @apply border-slate-800/80 bg-slate-900/70 shadow-black/25;
+  }
+
+  .skip-to-content {
+    @apply absolute left-4 rounded-b-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 z-[100];
+    top: -100%;
+    transition: top 0.2s ease;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+
+  .surface-muted {
+    @apply rounded-2xl border border-slate-200/80 bg-slate-50/90 shadow-sm shadow-slate-900/5;
+  }
+
+  html.dark .surface-muted {
+    @apply border-slate-800/80 bg-slate-900/80 shadow-black/20;
+  }
+
+  .code-surface {
+    @apply rounded-2xl border border-slate-200/80 bg-slate-950 px-5 py-4 font-mono text-sm leading-7 text-slate-200 shadow-inner;
+  }
+
+  .section-kicker {
+    @apply inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700;
+  }
+
+  html.dark .section-kicker {
+    @apply border-blue-500/20 bg-blue-500/10 text-blue-300;
+  }
 }
 
-/* Arcade Card */
-.bento-card {
-  @apply bg-[#1a1a2e]/80 border-2 border-[#2a2a4a] rounded-xl p-8 transition-all duration-300;
-  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.05);
-}
-
-.bento-card:hover {
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow:
-    0 0 15px rgba(0, 240, 255, 0.1),
-    0 0 30px rgba(0, 240, 255, 0.05),
-    inset 0 1px 0 rgba(0, 240, 255, 0.1);
-}
-
-/* Neon glow text utility */
-.neon-cyan {
-  color: #00f0ff;
-  text-shadow: 0 0 7px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
-}
-
-.neon-magenta {
-  color: #ff00aa;
-  text-shadow: 0 0 7px rgba(255, 0, 170, 0.6), 0 0 20px rgba(255, 0, 170, 0.3);
-}
-
-.neon-green {
-  color: #39ff14;
-  text-shadow: 0 0 7px rgba(57, 255, 20, 0.6), 0 0 20px rgba(57, 255, 20, 0.3);
-}
-
-.neon-yellow {
-  color: #ffe600;
-  text-shadow: 0 0 7px rgba(255, 230, 0, 0.6), 0 0 20px rgba(255, 230, 0, 0.3);
-}
-
-/* Arcade button */
-.arcade-btn {
-  @apply font-[--font-pixel] text-[10px] uppercase tracking-widest px-6 py-3 border-2 rounded-lg transition-all duration-150;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
-}
-
-.arcade-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
-}
-
-/* Pixel heading */
-.pixel-heading {
-  font-family: 'Press Start 2P', monospace;
-  line-height: 1.6;
-}
-
-/* Glass */
-.glass {
-  @apply bg-[#12121f]/70 backdrop-blur-md border border-[#2a2a4a]/50;
-}
-
-/* CRT flicker keyframes */
-@keyframes crt-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.98; }
-}
-
-@keyframes coin-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+@keyframes soft-pulse {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
 }
 
 .crt-flicker {
-  animation: crt-flicker 0.1s infinite;
+  animation: soft-pulse 2.4s ease-in-out infinite;
 }
 
 .coin-blink {
-  animation: coin-blink 1s step-end infinite;
+  animation: soft-pulse 2s ease-in-out infinite;
 }
 
-/* Skip to content */
-.skip-to-content {
-  @apply absolute left-4 bg-arcade-cyan text-black font-bold text-xs px-4 py-2 rounded-b-lg z-100 uppercase tracking-widest;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  top: -100%;
-  transition: top 0.2s ease;
-}
-
-.skip-to-content:focus {
-  top: 0;
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0a0a12;
+  background: rgba(226, 232, 240, 0.7);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #2a2a4a;
-  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.9);
+  border-radius: 999px;
+  border: 2px solid rgba(226, 232, 240, 0.7);
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f0ff;
+  background: rgba(37, 99, 235, 0.8);
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.9);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.9);
+  border-color: rgba(30, 41, 59, 0.9);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.8);
 }
