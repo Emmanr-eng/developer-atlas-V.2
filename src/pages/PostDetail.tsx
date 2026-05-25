@@ -106,8 +106,11 @@ export default function PostDetail() {
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="pixel-heading text-[10px] text-arcade-purple coin-blink">LOADING ARTICLE...</div>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-indigo-600 dark:bg-indigo-400" />
+        Loading article
+      </div>
     </div>
   );
 
@@ -119,75 +122,75 @@ export default function PostDetail() {
     <>
       <ReadingProgressBar progress={progress} />
 
-      <div ref={articleRef} className="max-w-4xl mx-auto space-y-12 mb-20 pt-8">
+      <div ref={articleRef} className="mx-auto mb-20 max-w-4xl space-y-12 pt-8">
         <button
           onClick={() => navigate('/#blog')}
-          className="inline-flex items-center space-x-2 text-xs font-mono font-bold text-[#2a2a4a] hover:text-arcade-cyan transition-colors group"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-colors hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-300"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> <span>Back to Guides</span>
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          <span>Back to guides</span>
         </button>
 
-        <section className="space-y-8">
+        <section className="space-y-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-10">
           <div className="space-y-6">
             <div className="flex flex-wrap gap-2">
               {post.tags.map(tag => (
-                <span key={tag} className="px-3 py-1 bg-arcade-magenta/10 text-arcade-magenta text-[8px] font-mono font-bold uppercase tracking-widest rounded-lg border border-arcade-magenta/20">
+                <span key={tag} className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-700 dark:border-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-300">
                   {tag}
                 </span>
               ))}
             </div>
-            <h1 className="pixel-heading text-lg md:text-2xl text-white leading-relaxed">
-              {post.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-6 text-[#2a2a4a] text-[8px] font-mono font-bold uppercase tracking-widest">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">{post.title}</h1>
+              <p className="text-base leading-8 text-slate-600 dark:text-slate-300">{post.summary}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-2">
-                <User className="w-4 h-4 text-arcade-purple" />
-                <span className="text-neutral-200">{post.authorName}</span>
+                <User className="h-4 w-4 text-indigo-600 dark:text-indigo-300" />
+                <span>{post.authorName}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-arcade-cyan" />
+                <Calendar className="h-4 w-4 text-blue-600 dark:text-blue-300" />
                 <span>{formatDate(post.createdAt)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-arcade-yellow" />
+                <Clock className="h-4 w-4 text-amber-600 dark:text-amber-300" />
                 <span>{readTime} min read</span>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-start space-x-4">
-            <button onClick={() => share('twitter')} className="p-3 rounded-lg bg-[#12121f] border-2 border-[#2a2a4a] hover:border-arcade-cyan/50 text-[#2a2a4a] hover:text-arcade-cyan transition-all">
-              <Twitter className="w-5 h-5" />
+          <div className="flex flex-wrap justify-start gap-3">
+            <button onClick={() => share('twitter')} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10 dark:hover:text-blue-300">
+              <Twitter className="h-5 w-5" />
             </button>
-            <button onClick={() => share('linkedin')} className="p-3 rounded-lg bg-[#12121f] border-2 border-[#2a2a4a] hover:border-arcade-purple/50 text-[#2a2a4a] hover:text-arcade-purple transition-all">
-              <Linkedin className="w-5 h-5" />
+            <button onClick={() => share('linkedin')} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-slate-500 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-indigo-500/30 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300">
+              <Linkedin className="h-5 w-5" />
             </button>
-            <button onClick={() => share('copy')} className="p-3 rounded-lg bg-[#12121f] border-2 border-[#2a2a4a] hover:border-arcade-magenta/50 text-[#2a2a4a] hover:text-arcade-magenta transition-all">
-              <LinkIcon className="w-5 h-5" />
+            <button onClick={() => share('copy')} className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-slate-500 transition hover:border-slate-300 hover:bg-white hover:text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white">
+              <LinkIcon className="h-5 w-5" />
             </button>
           </div>
         </section>
 
-        <div className="prose prose-invert max-w-none p-8 md:p-12 bg-[#12121f] rounded-xl border-2 border-[#2a2a4a] backdrop-blur-sm
-                        prose-headings:font-mono prose-headings:text-arcade-cyan
-                        prose-a:text-arcade-magenta prose-a:no-underline hover:prose-a:underline
-                        prose-strong:text-arcade-yellow
-                        prose-code:text-arcade-green prose-code:bg-[#0a0a12] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-                        prose-pre:bg-[#0a0a12] prose-pre:border-2 prose-pre:border-[#2a2a4a] prose-pre:rounded-xl"
-             style={{ boxShadow: '0 0 40px rgba(0, 240, 255, 0.03)' }}>
+        <div className="prose prose-slate max-w-none rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm shadow-slate-900/5 dark:prose-invert dark:border-slate-800 dark:bg-slate-900 md:p-12
+                        prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-slate-950 dark:prose-headings:text-white
+                        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-blue-300
+                        prose-strong:text-slate-950 dark:prose-strong:text-white
+                        prose-code:rounded prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-indigo-600 dark:prose-code:bg-slate-800 dark:prose-code:text-indigo-300
+                        prose-pre:rounded-2xl prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 dark:prose-pre:border-slate-700">
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
 
-        <section className="bg-[#12121f] p-12 rounded-xl border-2 border-[#2a2a4a] text-center space-y-6"
-                 style={{ boxShadow: '0 0 30px rgba(255, 0, 170, 0.05)' }}>
-          <h3 className="pixel-heading text-sm text-white leading-relaxed">ENJOYED THIS ARTICLE?</h3>
-          <p className="text-[#2a2a4a] max-w-md mx-auto font-mono text-xs">
-            Share it with your network or subscribe to get notified about future technical deep dives.
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-10 text-center shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+          <h3 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">Enjoyed this article?</h3>
+          <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
+            Share it with your network or save it as a reference for future architecture conversations.
           </p>
-          <div className="flex justify-center space-x-4">
-            <button onClick={() => share('twitter')} className="arcade-btn bg-arcade-magenta border-[#cc0088] text-white text-[8px] flex items-center gap-2"
-                    style={{ boxShadow: '0 0 15px rgba(255, 0, 170, 0.3), 0 3px 0 #cc0088' }}>
-              <Share2 className="w-4 h-4" /> SHARE POST
+          <div className="mt-8 flex justify-center">
+            <button onClick={() => share('twitter')} className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-500">
+              <Share2 className="h-4 w-4" />
+              Share post
             </button>
           </div>
         </section>

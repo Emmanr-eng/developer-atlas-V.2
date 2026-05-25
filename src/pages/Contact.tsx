@@ -70,138 +70,133 @@ export default function Contact() {
 
   return (
     <div className="space-y-16">
-      <div className="text-center space-y-4">
-        <h1 className="pixel-heading text-lg md:text-2xl leading-relaxed">
-          <span className="neon-yellow">LET'S TALK ABOUT</span>
-          <br />
-          <span className="neon-cyan">YOUR PROJECT.</span>
-        </h1>
-        <p className="text-[#2a2a4a] max-w-2xl mx-auto text-xs leading-relaxed font-mono">
-          Collaborations, engineering inquiries, or technical consultations. Reach out and let's craft something significant.
+      <div className="space-y-4 text-center">
+        <div className="section-kicker">Get in touch</div>
+        <h1 className="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">Let’s talk about your next product, system, or engineering challenge.</h1>
+        <p className="mx-auto max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+          Open to collaboration, technical consulting, and thoughtful conversations about building resilient software.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-        {/* Contact Info */}
-        <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
-          <div className="space-y-6">
-            <h3 className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">GLOBAL REACH</h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-4 p-6 bento-card hover:border-arcade-cyan/40">
-                <div className="w-10 h-10 rounded-lg bg-arcade-cyan/10 flex items-center justify-center shrink-0 border border-arcade-cyan/20">
-                  <Mail className="w-5 h-5 text-arcade-cyan" />
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-5">
+        <div className="order-2 space-y-6 lg:col-span-2 lg:order-1">
+          <div className="space-y-4">
+            {[{
+              icon: Mail,
+              label: 'Email',
+              value: 'hello@devflow.design',
+              color: 'text-blue-600 dark:text-blue-400',
+              bg: 'bg-blue-50 dark:bg-blue-500/10',
+              border: 'border-blue-200 dark:border-blue-500/20'
+            }, {
+              icon: MapPin,
+              label: 'Location',
+              value: 'San Francisco, CA (GMT-7)',
+              color: 'text-indigo-600 dark:text-indigo-400',
+              bg: 'bg-indigo-50 dark:bg-indigo-500/10',
+              border: 'border-indigo-200 dark:border-indigo-500/20'
+            }, {
+              icon: Phone,
+              label: 'Availability',
+              value: 'Active & Accepting Queries',
+              color: 'text-emerald-600 dark:text-emerald-400',
+              bg: 'bg-emerald-50 dark:bg-emerald-500/10',
+              border: 'border-emerald-200 dark:border-emerald-500/20'
+            }].map((item) => (
+              <div key={item.label} className="bento-card flex items-start gap-4 p-6">
+                <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border', item.bg, item.border)}>
+                  <item.icon className={cn('h-5 w-5', item.color)} />
                 </div>
                 <div>
-                  <p className="text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest mb-1">Direct Line</p>
-                  <p className="text-neutral-200 font-mono font-bold text-sm">hello@devflow.design</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">{item.label}</p>
+                  <p className="mt-2 text-base font-medium text-slate-900 dark:text-slate-100">{item.value}</p>
                 </div>
               </div>
-
-              <div className="flex items-start space-x-4 p-6 bento-card hover:border-arcade-purple/40">
-                <div className="w-10 h-10 rounded-lg bg-arcade-purple/10 flex items-center justify-center shrink-0 border border-arcade-purple/20">
-                  <MapPin className="w-5 h-5 text-arcade-purple" />
-                </div>
-                <div>
-                  <p className="text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest mb-1">Base of Ops</p>
-                  <p className="text-neutral-200 font-mono font-bold text-sm">San Francisco, CA (GMT-7)</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bento-card hover:border-arcade-yellow/40">
-                <div className="w-10 h-10 rounded-lg bg-arcade-yellow/10 flex items-center justify-center shrink-0 border border-arcade-yellow/20">
-                  <Phone className="w-5 h-5 text-arcade-yellow" />
-                </div>
-                <div>
-                  <p className="text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest mb-1">Status</p>
-                  <p className="text-neutral-200 font-mono font-bold text-sm">Active & Accepting Queries</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Form */}
-        <div className="lg:col-span-3 bento-card p-8 md:p-12 order-1 lg:order-2">
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <label htmlFor="contact-name" className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">PLAYER NAME</label>
+        <div className="order-1 lg:col-span-3 lg:order-2">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900 md:p-10">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="space-y-3">
+                  <label htmlFor="contact-name" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Full name</label>
+                  <input
+                    id="contact-name"
+                    required
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500/50 dark:focus:ring-blue-500/10"
+                    placeholder="Full Name"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <label htmlFor="contact-email" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Email</label>
+                  <input
+                    id="contact-email"
+                    required
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500/50 dark:focus:ring-blue-500/10"
+                    placeholder="name@provider.com"
+                  />
+                </div>
+              </div>
+
+              <div className="absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+                <label htmlFor="contact-website">Website</label>
                 <input
-                  id="contact-name"
-                  required
+                  id="contact-website"
                   type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-5 py-4 rounded-lg bg-[#0a0a12] border-2 border-[#2a2a4a] focus:border-arcade-cyan/50 transition-all text-xs font-mono font-bold outline-none placeholder:text-[#2a2a4a]/50 text-arcade-cyan"
-                  placeholder="Full Name"
+                  value={formData.website}
+                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
               </div>
+
               <div className="space-y-3">
-                <label htmlFor="contact-email" className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">PROTOCOL</label>
-                <input
-                  id="contact-email"
+                <label htmlFor="contact-message" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Project details</label>
+                <textarea
+                  id="contact-message"
                   required
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-5 py-4 rounded-lg bg-[#0a0a12] border-2 border-[#2a2a4a] focus:border-arcade-cyan/50 transition-all text-xs font-mono font-bold outline-none placeholder:text-[#2a2a4a]/50 text-arcade-cyan"
-                  placeholder="name@provider.com"
+                  rows={6}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm leading-7 text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-blue-500/50 dark:focus:ring-blue-500/10"
+                  placeholder="Describe your vision or inquiry..."
                 />
               </div>
-            </div>
 
-            {/* Honeypot */}
-            <div className="absolute opacity-0 h-0 w-0 overflow-hidden" aria-hidden="true">
-              <label htmlFor="contact-website">Website</label>
-              <input
-                id="contact-website"
-                type="text"
-                value={formData.website}
-                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label htmlFor="contact-message" className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">TRANSMISSION</label>
-              <textarea
-                id="contact-message"
-                required
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-5 py-4 rounded-lg bg-[#0a0a12] border-2 border-[#2a2a4a] focus:border-arcade-cyan/50 transition-all text-xs font-mono font-bold outline-none resize-none placeholder:text-[#2a2a4a]/50 text-arcade-cyan"
-                placeholder="Describe your vision or inquiry..."
-              />
-            </div>
-
-            <button
-              disabled={status === 'submitting' || status === 'success' || isRateLimited}
-              className={cn(
-                "w-full py-5 rounded-lg font-mono font-bold text-[10px] uppercase tracking-[0.3em] flex items-center justify-center space-x-3 transition-all border-2",
-                status === 'success'
-                  ? "bg-arcade-green border-[#22cc00] text-[#0a0a12] shadow-[0_0_20px_rgba(57,255,20,0.3)]"
-                  : "bg-arcade-yellow border-[#ccb800] text-[#0a0a12] hover:bg-[#ffee44]",
-                "disabled:opacity-50 disabled:cursor-not-allowed"
-              )}
-              style={{ boxShadow: status !== 'success' ? '0 4px 0 #ccb800' : '0 4px 0 #22cc00' }}
-            >
-              {status === 'success' ? (
-                <>
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span>✓ TRANSMISSION VERIFIED</span>
-                </>
-              ) : isRateLimited ? (
-                <span>WAIT {remainingSeconds}s</span>
-              ) : (
-                <>
-                  <Send className="w-5 h-5" />
-                  <span>{status === 'submitting' ? 'TRANSMITTING...' : '🎮 SEND MESSAGE'}</span>
-                </>
-              )}
-            </button>
-          </form>
+              <button
+                disabled={status === 'submitting' || status === 'success' || isRateLimited}
+                className={cn(
+                  'inline-flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-sm font-semibold text-white shadow-lg transition',
+                  status === 'success'
+                    ? 'bg-emerald-600 shadow-emerald-600/20'
+                    : 'bg-blue-600 shadow-blue-600/20 hover:-translate-y-0.5 hover:bg-blue-500',
+                  'disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0'
+                )}
+              >
+                {status === 'success' ? (
+                  <>
+                    <CheckCircle2 className="h-5 w-5" />
+                    <span>Message sent</span>
+                  </>
+                ) : isRateLimited ? (
+                  <span>Wait {remainingSeconds}s</span>
+                ) : (
+                  <>
+                    <Send className="h-5 w-5" />
+                    <span>{status === 'submitting' ? 'Sending...' : 'Send message'}</span>
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

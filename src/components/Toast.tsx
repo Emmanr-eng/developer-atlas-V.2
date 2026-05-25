@@ -29,38 +29,35 @@ export const Toast: React.FC<ToastProps> = ({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          initial={{ opacity: 0, y: 40, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="fixed bottom-6 right-6 z-70 max-w-sm"
+          exit={{ opacity: 0, y: 16, scale: 0.96 }}
+          transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+          className="fixed bottom-6 right-6 z-70 w-full max-w-sm px-4 sm:px-0"
           role="alert"
           aria-live="polite"
         >
           <div
-            className={`flex items-center gap-3 px-5 py-4 rounded-xl border-2 shadow-2xl backdrop-blur-md font-mono ${
+            className={`flex items-start gap-3 rounded-2xl border px-4 py-4 shadow-xl backdrop-blur-xl ${
               type === 'success'
-                ? 'bg-arcade-green/10 border-arcade-green/40 text-arcade-green'
-                : 'bg-arcade-red/10 border-arcade-red/40 text-arcade-red'
+                ? 'border-emerald-200 bg-white/95 text-emerald-700 shadow-emerald-500/10 dark:border-emerald-500/20 dark:bg-slate-900/95 dark:text-emerald-300'
+                : 'border-red-200 bg-white/95 text-red-700 shadow-red-500/10 dark:border-red-500/20 dark:bg-slate-900/95 dark:text-red-300'
             }`}
-            style={{
-              boxShadow: type === 'success'
-                ? '0 0 20px rgba(57, 255, 20, 0.15)'
-                : '0 0 20px rgba(255, 51, 51, 0.15)'
-            }}
           >
             {type === 'success' ? (
-              <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
             ) : (
-              <AlertCircle className="w-5 h-5 shrink-0" />
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
             )}
-            <span className="text-[8px] font-bold uppercase tracking-widest">{message}</span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm leading-6 text-slate-700 dark:text-slate-200">{message}</p>
+            </div>
             <button
               onClick={onClose}
-              className="ml-2 p-1 rounded-lg hover:bg-white/10 transition-colors"
+              className="rounded-xl p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
               aria-label="Dismiss notification"
             >
-              <X className="w-4 h-4" />
+              <X className="h-4 w-4" />
             </button>
           </div>
         </motion.div>

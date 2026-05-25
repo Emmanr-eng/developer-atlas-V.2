@@ -125,154 +125,142 @@ style={{
   return (
     <div className="space-y-12 pb-24">
       <div className="space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-arcade-green/10 border border-arcade-green/20 text-arcade-green text-[8px] font-mono font-bold uppercase tracking-widest">
-          <FlaskConical className="w-3 h-3" />
-          <span>Component Lab</span>
+        <div className="section-kicker">
+          <FlaskConical className="h-3.5 w-3.5" />
+          Interaction lab
         </div>
-        <div>
-          <h1 className="pixel-heading text-xl neon-green leading-relaxed">COMPONENT LAB</h1>
-          <p className="text-arcade-green/60 text-[8px] font-mono font-bold uppercase tracking-[0.2em] mt-1">Interactive experiments in UI architecture</p>
+        <div className="space-y-3">
+          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-5xl">A curated workbench for UI motion studies, surface treatments, and interaction experiments.</h1>
+          <p className="max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+            Explore the same experimental logic through a cleaner, dashboard-inspired interface designed for focused review.
+          </p>
         </div>
-        <p className="text-[#2a2a4a] max-w-2xl text-xs leading-relaxed font-mono">
-          A physical playground for structural UI primitives. Interact with the workbench below to explore different architectural nodes.
-        </p>
       </div>
 
-      <div className="bento-card bg-[#0a0a12] border-[#2a2a4a] min-h-187.5 flex flex-col md:flex-row overflow-hidden relative"
-           style={{ boxShadow: '0 0 40px rgba(57, 255, 20, 0.05)' }}>
-        {/* Workspace Sidebar */}
-        <div className="w-full md:w-80 border-r-2 border-[#2a2a4a] bg-[#0a0a12] p-6 flex flex-col space-y-6">
-          <div className="pixel-heading text-[7px] text-[#2a2a4a] leading-relaxed">EXPERIMENT LIBRARY</div>
-          <div className="space-y-2 grow overflow-y-auto pr-2">
-            {experiments.map((exp) => (
-              <button
-                key={exp.id}
-                onClick={() => { setSelectedId(exp.id); setShowCode(false); }}
-                className={cn(
-                  "w-full text-left p-4 rounded-lg transition-all duration-300 group relative overflow-hidden border-2",
-                  selectedId === exp.id
-                    ? "bg-arcade-green text-[#0a0a12] border-arcade-green"
-                    : "text-[#2a2a4a] hover:text-arcade-green hover:bg-[#1a1a2e] border-transparent hover:border-arcade-green/30"
-                )}
-              >
-                <div className="text-[9px] font-mono font-bold uppercase tracking-wider relative z-10">{exp.title}</div>
-              </button>
-            ))}
-          </div>
-          <div className="pt-6 border-t border-[#2a2a4a]/30">
-            <div className="flex items-center gap-2 text-[8px] font-mono font-bold text-[#2a2a4a] uppercase tracking-widest">
-              <span className="w-1.5 h-1.5 rounded-full bg-arcade-green coin-blink"></span>
-              System Stable
-            </div>
-          </div>
-        </div>
-
-        {/* Workspace Action Area */}
-        <div className="grow flex flex-col relative bg-[#0a0a12]">
-          <div className="p-8 border-b-2 border-[#2a2a4a] bg-[#12121f]/40 backdrop-blur-md flex justify-between items-center relative z-20">
-            <div className="space-y-1">
-              <h2 className="pixel-heading text-[11px] text-white leading-relaxed">
-                {activeExp.title}
-              </h2>
-              <p className="text-[9px] text-[#2a2a4a] font-mono">{activeExp.description}</p>
-            </div>
-            <button
-              onClick={() => setShowCode(!showCode)}
-              className={cn(
-                "arcade-btn text-[8px]",
-                showCode
-                  ? "bg-arcade-green border-[#22cc00] text-[#0a0a12] shadow-[0_0_20px_rgba(57,255,20,0.3)]"
-                  : "bg-[#0a0a12] border-[#2a2a4a] text-arcade-green hover:border-arcade-green"
-              )}
-            >
-              {'</>'}  CODE
-            </button>
-          </div>
-
-          {/* Interaction Stage */}
-          <div className="grow relative flex items-center justify-center p-12 overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeExp.id}
-                initial={{ opacity: 0, scale: 0.9, rotateX: 10 }}
-                animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-                exit={{ opacity: 0, scale: 1.1, rotateX: -10 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full flex items-center justify-center relative z-10"
-              >
-                {activeExp.component}
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Grid Background */}
-            <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 opacity-[0.03] pointer-events-none">
-              {[...Array(100)].map((_, i) => (
-                <div key={i} className="border-[0.5px] border-arcade-cyan" />
+      <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex min-h-[46rem] flex-col md:flex-row">
+          <div className="w-full border-b border-slate-200 bg-slate-50/80 p-6 dark:border-slate-800 dark:bg-slate-950/70 md:w-80 md:border-b-0 md:border-r">
+            <div className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Experiment library</div>
+            <div className="space-y-2 pr-1">
+              {experiments.map((exp) => (
+                <button
+                  key={exp.id}
+                  onClick={() => { setSelectedId(exp.id); setShowCode(false); }}
+                  className={cn(
+                    'w-full rounded-2xl border px-4 py-4 text-left transition-all',
+                    selectedId === exp.id
+                      ? 'border-blue-200 bg-white text-slate-950 shadow-sm dark:border-blue-500/20 dark:bg-slate-900 dark:text-white'
+                      : 'border-transparent bg-transparent text-slate-500 hover:border-slate-200 hover:bg-white hover:text-slate-950 dark:text-slate-400 dark:hover:border-slate-800 dark:hover:bg-slate-900 dark:hover:text-white'
+                  )}
+                >
+                  <div className="text-sm font-semibold">{exp.title}</div>
+                  <div className="mt-1 text-xs leading-6 text-slate-400 dark:text-slate-500">{exp.description}</div>
+                </button>
               ))}
             </div>
+            <div className="mt-6 border-t border-slate-200 pt-5 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                System stable
+              </div>
+            </div>
+          </div>
 
-            {/* Code Overlay */}
-            <AnimatePresence>
-              {showCode && (
+          <div className="flex grow flex-col">
+            <div className="flex flex-col justify-between gap-4 border-b border-slate-200 bg-white/90 px-6 py-6 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 md:flex-row md:items-center md:px-8">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Selected experiment</p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">{activeExp.title}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">{activeExp.description}</p>
+              </div>
+              <button
+                onClick={() => setShowCode(!showCode)}
+                className={cn(
+                  'inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition',
+                  showCode
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-500'
+                    : 'border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100'
+                )}
+              >
+                {'</>'} Code
+              </button>
+            </div>
+
+            <div className="relative flex grow items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.08),_transparent_40%)] p-8 dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_34%)] md:p-12">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                  animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
-                  exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                  className="absolute inset-0 bg-[#0a0a12]/90 z-50 p-12 overflow-y-auto"
+                  key={activeExp.id}
+                  initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 1.03, y: -8 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative z-10 flex h-full w-full items-center justify-center"
                 >
-                  <div className="max-w-4xl mx-auto space-y-12">
-                    <div className="flex justify-between items-center border-b border-[#2a2a4a] pb-8">
-                      <div className="space-y-1">
-                        <span className="pixel-heading text-[7px] text-arcade-green leading-relaxed">NODE_TRACE // IMPLEMENT</span>
-                        <h3 className="text-lg font-mono font-bold text-white">{activeExp.title}</h3>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <button
-                          onClick={() => copyToClipboard(activeExp.code)}
-                          className="arcade-btn bg-arcade-green/10 border-arcade-green/20 text-arcade-green hover:bg-arcade-green hover:text-[#0a0a12] text-[8px] flex items-center gap-2"
-                        >
-                          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                          {copied ? "Copied" : "Copy"}
-                        </button>
-                        <button
-                          onClick={() => setShowCode(false)}
-                          className="text-[#2a2a4a] hover:text-white text-[8px] font-mono font-bold uppercase tracking-widest"
-                        >
-                          [ CLOSE ]
-                        </button>
-                      </div>
-                    </div>
-
-                    <motion.pre
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="text-arcade-green text-sm font-mono leading-relaxed whitespace-pre-wrap p-8 bg-[#0a0a12] rounded-xl border-2 border-arcade-green/20"
-                      style={{ boxShadow: '0 0 30px rgba(57, 255, 20, 0.05)' }}
-                    >
-                      <code>{activeExp.code}</code>
-                    </motion.pre>
-
-                    <div className="grid grid-cols-3 gap-6">
-                      {['REACTIVE', 'THREAD_SAFE', 'ATOMIC'].map((label) => (
-                        <div key={label} className="p-6 border-2 border-[#2a2a4a] rounded-xl bg-[#0a0a12] text-center">
-                          <div className="pixel-heading text-[6px] text-[#2a2a4a] leading-relaxed">{label}</div>
-                          <div className="neon-green font-mono font-bold mt-2 text-sm">VERIFIED</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  {activeExp.component}
                 </motion.div>
-              )}
-            </AnimatePresence>
+              </AnimatePresence>
+
+              <div className="pointer-events-none absolute inset-0 opacity-50 [background-image:linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:48px_48px] dark:[background-image:linear-gradient(to_right,rgba(71,85,105,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(71,85,105,0.18)_1px,transparent_1px)]" />
+
+              <AnimatePresence>
+                {showCode && (
+                  <motion.div
+                    initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                    animate={{ opacity: 1, backdropFilter: 'blur(24px)' }}
+                    exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                    className="absolute inset-0 z-50 overflow-y-auto bg-white/88 p-8 dark:bg-slate-950/88 md:p-12"
+                  >
+                    <div className="mx-auto max-w-4xl space-y-10">
+                      <div className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 dark:border-slate-800 md:flex-row md:items-center">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Implementation details</p>
+                          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">{activeExp.title}</h3>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => copyToClipboard(activeExp.code)}
+                            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-blue-500/30 dark:hover:text-blue-300"
+                          >
+                            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                            {copied ? 'Copied' : 'Copy'}
+                          </button>
+                          <button
+                            onClick={() => setShowCode(false)}
+                            className="text-sm font-semibold text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+
+                      <motion.pre
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="overflow-x-auto rounded-3xl border border-slate-200 bg-slate-950 p-6 font-mono text-sm leading-7 text-slate-200 dark:border-slate-700"
+                      >
+                        <code>{activeExp.code}</code>
+                      </motion.pre>
+
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        {['Reactive', 'Thread-safe', 'Atomic'].map((label) => (
+                          <div key={label} className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900">
+                            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">{label}</div>
+                            <div className="mt-2 text-lg font-semibold text-emerald-600 dark:text-emerald-400">Verified</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// --- Experiment Components (visual-only updates) ---
 
 function HapticGlow() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -288,13 +276,13 @@ function HapticGlow() {
     <div
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="w-full h-full absolute inset-0 cursor-crosshair group/glow"
+      className="group/glow absolute inset-0 h-full w-full cursor-crosshair rounded-[2rem]"
       style={{
-        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(0, 240, 255, 0.15), transparent 80%)`
+        background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px, rgba(37, 99, 235, 0.16), transparent 80%)`
       }}
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <Sparkles className="w-8 h-8 text-arcade-cyan/20 group-hover/glow:text-arcade-cyan transition-colors duration-700" />
+        <Sparkles className="h-8 w-8 text-blue-300/70 transition-colors duration-700 group-hover/glow:text-blue-500" />
       </div>
     </div>
   );
@@ -315,30 +303,29 @@ function MagneticButton() {
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
       animate={{ x: pos.x * 0.35, y: pos.y * 0.35 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="px-8 py-4 bg-arcade-magenta rounded-lg font-mono font-bold text-[10px] uppercase tracking-[0.2em] text-white relative group border-2 border-[#ff44cc]"
-      style={{ boxShadow: '0 0 25px rgba(255, 0, 170, 0.3), 0 4px 0 #990066' }}
+      className="relative rounded-2xl bg-blue-600 px-8 py-4 text-sm font-semibold text-white shadow-xl shadow-blue-600/20"
     >
       <span className="relative z-10 flex items-center gap-2">
-        <MousePointer2 className="w-3 h-3" />
-        Trace Momentum
+        <MousePointer2 className="h-4 w-4" />
+        Trace momentum
       </span>
-      <div className="absolute inset-0 bg-white/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-500" />
+      <div className="absolute inset-0 rounded-2xl bg-white/15 opacity-0 transition group-hover:opacity-100" />
     </motion.button>
   );
 }
 
 function GlassRefraction() {
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-12 overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-tr from-arcade-purple/20 via-[#0a0a12] to-arcade-magenta/20" />
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] p-12">
+      <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 via-transparent to-indigo-100 dark:from-blue-500/10 dark:via-transparent dark:to-indigo-500/10" />
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="w-48 h-48 bg-arcade-cyan/20 rounded-full blur-3xl absolute"
+        className="absolute h-48 w-48 rounded-full bg-blue-400/20 blur-3xl"
       />
-      <div className="relative w-full max-w-50 aspect-square rounded-xl backdrop-blur-xl bg-white/5 border-2 border-white/10 shadow-2xl flex flex-col items-center justify-center p-6 text-center">
-        <Layers className="w-6 h-6 text-white/40 mb-4" />
-        <span className="pixel-heading text-[7px] text-white/60 leading-relaxed">REFRACTION</span>
+      <div className="glass relative flex aspect-square w-full max-w-52 flex-col items-center justify-center rounded-[2rem] p-6 text-center">
+        <Layers className="mb-4 h-6 w-6 text-slate-500 dark:text-slate-300" />
+        <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Refraction</span>
       </div>
     </div>
   );
@@ -355,18 +342,18 @@ function ParallaxDepth() {
 
   return (
     <div
-      className="w-full h-full flex items-center justify-center perspective-[1000px]"
+      className="flex h-full w-full items-center justify-center perspective-[1000px]"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     >
       <motion.div
         animate={{ rotateX: tilt.y, rotateY: tilt.x }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-48 h-64 bg-linear-to-br from-[#1a1a2e] to-[#0a0a12] rounded-xl border-2 border-[#2a2a4a] flex items-center justify-center relative group"
-        style={{ transformStyle: 'preserve-3d', boxShadow: '0 0 30px rgba(0, 240, 255, 0.1)' }}
+        className="relative flex h-64 w-48 items-center justify-center rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900"
+        style={{ transformStyle: 'preserve-3d' }}
       >
-        <div className="absolute inset-4 border border-arcade-cyan/20 rounded-lg" style={{ transform: 'translateZ(20px)' }} />
-        <Maximize2 className="w-8 h-8 text-arcade-cyan coin-blink" style={{ transform: 'translateZ(50px)' }} />
+        <div className="absolute inset-4 rounded-2xl border border-blue-200/80 dark:border-blue-500/20" style={{ transform: 'translateZ(20px)' }} />
+        <Maximize2 className="h-8 w-8 text-blue-600 dark:text-blue-300" style={{ transform: 'translateZ(50px)' }} />
       </motion.div>
     </div>
   );
@@ -380,24 +367,23 @@ function ElasticExpand() {
       transition={{ type: "spring", stiffness: 400, damping: 10, mass: 0.5 }}
       onClick={() => setExpanded(!expanded)}
       className={cn(
-        "bg-arcade-yellow text-[#0a0a12] font-mono font-bold uppercase tracking-widest cursor-pointer border-2 border-[#ccb800]",
-        expanded ? "w-64 h-64 rounded-xl p-12" : "w-16 h-16 rounded-lg p-4 flex items-center justify-center"
+        'cursor-pointer rounded-[2rem] bg-white text-slate-900 shadow-xl shadow-slate-900/8 dark:bg-slate-900 dark:text-white',
+        expanded ? 'h-64 w-64 p-10' : 'flex h-20 w-20 items-center justify-center'
       )}
-      style={{ boxShadow: '0 0 20px rgba(255, 230, 0, 0.2)' }}
     >
       {expanded ? (
         <div className="space-y-4">
-          <p className="pixel-heading text-[7px] leading-relaxed">ELASTIC NODE</p>
-          <div className="h-2 w-full bg-[#0a0a12]/10 rounded-full overflow-hidden">
-            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-[#0a0a12]" />
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Elastic node</p>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+            <motion.div animate={{ width: "100%" }} transition={{ duration: 1 }} className="h-full bg-blue-600" />
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <div className="h-8 bg-[#0a0a12]/10 rounded-lg" />
-            <div className="h-8 bg-[#0a0a12]/10 rounded-lg" />
+            <div className="h-8 rounded-xl bg-slate-100 dark:bg-slate-800" />
+            <div className="h-8 rounded-xl bg-slate-100 dark:bg-slate-800" />
           </div>
         </div>
       ) : (
-        <Activity className="w-6 h-6" />
+        <Activity className="h-6 w-6 text-blue-600 dark:text-blue-300" />
       )}
     </motion.div>
   );
@@ -413,21 +399,21 @@ function FluidSpotlight() {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="relative w-full h-full bg-[#0a0a12] overflow-hidden cursor-none"
+      className="relative h-full w-full overflow-hidden rounded-[2rem] bg-slate-950 cursor-none"
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <span className="pixel-heading text-4xl text-white leading-relaxed">ATLAS</span>
+        <span className="text-4xl font-semibold tracking-tight text-white">ATLAS</span>
       </div>
       <div
-        className="absolute inset-0 flex items-center justify-center bg-arcade-magenta"
+        className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-500"
         style={{
           clipPath: `circle(80px at ${pos.x}px ${pos.y}px)`
         }}
       >
-        <span className="pixel-heading text-4xl text-white leading-relaxed">ATLAS</span>
+        <span className="text-4xl font-semibold tracking-tight text-white">ATLAS</span>
       </div>
       <div
-        className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
+        className="pointer-events-none absolute h-2 w-2 rounded-full bg-white"
         style={{ left: pos.x, top: pos.y, transform: 'translate(-50%, -50%)' }}
       />
     </div>
