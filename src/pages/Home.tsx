@@ -103,11 +103,12 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bento-card flex flex-col bg-slate-950 text-slate-100 shadow-xl shadow-slate-900/12 dark:border-slate-800 dark:bg-slate-950 md:col-span-2 md:row-span-2"
+          className="flex flex-col rounded-2xl border border-slate-700/50 bg-slate-900 p-8 shadow-xl shadow-slate-900/30 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-600/60 hover:shadow-2xl hover:shadow-slate-900/40 dark:border-slate-800/80 dark:bg-slate-950 dark:shadow-black/40 dark:hover:border-slate-700 md:col-span-2 md:row-span-2"
         >
+          {/* Terminal title bar */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-500/10 text-blue-300">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-500/25 bg-blue-500/15 text-blue-400 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-300">
                 <Terminal className="h-5 w-5" />
               </div>
               <div>
@@ -123,28 +124,30 @@ export default function Home() {
           </div>
 
           <div className="flex grow flex-col">
-            <div className="relative min-h-44 rounded-3xl border border-white/10 bg-slate-950 px-5 py-5 text-sm leading-7 shadow-inner shadow-black/20">
-              <div className="absolute right-0 top-0 p-4 text-white/5 pointer-events-none">
+            {/* Terminal output pane */}
+            <div className="relative min-h-44 rounded-2xl border border-white/[0.07] bg-black/30 px-5 py-5 text-sm leading-7 shadow-inner shadow-black/30 dark:bg-black/20 dark:border-white/10">
+              <div className="absolute right-0 top-0 p-4 text-white/4 pointer-events-none">
                 <Terminal className="h-24 w-24" />
               </div>
-              <div className="mb-4 space-y-1 text-slate-500">
+              <div className="mb-4 space-y-1 font-mono text-slate-500">
                 <p># Connecting to content index...</p>
                 <p># Syncing experiments and system notes...</p>
                 <p># Workspace ready for guided exploration.</p>
-                <p className="mt-2 text-slate-400">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
+                <p className="mt-2 text-slate-400/80">Available: --atlas-info, --lab, --debug-ledger, --query-insights [topic]</p>
               </div>
-              <p id="ama-answer" className="whitespace-pre-wrap font-medium text-blue-300 transition-all">
+              <p id="ama-answer" className="whitespace-pre-wrap font-mono font-medium text-blue-400 transition-all dark:text-blue-300">
                 &gt; Workspace ready. Enter a command to explore the atlas.
               </p>
             </div>
 
-            <div className="mt-6 space-y-4">
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 transition-all focus-within:border-blue-400/40 focus-within:bg-white/[0.07]">
-                <span className="shrink-0 text-blue-300">&gt;</span>
+            <div className="mt-5 space-y-4">
+              {/* Command input */}
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-4 py-3 transition-all focus-within:border-blue-500/40 focus-within:bg-white/[0.07] dark:bg-white/5">
+                <span className="shrink-0 font-mono text-blue-400 dark:text-blue-300">&gt;</span>
                 <input
                   type="text"
                   placeholder="Enter command (e.g. --lab)..."
-                  className="w-full border-none bg-transparent text-sm text-slate-100 outline-none placeholder:text-slate-500"
+                  className="w-full border-none bg-transparent font-mono text-sm text-slate-100 outline-none placeholder:text-slate-600"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       const input = e.currentTarget.value.toLowerCase().trim();
@@ -198,6 +201,7 @@ export default function Home() {
                 />
               </div>
 
+              {/* Quick-command chips */}
               <div className="flex flex-wrap gap-2">
                 {['--atlas-info', '--lab', '--debug-ledger', '--query-insights'].map(cmd => (
                   <button
@@ -214,7 +218,7 @@ export default function Home() {
                         el.innerText = responses[cmd];
                       }
                     }}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-medium text-slate-300 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white"
+                    className="rounded-full border border-slate-700/60 bg-slate-800/60 px-3 py-1.5 font-mono text-xs font-medium text-slate-300 transition hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-blue-300 dark:border-white/10 dark:bg-white/5 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/10 dark:hover:text-white"
                   >
                     {cmd}
                   </button>
@@ -223,9 +227,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4 text-sm font-medium text-slate-400">
+          {/* Footer nav */}
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-700/50 pt-4 text-sm font-medium text-slate-400 dark:border-white/10">
             <div className="flex gap-4">
-              <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="transition-colors hover:text-emerald-300">
+              <button onClick={() => document.getElementById('lab')?.scrollIntoView({ behavior: 'smooth' })} className="transition-colors hover:text-emerald-400 dark:hover:text-emerald-300">
                 Open lab
               </button>
               <button
@@ -234,12 +239,12 @@ export default function Home() {
                   const el = document.getElementById('ama-answer');
                   if (el) el.innerText = "BUG_LEDGER_ENTRIES: \n- Infinite Re-render Loops\n- Stale Closures\n- Floating Point Imprecision\n- Untyped Payloads";
                 }}
-                className="transition-colors hover:text-red-300"
+                className="transition-colors hover:text-red-400 dark:hover:text-red-300"
               >
                 View bug timeline
               </button>
             </div>
-            <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="font-semibold text-blue-300 transition-colors hover:text-white">
+            <button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} className="font-semibold text-blue-400 transition-colors hover:text-white dark:text-blue-300">
               Open guides →
             </button>
           </div>

@@ -169,7 +169,7 @@
   }
 
   .skip-to-content {
-    @apply absolute left-4 rounded-b-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 z-[100];
+    @apply absolute left-4 rounded-b-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 z-100;
     top: -100%;
     transition: top 0.2s ease;
   }
